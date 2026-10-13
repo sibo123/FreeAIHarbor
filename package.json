@@ -1,0 +1,11 @@
+{
+  "name": "freeaiharbor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Free AI Harbor - Client-side AI workbench",
+  "scripts": {
+    "build": "echo 'Static build ready'",
+    "start": "echo 'Free AI Harbor ready'"
+  }
+}
