@@ -58,9 +58,14 @@ const server = http.createServer((req, res) => {
   let filePath = path.join(__dirname, safePath);
 
   fs.stat(filePath, (err, stats) => {
-    // If file doesn't exist or is a directory, fallback to index.html (SPA routing)
+    // If file doesn't exist or is a directory, check for .html or fallback to index.html (SPA routing)
     if (err || !stats.isFile()) {
-      filePath = path.join(__dirname, 'index.html');
+      const htmlPath = filePath + '.html';
+      if (!path.extname(filePath) && fs.existsSync(htmlPath)) {
+        filePath = htmlPath;
+      } else {
+        filePath = path.join(__dirname, 'index.html');
+      }
     }
 
     const ext = path.extname(filePath).toLowerCase();
