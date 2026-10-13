@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "description": "Free AI Harbor - Client-side AI workbench",
+  "main": "server.js",
   "scripts": {
-    "build": "echo 'Static build ready'",
-    "start": "echo 'Free AI Harbor ready'"
+    "start": "node server.js",
+    "build": "echo 'Build complete'"
   }
 }

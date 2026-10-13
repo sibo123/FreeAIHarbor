@@ -1,51 +1,15 @@
-# ----------------------------------------------------------------------
-# Free AI Harbor - Hostinger LiteSpeed / Apache Configuration
-# ----------------------------------------------------------------------
-
-# 1. Directory Index
+# Free AI Harbor is a static website with JavaScript module workers.
 DirectoryIndex index.html
-
-# 2. Disable directory browsing
 Options -Indexes -MultiViews
-
-# 3. Force HTTPS (Hostinger SSL)
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteCond %{HTTPS} !=on
-  RewriteCond %{HTTP:X-Forwarded-Proto} !https
-  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-</IfModule>
-
-# 4. MIME Types for ES modules, WebAssembly, JSON, and SVG
 <IfModule mod_mime.c>
   AddType application/javascript .js .mjs
   AddType application/wasm .wasm
   AddType application/json .json
   AddType image/svg+xml .svg
 </IfModule>
-
-# 5. Gzip / Deflate Compression
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/x-javascript text/javascript application/json image/svg+xml
-</IfModule>
-
-# 6. HTTP Headers: Security & Cache Management
 <IfModule mod_headers.c>
-  # Security Headers
-  Header set X-Content-Type-Options "nosniff"
-  Header set X-Frame-Options "SAMEORIGIN"
-  Header set Referrer-Policy "strict-origin-when-cross-origin"
-
-  # Prevent stale cache for dynamic app logic and tools
   <FilesMatch "\.(html|js|mjs|css|json)$">
-    Header set Cache-Control "no-cache, must-revalidate"
-  </FilesMatch>
-
-  # Cache static assets like SVGs and WebAssembly files
-  <FilesMatch "\.(svg|wasm|ico|png|jpg|jpeg|gif|woff|woff2|ttf)$">
-    Header set Cache-Control "public, max-age=2592000"
+    Header set Cache-Control "no-cache"
   </FilesMatch>
 </IfModule>
-
-# 7. Fallback Error Handling
-ErrorDocument 404 /index.html
+# Configure SSL/HTTPS through Hostinger; missing assets must return 404.
