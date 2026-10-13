@@ -1,0 +1,127 @@
+/* The scrollable work area and the action footer are siblings. Uploads and
+   long results cannot move the primary action outside the workspace. */
+.tool-view #workspace,.chat-view #workspace{height:var(--workspace-height,calc(100dvh - var(--site-header-height,80px)));min-height:0;scroll-margin:0}
+.module-main,.cloud-main,.chat-main{min-height:0;min-width:0;overflow:hidden}
+.module-toolbar,.cloud-toolbar,.chat-topbar{flex-shrink:0}
+.module-layout .module-body,.cloud-layout:not([data-operation=chat]) .cloud-scroll{flex:1 1 0;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:auto;scrollbar-gutter:stable;scrollbar-color:#a5b49a #eef3e9}
+.module-layout .module-workbench{flex:1 0 auto;min-height:0;overflow:visible}
+.module-layout[data-family] .module-workbench{min-height:0}
+.module-layout .module-workbench #input-controls{flex:0 0 auto;min-height:auto}
+.module-layout .module-workbench>.input-panel,.module-layout .module-workbench>.output-panel{min-width:0;min-height:0}
+.module-layout .module-workbench>.input-panel{border-radius:10px 0 0 10px}
+.module-layout .module-workbench>.output-panel{border-radius:0 10px 10px 0}
+.module-layout .module-intro p,.module-layout .module-workbench .field-label,.module-layout .module-workbench .character-count,.module-layout .module-workbench .output-footnote{color:#647555}
+.module-layout .module-workbench .tool-textarea{width:100%;min-width:0;max-width:100%;max-height:450px}
+.module-layout .module-workbench .tool-textarea:focus-visible{outline:2px solid var(--tool-accent,#aac292);outline-offset:4px;border-radius:3px}
+.module-layout .module-workbench .file-upload{flex-shrink:0;min-height:150px}
+.module-layout .module-workbench .file-upload input,.cloud-layout .cloud-upload input{width:100%;min-width:0;max-width:100%}
+.module-layout.has-source-file .file-upload{min-height:0;padding:12px;display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px 10px;text-align:left}
+.module-layout.has-source-file .file-upload>span[data-icon]{grid-row:1 / 3;grid-column:1;width:32px;height:32px;margin:0;border-radius:8px}
+.module-layout.has-source-file .file-upload>span svg{width:19px;height:19px}
+.module-layout.has-source-file .file-upload>strong,.module-layout.has-source-file .file-upload>small{grid-column:2;min-width:0}
+.module-layout.has-source-file .file-upload>input{grid-column:1 / -1;margin-top:4px}
+.module-layout .module-workbench .input-preview{flex-shrink:0;max-height:180px}
+.module-layout .module-workbench .input-preview img{max-height:165px}
+.module-layout[data-family=image] #input-preview{display:none}
+.module-layout .module-workbench .file-caption{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;color:#67795b}
+.module-layout[data-family=image] .module-intro{display:none}
+.module-layout[data-family=image] .module-body{padding:14px 20px}
+.module-layout[data-family=image] .module-workbench>.input-panel,.module-layout[data-family=image] .module-workbench>.output-panel{padding:20px}
+.module-layout[data-family=image] .output-content{min-height:0;flex:0 0 auto}
+.module-layout .image-stage{height:min(430px,max(180px,calc(var(--workspace-height,650px) - 300px)));min-height:0}
+.module-layout .canvas-caption{gap:14px;min-width:0}
+.module-layout .canvas-caption>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.module-layout .panel-heading{flex-wrap:wrap;align-items:flex-start}
+.module-layout .module-result-tools{flex-wrap:wrap;max-width:100%;gap:7px}
+.module-layout .module-tabs{max-width:100%;overflow-x:auto}
+.module-layout .module-model-details{margin-top:18px;flex-shrink:0;color:#687b5a}
+.tool-input-hint{font-size:11px;line-height:1.8;margin:14px 0 0;padding:10px 12px;background:var(--tool-wash,#f7faf2);border:1px solid var(--tool-line,#d7e2cb);border-radius:7px;color:#5c704c}
+.module-layout .result-editor{max-width:100%;min-width:0}
+
+.workspace-action-dock{position:relative;z-index:3;flex:0 0 auto;border-top:1px solid var(--tool-line,#d7e2cc);background:#fff;padding:10px 24px calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -5px 16px #30482908;min-width:0;color:#526a43}
+.workspace-dock-row{display:flex;align-items:center;justify-content:flex-start;gap:12px;flex-wrap:wrap;min-width:0}
+.workspace-action-dock .run-row,.workspace-action-dock .cloud-run-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0;padding:0;border:0;min-width:0}
+.workspace-action-dock .primary-button,.workspace-action-dock .secondary-button,.workspace-action-dock .text-link{font-size:12px;line-height:1.3;min-height:42px;padding:10px 15px;white-space:normal;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.workspace-action-dock .primary-button{background:var(--tool-ink,#466c34);border:1px solid var(--tool-ink,#466c34);color:#fff;flex:0 1 auto;min-width:128px}
+.workspace-action-dock .primary-button:hover{filter:brightness(.94)}
+.workspace-action-dock .primary-button:disabled{background:#5f6d55;border-color:#5f6d55;opacity:.75;filter:none}
+.workspace-action-dock .secondary-button{color:#4d663f;background:#f6f9f2;border-color:#c9d8bc}
+.workspace-action-dock .text-link{color:#5a704b;padding:10px}
+.workspace-action-dock button:focus-visible{outline:3px solid var(--tool-accent,#9ebd87);outline-offset:3px}
+.workspace-action-dock button svg{width:15px;height:15px;flex-shrink:0}
+.workspace-action-dock .output-actions,#cloud-layout .workspace-action-dock #cloud-result-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0;padding:0;border:0;min-width:0}
+.workspace-action-dock .output-actions>span{font-size:10px;color:#627353;margin:0;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.workspace-dock-note{font-size:10px;line-height:1.7;color:#5e714f;margin:6px 0 0;overflow-wrap:anywhere}
+.workspace-action-dock .input-warning{margin:0 0 9px;padding:9px 12px;font-size:11px;max-height:72px;overflow:auto;flex-shrink:0}
+.workspace-action-dock .run-progress{padding:0;border:0;background:transparent;margin:0 0 9px}
+.workspace-action-dock .run-progress>div{display:flex;align-items:center;gap:7px;font-size:11px;line-height:1.5;color:#5b7249}
+.workspace-action-dock #progress-message{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.workspace-action-dock .run-progress progress{width:100%;height:5px;margin-top:6px;accent-color:var(--tool-ink,#4f743b)}
+.workspace-action-dock .run-progress small{display:none}
+.workspace-action-dock .cloud-status{margin:0 0 9px;padding:7px 10px;font-size:11px;max-height:60px;overflow:auto}
+
+.cloud-layout.sidebar-collapsed{grid-template-columns:minmax(0,1fr)}
+.cloud-layout.sidebar-collapsed .cloud-sidebar{display:none}
+.cloud-layout .cloud-workbench{min-height:0;overflow:visible}
+.cloud-layout .cloud-input-panel,.cloud-layout .cloud-result-panel{min-width:0}
+.cloud-layout .cloud-connection .field-label{color:#597147}
+.cloud-layout .cloud-upload{min-height:135px}
+.cloud-layout.has-source-file .cloud-upload{min-height:0;padding:12px;gap:6px}
+.cloud-layout.has-source-file .cloud-upload>svg{width:21px;height:21px}
+.cloud-layout .cloud-file-preview img{max-height:150px}
+.cloud-layout .cloud-file-preview p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cloud-layout .cloud-image-result{min-height:220px}
+.cloud-layout .cloud-image-result img{max-height:min(620px,max(180px,calc(var(--workspace-height,650px) - 240px)))}
+.cloud-layout .cloud-small{color:#657655}
+.cloud-layout[data-operation=chat] .cloud-scroll{flex:1 1 0;min-height:0;overflow:hidden;padding-bottom:0}
+.cloud-main>.cloud-composer{flex:0 0 auto;margin:9px auto 0;align-self:center;width:calc(100% - 48px);max-width:800px;padding-bottom:calc(11px + env(safe-area-inset-bottom,0px));margin-bottom:10px;background:#fff}
+.cloud-main>.cloud-composer .cloud-run-actions{float:none;display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.cloud-main>.cloud-composer .primary-button,.chat-send{background:var(--tool-ink,#4c7139);color:#fff;border-color:var(--tool-ink,#4c7139);min-height:42px}
+.cloud-main>.cloud-composer #cloud-text{max-height:min(150px,25dvh);min-height:42px}
+.cloud-chat-feedback{flex:0 0 auto;padding:0 24px}
+.cloud-chat-feedback .input-warning{max-height:70px;overflow:auto;margin:8px 0 0}
+.chat-composer-area{flex:0 0 auto;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+.chat-composer textarea{max-height:min(150px,25dvh)}
+.chat-send:focus-visible,.cloud-main>.cloud-composer button:focus-visible{outline:3px solid var(--tool-accent,#a2bf8a);outline-offset:3px}
+
+@media(max-width:900px){.workspace-action-dock{padding-left:18px;padding-right:18px}.module-layout .module-type{display:none}.module-layout .module-heading h1{font-size:14px}.module-layout .module-intro{align-items:flex-start}.module-layout .module-intro>span{display:none}}
+@media(max-width:640px){
+ .module-layout .module-body,.cloud-layout:not([data-operation=chat]) .cloud-scroll{padding:14px 12px}
+ .module-layout .module-toolbar,.cloud-layout .cloud-toolbar{min-height:64px;height:auto;padding-top:8px;padding-bottom:8px}
+ .module-layout .module-heading h1,.cloud-layout .cloud-heading h1{white-space:normal;line-height:1.35;max-height:2.7em;font-size:12px}
+ .module-layout .module-workbench>.input-panel{border-radius:10px 10px 0 0}
+ .module-layout .module-workbench>.output-panel{border-radius:0 0 10px 10px}
+ .module-layout .module-workbench .tool-textarea{font-size:16px;min-height:140px;max-height:300px}
+ .module-layout .module-workbench .field-label{font-size:11px}
+ .module-layout .module-workbench .labels-textarea{min-height:85px}
+ .module-layout .module-workbench .file-upload{min-height:130px}
+ .module-layout.has-source-file .file-upload{min-height:0}
+ .module-layout .module-workbench .input-preview img{max-height:135px}
+ .module-layout .module-workbench .output-content,.module-layout .module-empty{min-height:180px}
+ .module-layout .image-stage{height:240px}
+ .workspace-action-dock{padding:9px 12px calc(9px + env(safe-area-inset-bottom,0px))}
+ .workspace-dock-row{gap:8px}
+ .workspace-action-dock .run-row,.workspace-action-dock .cloud-run-actions{flex:1 1 auto}
+ .workspace-action-dock .primary-button,.workspace-action-dock .secondary-button,.workspace-action-dock .text-link{font-size:11px;min-height:44px;padding:10px 12px}
+ .workspace-action-dock #run-tool,.workspace-action-dock #cloud-run{flex:1;min-width:130px}
+ .workspace-action-dock .output-actions,#cloud-layout .workspace-action-dock #cloud-result-actions{flex:1 1 auto;justify-content:flex-start}
+ .workspace-action-dock .output-actions>span{display:none}
+ .workspace-dock-note{font-size:9px;margin-top:4px}
+ .cloud-main>.cloud-composer{width:calc(100% - 24px);margin-bottom:8px}
+ .cloud-main>.cloud-composer .primary-button,.chat-send{min-height:44px}
+ .cloud-chat-feedback{padding:0 12px}
+ .cloud-layout .cloud-image-result{min-height:180px}
+}
+@media(max-height:560px){
+ .module-layout .module-intro{margin-bottom:12px}
+ .module-layout .image-stage{height:180px}
+ .workspace-dock-note,.chat-model-details,.chat-composer-hint,.chat-composer-note{display:none}
+ .workspace-action-dock{padding-top:7px;padding-bottom:calc(7px + env(safe-area-inset-bottom,0px))}
+ .chat-composer-area{padding-top:7px;padding-bottom:7px}
+ .chat-composer{padding-top:10px;padding-bottom:9px}
+ .cloud-main>.cloud-composer{margin-top:6px;margin-bottom:6px;padding-top:10px;padding-bottom:8px}
+ .cloud-main>.cloud-composer>.cloud-small{display:none}
+ .cloud-layout[data-operation=chat] .cloud-allowance{max-height:100px;padding:8px 10px}
+ .cloud-chat-settings{max-height:90px}
+ .cloud-composer .cloud-output-length{margin-top:2px}
+}

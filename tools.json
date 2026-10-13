@@ -1,0 +1,3678 @@
+{
+  "mode": "free-and-free-credit-workspace",
+  "tools": [
+    {
+      "id": "ai-chat",
+      "name": "AI Chat",
+      "description": "Ask questions, explore ideas, and talk with an AI that runs on your device.",
+      "icon": "chat",
+      "prompt": "",
+      "placeholder": "Ask a question or describe what you need help with…",
+      "category": "Chat & Writing",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "writing-assistant",
+      "name": "Writing Assistant",
+      "description": "Turn a topic or brief into a first draft, right in this workspace.",
+      "icon": "pen",
+      "prompt": "Write a clear draft based on this brief.",
+      "placeholder": "Describe your topic, audience, and what you want to write…",
+      "category": "Chat & Writing",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "paraphraser",
+      "name": "Paraphraser",
+      "description": "Rewrite your own text with fresh wording while keeping its meaning.",
+      "icon": "pen",
+      "prompt": "Rewrite the following text. Keep the original facts and meaning.",
+      "placeholder": "Paste the text you want to rewrite…",
+      "category": "Chat & Writing",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "email-writer",
+      "name": "Email Writer",
+      "description": "Draft an email from your purpose, key points, and preferred tone.",
+      "icon": "pen",
+      "prompt": "Write an email using the information below. Do not invent facts.",
+      "placeholder": "Who is the email for? What should it say?…",
+      "category": "Chat & Writing",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "social-captions",
+      "name": "Social Caption Writer",
+      "description": "Create caption ideas for a post, product, or upcoming announcement.",
+      "icon": "sparkles",
+      "prompt": "Write three short social media captions using this brief.",
+      "placeholder": "Describe the post, product, and your audience…",
+      "category": "Chat & Writing",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "product-copy",
+      "name": "Product Description",
+      "description": "Draft product copy from the features and details you provide.",
+      "icon": "briefcase",
+      "prompt": "Write a concise product description. Only use the supplied features.",
+      "placeholder": "Product name, features, materials, and who it is for…",
+      "category": "Chat & Writing",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "video-script",
+      "name": "Video Script Writer",
+      "description": "Get a short script with a hook, key points, and a call to action.",
+      "icon": "video",
+      "prompt": "Write a short video script with a hook, main points, and a call to action.",
+      "placeholder": "Describe the topic, video length, audience, and goal…",
+      "category": "Chat & Writing",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "brainstorm",
+      "name": "Idea Brainstormer",
+      "description": "Explore a handful of useful directions for your next project.",
+      "icon": "sparkles",
+      "prompt": "Give five distinct ideas for this brief, with one sentence explaining each.",
+      "placeholder": "Tell me about your project and the ideas you need…",
+      "category": "Chat & Writing",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "code-helper",
+      "name": "Code Helper",
+      "description": "Ask for code explanations and small coding examples.",
+      "icon": "code",
+      "prompt": "Help with this coding question. Explain your reasoning and note uncertainty.",
+      "placeholder": "Paste a small code example or explain what you want to build…",
+      "category": "Coding & Planning",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "task-planner",
+      "name": "Task Planner",
+      "description": "Break a goal into smaller, practical steps you can work through.",
+      "icon": "clock",
+      "prompt": "Break this goal into a practical numbered list of small steps.",
+      "placeholder": "Describe your goal, constraints, and deadline…",
+      "category": "Coding & Planning",
+      "kind": "text",
+      "model": "chat",
+      "tags": [
+        "writing",
+        "text",
+        "on-site"
+      ],
+      "limit": 3000
+    },
+    {
+      "id": "summarizer",
+      "name": "Text Summarizer",
+      "description": "Get a shorter version of an article, notes, or a passage of text.",
+      "icon": "folder",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "summary",
+      "tags": [
+        "summary",
+        "article",
+        "notes"
+      ],
+      "limit": 5000,
+      "placeholder": "Paste an English article or passage to summarize…"
+    },
+    {
+      "id": "translator",
+      "name": "Text Translator",
+      "description": "Translate English text into French, Spanish, or German.",
+      "icon": "graduation",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "translation",
+      "tags": [
+        "translation",
+        "french",
+        "spanish",
+        "german"
+      ],
+      "limit": 1200,
+      "placeholder": "Enter English text to translate…"
+    },
+    {
+      "id": "sentiment",
+      "name": "Sentiment Analyzer",
+      "description": "See whether English text sounds positive or negative, with a model score.",
+      "icon": "compass",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "sentiment",
+      "tags": [
+        "sentiment",
+        "reviews",
+        "analysis"
+      ],
+      "limit": 1800,
+      "placeholder": "Paste a review, message, or short piece of English text…"
+    },
+    {
+      "id": "ask-text",
+      "name": "Ask Your Text",
+      "description": "Find a short answer to a question inside a passage you provide.",
+      "icon": "chat",
+      "category": "Research & Text",
+      "kind": "qa",
+      "model": "qa",
+      "tags": [
+        "questions",
+        "documents",
+        "answers"
+      ],
+      "limit": 4500,
+      "placeholder": "Paste the English passage containing the answer…"
+    },
+    {
+      "id": "entity-finder",
+      "name": "Entity Finder",
+      "description": "Find people, organizations, locations, and other named entities in English text.",
+      "icon": "search",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "entities",
+      "tags": [
+        "names",
+        "people",
+        "locations",
+        "analysis"
+      ],
+      "limit": 2500,
+      "placeholder": "Paste the English text you want to analyze…"
+    },
+    {
+      "id": "portrait-cutout",
+      "name": "Portrait Background Remover",
+      "description": "Create a transparent PNG cutout of a person in a photo.",
+      "icon": "image",
+      "category": "Images",
+      "kind": "image",
+      "model": "portrait",
+      "tags": [
+        "background removal",
+        "portrait",
+        "transparent png"
+      ],
+      "note": "Designed for photos of people. It may not work well on products or other objects."
+    },
+    {
+      "id": "image-ocr",
+      "name": "Image to Text",
+      "description": "Extract written text from an image using local OCR.",
+      "icon": "pen",
+      "category": "Images",
+      "kind": "image",
+      "model": "ocr",
+      "tags": [
+        "ocr",
+        "text extraction",
+        "scan"
+      ],
+      "note": "Clear, straight text works best. Handwriting and decorative type may be inaccurate."
+    },
+    {
+      "id": "image-caption",
+      "name": "Image Captioner",
+      "description": "Generate a short description of what is visible in a picture.",
+      "icon": "image",
+      "category": "Images",
+      "kind": "image",
+      "model": "caption",
+      "tags": [
+        "image description",
+        "caption",
+        "accessibility"
+      ],
+      "note": "The model can miss details or describe objects incorrectly. Check its output."
+    },
+    {
+      "id": "image-classifier",
+      "name": "Image Classifier",
+      "description": "Get the most likely image labels and their model scores.",
+      "icon": "grid",
+      "category": "Images",
+      "kind": "image",
+      "model": "classification",
+      "tags": [
+        "image labels",
+        "recognition",
+        "classification"
+      ],
+      "note": "Uses ImageNet categories. Results are model estimates, not verified identifications."
+    },
+    {
+      "id": "object-detector",
+      "name": "Object Detector",
+      "description": "Find common objects and draw labeled boxes on an image.",
+      "icon": "search",
+      "category": "Images",
+      "kind": "image",
+      "model": "detection",
+      "tags": [
+        "detection",
+        "objects",
+        "image recognition"
+      ],
+      "note": "Recognizes a fixed set of common object types. Small or unusual objects may be missed."
+    },
+    {
+      "id": "depth-map",
+      "name": "Image Depth Map",
+      "description": "Create a grayscale estimate of the relative depth in your image.",
+      "icon": "image",
+      "category": "Images",
+      "kind": "image",
+      "model": "depth",
+      "tags": [
+        "depth",
+        "image processing",
+        "3d"
+      ],
+      "note": "Relative depth only. This is not a measurement of real-world distances."
+    },
+    {
+      "id": "audio-transcription",
+      "name": "Audio Transcriber",
+      "description": "Turn a short audio recording into text without uploading it to a service.",
+      "icon": "audio",
+      "category": "Audio & Video",
+      "kind": "audio",
+      "model": "speech",
+      "tags": [
+        "speech to text",
+        "transcription",
+        "audio"
+      ],
+      "note": "Audio up to 2 minutes. Accuracy varies with language, recording quality, and background noise."
+    },
+    {
+      "id": "subtitle-generator",
+      "name": "Subtitle Generator",
+      "description": "Create timed SRT subtitles from a short audio recording or video soundtrack.",
+      "icon": "video",
+      "category": "Audio & Video",
+      "kind": "audio",
+      "model": "speech",
+      "tags": [
+        "subtitles",
+        "srt",
+        "captions",
+        "video"
+      ],
+      "note": "Audio up to 2 minutes. For a video, upload its audio track. Check timings and text before publishing."
+    },
+    {
+      "id": "text-to-speech",
+      "name": "Text to Speech",
+      "description": "Generate an English voice recording and download it as a WAV file.",
+      "icon": "audio",
+      "category": "Audio & Video",
+      "kind": "text",
+      "model": "voice",
+      "tags": [
+        "tts",
+        "voiceover",
+        "narration",
+        "speech"
+      ],
+      "limit": 600,
+      "placeholder": "Type a short English passage to turn into speech…",
+      "note": "Uses one synthetic English voice. It does not clone voices."
+    },
+    {
+      "id": "grammar-fixer",
+      "name": "Grammar Fixer",
+      "category": "Chat & Writing",
+      "description": "Correct spelling, grammar, and punctuation in a short passage.",
+      "prompt": "Correct the spelling, grammar, and punctuation. Return the corrected text and preserve its meaning.",
+      "example": "We was planning to launch on monday, but the design need a few changes.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "grammar",
+        "spelling",
+        "proofread",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "tone-rewriter",
+      "name": "Tone Rewriter",
+      "category": "Chat & Writing",
+      "description": "Change how a message sounds while keeping its key facts.",
+      "prompt": "Rewrite the supplied message in the requested tone. Preserve all facts and requests.",
+      "example": "Please send the missing photos today so we can finish the project.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "tone",
+        "rewrite",
+        "message",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "text-simplifier",
+      "name": "Text Simplifier",
+      "category": "Chat & Writing",
+      "description": "Make complicated wording easier to read and understand.",
+      "prompt": "Rewrite this in simple everyday English with short sentences. Preserve the meaning.",
+      "example": "The implementation of the new procedure will facilitate improved collaboration between departments.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "plain language",
+        "readability",
+        "simplify",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "text-expander",
+      "name": "Text Expander",
+      "category": "Chat & Writing",
+      "description": "Develop short notes into a fuller paragraph using your details.",
+      "prompt": "Expand these notes into one clear paragraph. Use only the supplied information.",
+      "example": "Community garden: opens Saturday, free entry, bring seeds, volunteers welcome.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "expand",
+        "paragraph",
+        "notes",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "text-shortener",
+      "name": "Text Shortener",
+      "category": "Chat & Writing",
+      "description": "Trim a paragraph while preserving its main information.",
+      "prompt": "Shorten this text by about half. Keep the essential facts. Return only the shorter version.",
+      "example": "Our community center will open a new reading room next month. Visitors can use it from Monday to Saturday. It will include comfortable seating, donated books, and a quiet corner for studying.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "shorten",
+        "concise",
+        "edit",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "blog-outline",
+      "name": "Blog Outline",
+      "category": "Chat & Writing",
+      "description": "Organize a topic into a compact article structure.",
+      "prompt": "Create a brief blog outline with a title and five headings. Use the supplied topic and audience.",
+      "example": "A beginner guide to caring for indoor plants in a small apartment.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "blog",
+        "outline",
+        "article",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "blog-intro",
+      "name": "Blog Introduction",
+      "category": "Chat & Writing",
+      "description": "Draft an opening paragraph from your article brief.",
+      "prompt": "Write an engaging blog introduction of fewer than 100 words. Do not invent statistics or sources.",
+      "example": "An article for beginners about learning photography with a phone.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "blog",
+        "introduction",
+        "article",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "headline-generator",
+      "name": "Headline Generator",
+      "category": "Chat & Writing",
+      "description": "Try five different headlines for your article or announcement.",
+      "prompt": "Suggest five clear, distinct headlines using only these details.",
+      "example": "A neighborhood library is starting a free Saturday reading club for children.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "headlines",
+        "titles",
+        "article",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "seo-title",
+      "name": "SEO Title Writer",
+      "category": "Marketing & SEO",
+      "description": "Draft concise page titles from your topic and target phrase.",
+      "prompt": "Write three page title options under 60 characters. Include the supplied target phrase naturally. Do not promise search rankings.",
+      "example": "Page: beginner indoor plant care. Target phrase: indoor plant care.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "seo",
+        "page title",
+        "search",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "meta-description",
+      "name": "Meta Description",
+      "category": "Marketing & SEO",
+      "description": "Create a short search-result description for a page.",
+      "prompt": "Write two meta description options, each under 155 characters, based only on this page brief.",
+      "example": "A free guide with watering, light, and potting tips for beginner indoor plant owners.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "seo",
+        "meta",
+        "search snippet",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "ad-copy",
+      "name": "Ad Copy Writer",
+      "category": "Marketing & SEO",
+      "description": "Draft a short advertisement using your offer and product facts.",
+      "prompt": "Write three short ad copy options with a headline and a call to action. Use only supplied claims.",
+      "example": "Handmade notebooks with recycled paper. Available in blue and green. Order online.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "ads",
+        "advertising",
+        "copy",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "slogan-generator",
+      "name": "Slogan Generator",
+      "category": "Marketing & SEO",
+      "description": "Explore memorable lines for your brand or project.",
+      "prompt": "Suggest five short slogan ideas. Do not claim they are unique or trademark cleared.",
+      "example": "A neighborhood bakery that makes fresh bread each morning.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "slogan",
+        "tagline",
+        "brand",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "brand-names",
+      "name": "Brand Name Ideas",
+      "category": "Marketing & SEO",
+      "description": "Brainstorm names based on your business idea and personality.",
+      "prompt": "Suggest five brand name ideas and briefly explain each. Do not claim domain or trademark availability.",
+      "example": "A cozy handmade candle brand inspired by gardens and rainy evenings.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "names",
+        "brand",
+        "business",
+        "text",
+        "on-site"
+      ],
+      "icon": "sparkles",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "content-calendar",
+      "name": "Content Calendar Ideas",
+      "category": "Marketing & SEO",
+      "description": "Sketch a week of content from your audience and goal.",
+      "prompt": "Create a seven-day content plan with one short post idea for each day. Base it on this brief.",
+      "example": "An independent stationery store wants to show new notebooks, packaging, and creative journaling ideas.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "calendar",
+        "content",
+        "social",
+        "text",
+        "on-site"
+      ],
+      "icon": "clock",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "audience-persona",
+      "name": "Audience Persona Draft",
+      "category": "Marketing & SEO",
+      "description": "Turn an audience brief into a useful draft customer profile.",
+      "prompt": "Draft a hypothetical customer persona from the supplied brief. Clearly label assumptions. Include needs and possible objections.",
+      "example": "A reusable lunch box for office workers who bring meals from home.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "audience",
+        "persona",
+        "customer",
+        "text",
+        "on-site"
+      ],
+      "icon": "briefcase",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "social-bio",
+      "name": "Social Bio Writer",
+      "category": "Marketing & SEO",
+      "description": "Write a short profile bio for your brand or personal page.",
+      "prompt": "Write three short social profile bios using only the supplied details.",
+      "example": "A freelance photographer specializing in family portraits in Lahore. Bookings open.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "bio",
+        "profile",
+        "social",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "hashtag-ideas",
+      "name": "Hashtag Ideas",
+      "category": "Marketing & SEO",
+      "description": "Suggest topic-relevant hashtags for your post.",
+      "prompt": "Suggest ten relevant hashtags. Do not claim they are trending or guarantee reach.",
+      "example": "A short video showing hand stitching on a leather card holder.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "hashtags",
+        "social",
+        "tags",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "call-to-action",
+      "name": "Call to Action Writer",
+      "category": "Marketing & SEO",
+      "description": "Create short prompts that invite the next step.",
+      "prompt": "Suggest five concise calls to action matching this offer and goal.",
+      "example": "Invite visitors to download a free beginner photography checklist.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "cta",
+        "conversion",
+        "copy",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "concept-explainer",
+      "name": "Concept Explainer",
+      "category": "Study & Learning",
+      "description": "Explain an idea with a simple example and clear language.",
+      "prompt": "Explain this concept simply with one example. If source notes are supplied, use them. Be honest about uncertainty.",
+      "example": "Explain why plants need sunlight, in language suitable for a beginner.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "learn",
+        "explain",
+        "education",
+        "text",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "study-notes",
+      "name": "Study Notes",
+      "category": "Study & Learning",
+      "description": "Organize your source material into brief revision notes.",
+      "prompt": "Turn the supplied material into five short study points. Use only the source material.",
+      "example": "Plants use sunlight to convert water and carbon dioxide into sugars. This process is called photosynthesis. Chlorophyll absorbs light. Oxygen is released as a byproduct.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "study",
+        "notes",
+        "revision",
+        "text",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "flashcard-maker",
+      "name": "Flashcard Maker",
+      "category": "Study & Learning",
+      "description": "Create question-and-answer flashcards from your notes.",
+      "prompt": "Make four flashcards from these notes. Format each as Question and Answer. Use only the supplied facts.",
+      "example": "The Earth orbits the Sun in about 365 days. The Moon orbits the Earth. Gravity keeps objects in orbit.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "flashcards",
+        "study",
+        "memory",
+        "text",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "mode": "flashcards",
+      "note": "Creates question drafts for up to four source sentences or lines. Answers come directly from your notes. Tap a card to reveal its answer, and check that each question fits."
+    },
+    {
+      "id": "practice-quiz",
+      "name": "Practice Quiz Writer",
+      "category": "Study & Learning",
+      "description": "Draft a short quiz and answer key from a source passage.",
+      "prompt": "Write three multiple-choice questions with an answer key from the supplied passage. Use only its facts.",
+      "example": "Water freezes at 0 degrees Celsius and boils at 100 degrees Celsius at standard atmospheric pressure. Ice is solid water. Water vapor is a gas.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "quiz",
+        "questions",
+        "study",
+        "text",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "lesson-plan",
+      "name": "Lesson Plan Draft",
+      "category": "Study & Learning",
+      "description": "Plan a short lesson around your topic and learning goal.",
+      "prompt": "Create a short lesson plan with an objective, activity, and quick check of understanding.",
+      "example": "A 20-minute lesson teaching beginners how to identify a noun in a sentence.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "lesson",
+        "teacher",
+        "education",
+        "text",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "vocabulary-helper",
+      "name": "Vocabulary Helper",
+      "category": "Study & Learning",
+      "description": "Explore word meanings and example sentences.",
+      "prompt": "Explain the supplied words in simple English and give one example sentence for each. Be honest if unsure.",
+      "example": "Explain: curious, reliable, and patient.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "vocabulary",
+        "words",
+        "english",
+        "text",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "analogy-maker",
+      "name": "Analogy Maker",
+      "category": "Study & Learning",
+      "description": "Find an everyday analogy for a difficult concept.",
+      "prompt": "Explain the concept with one everyday analogy. State one way the analogy is imperfect.",
+      "example": "Explain computer memory to a beginner using an everyday analogy.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "analogy",
+        "learn",
+        "explain",
+        "text",
+        "on-site"
+      ],
+      "icon": "sparkles",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "study-plan",
+      "name": "Study Plan",
+      "category": "Study & Learning",
+      "description": "Turn your study goal and available time into a practical schedule.",
+      "prompt": "Create a realistic short study plan based on the available time and goals.",
+      "example": "I have five days to review three biology chapters. I can study for one hour each day.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "schedule",
+        "study",
+        "plan",
+        "text",
+        "on-site"
+      ],
+      "icon": "clock",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "code-debugger",
+      "name": "Debugging Helper",
+      "category": "Coding & Planning",
+      "description": "Explore likely causes of an error in a small code snippet.",
+      "prompt": "Inspect this short code and error. Explain a likely cause and suggest a small fix. Do not claim the code was executed.",
+      "example": "JavaScript: const items = null; console.log(items.map(x => x.name)); Error: Cannot read properties of null.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "debug",
+        "error",
+        "code",
+        "text",
+        "on-site"
+      ],
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "regex-helper",
+      "name": "Regex Helper",
+      "category": "Coding & Planning",
+      "description": "Draft a regular expression and explain its parts.",
+      "prompt": "Suggest a simple regular expression for the request. Explain the pattern and give matching and non-matching examples. State that it needs testing.",
+      "example": "JavaScript regex to match a six-digit postal code made only of numbers.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "regex",
+        "pattern",
+        "code",
+        "text",
+        "on-site"
+      ],
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "sql-helper",
+      "name": "SQL Draft Helper",
+      "category": "Coding & Planning",
+      "description": "Draft a small SQL query from a table description.",
+      "prompt": "Write a SQL query using only the supplied schema. Explain it briefly. Do not invent table or column names.",
+      "example": "Table orders has id, customer_id, total, created_at. Find total sales for each customer.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "sql",
+        "database",
+        "query",
+        "text",
+        "on-site"
+      ],
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "test-case-ideas",
+      "name": "Test Case Ideas",
+      "category": "Coding & Planning",
+      "description": "Think through useful cases for a small function or feature.",
+      "prompt": "Suggest five test cases for the described behavior, including edge cases and expected outcomes.",
+      "example": "A function accepts an age and returns true if it is 18 or older.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "tests",
+        "edge cases",
+        "code",
+        "text",
+        "on-site"
+      ],
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "code-comments",
+      "name": "Code Comment Writer",
+      "category": "Coding & Planning",
+      "description": "Add explanatory comments to a short code snippet.",
+      "prompt": "Add concise explanatory comments to this code. Preserve the code behavior and do not claim to run it.",
+      "example": "function doubleNumbers(numbers) { return numbers.map(n => n * 2); }",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "comments",
+        "documentation",
+        "code",
+        "text",
+        "on-site"
+      ],
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "readme-writer",
+      "name": "README Draft",
+      "category": "Coding & Planning",
+      "description": "Create a compact project README from the facts you provide.",
+      "prompt": "Draft a short Markdown README with purpose, setup, and usage. Use only supplied facts and mark missing information.",
+      "example": "Project: Plant Notes. A static HTML page for tracking plant watering. Open index.html in a browser. No installation.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "readme",
+        "markdown",
+        "documentation",
+        "text",
+        "on-site"
+      ],
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "meeting-minutes",
+      "name": "Meeting Notes Organizer",
+      "category": "Business & Work",
+      "description": "Turn your meeting notes into decisions and next actions.",
+      "prompt": "Organize these notes into decisions and action items. Include owners and dates only when supplied.",
+      "example": "Team agreed to use green packaging. Sara will send a revised design on Friday. Ali will check the printing cost. Next review is Monday.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "meeting",
+        "minutes",
+        "actions",
+        "text",
+        "on-site"
+      ],
+      "icon": "briefcase",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "resume-bullets",
+      "name": "Resume Bullet Writer",
+      "category": "Business & Work",
+      "description": "Rewrite your experience into clear resume bullet points.",
+      "prompt": "Write three concise resume bullets using only supplied experience and achievements. Do not invent metrics or qualifications.",
+      "example": "Worked in a bookstore. Helped customers find books, organized stock, and trained two new colleagues.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "resume",
+        "cv",
+        "career",
+        "text",
+        "on-site"
+      ],
+      "icon": "briefcase",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "cover-letter",
+      "name": "Cover Letter Draft",
+      "category": "Business & Work",
+      "description": "Draft a brief cover letter from your experience and job details.",
+      "prompt": "Write a short cover letter from the supplied job and experience. Do not invent skills or employment history.",
+      "example": "Role: customer support assistant. Experience: two years helping customers at a bookstore and organizing stock.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "cover letter",
+        "job",
+        "career",
+        "text",
+        "on-site"
+      ],
+      "icon": "briefcase",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "interview-practice",
+      "name": "Interview Practice Questions",
+      "category": "Business & Work",
+      "description": "Prepare practice questions for a role you describe.",
+      "prompt": "Suggest five relevant interview practice questions and one tip for structuring answers.",
+      "example": "An entry-level graphic designer role focused on social media layouts.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "interview",
+        "career",
+        "questions",
+        "text",
+        "on-site"
+      ],
+      "icon": "briefcase",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "proposal-outline",
+      "name": "Proposal Outline",
+      "category": "Business & Work",
+      "description": "Structure a short project proposal from your brief.",
+      "prompt": "Create a proposal outline with scope, deliverables, timeline, and open questions. Do not invent prices or commitments.",
+      "example": "A client needs five product photos and a 20-second launch video. Work should finish within two weeks.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "proposal",
+        "scope",
+        "business",
+        "text",
+        "on-site"
+      ],
+      "icon": "briefcase",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "story-starter",
+      "name": "Story Starter",
+      "category": "Chat & Writing",
+      "description": "Start a short fictional story from your setting and idea.",
+      "prompt": "Write an opening scene of fewer than 150 words based on this fictional premise.",
+      "example": "A librarian discovers a book that changes its last page every night.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "story",
+        "fiction",
+        "creative",
+        "text",
+        "on-site"
+      ],
+      "icon": "sparkles",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "character-builder",
+      "name": "Character Builder",
+      "category": "Chat & Writing",
+      "description": "Sketch a fictional character with a goal and a conflict.",
+      "prompt": "Create a brief fictional character profile with personality, motivation, and one conflict.",
+      "example": "A young mechanic living in a floating city, who dreams of exploring the ground below.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "character",
+        "fiction",
+        "creative",
+        "text",
+        "on-site"
+      ],
+      "icon": "sparkles",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "poem-writer",
+      "name": "Poem Writer",
+      "category": "Chat & Writing",
+      "description": "Create a short original poem from a topic or mood.",
+      "prompt": "Write a short original poem of no more than eight lines using this topic and mood.",
+      "example": "A quiet garden after rain. A hopeful mood.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "poem",
+        "poetry",
+        "creative",
+        "text",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "joke-writer",
+      "name": "Lighthearted Joke Writer",
+      "category": "Chat & Writing",
+      "description": "Try a few playful jokes about an everyday topic.",
+      "prompt": "Write three short, friendly, lighthearted jokes about this everyday topic.",
+      "example": "Indoor plants and forgetting to water them.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "jokes",
+        "humor",
+        "creative",
+        "text",
+        "on-site"
+      ],
+      "icon": "sparkles",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "prompt-builder",
+      "name": "Prompt Builder",
+      "category": "Coding & Planning",
+      "description": "Turn a rough request into a clearer AI instruction.",
+      "prompt": "Rewrite this request as a clear AI prompt with task, context, and output format. Do not invent missing facts.",
+      "example": "I want ideas for a short video about my handmade notebooks.",
+      "placeholder": "Add your text or brief here…",
+      "tags": [
+        "prompt",
+        "instructions",
+        "ai",
+        "text",
+        "on-site"
+      ],
+      "icon": "sparkles",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000
+    },
+    {
+      "id": "text-similarity",
+      "name": "Text Similarity",
+      "description": "Compare how closely two short passages match in meaning.",
+      "icon": "compass",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "embeddings",
+      "shape": "pair",
+      "limit": 1200,
+      "secondaryLimit": 1200,
+      "placeholder": "Enter the first English passage…",
+      "secondaryPlaceholder": "Enter the second English passage…",
+      "tags": [
+        "semantic",
+        "compare",
+        "similarity"
+      ],
+      "note": "Uses English sentence embeddings. Similarity is a cosine score, not a probability, fact check, or plagiarism verdict.",
+      "example": "A child is playing with a dog in the garden.",
+      "secondaryExample": "A young person and a puppy are having fun outdoors."
+    },
+    {
+      "id": "semantic-search",
+      "name": "Semantic Search",
+      "description": "Find the most relevant passage in your own list, even with different wording.",
+      "icon": "search",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "embeddings",
+      "shape": "search",
+      "limit": 10000,
+      "placeholder": "Put one short English passage on each line (2–20 lines)…",
+      "tags": [
+        "semantic",
+        "search",
+        "passages"
+      ],
+      "note": "Uses English sentence embeddings. Similarity is a cosine score, not a probability, fact check, or plagiarism verdict. Up to 20 passages of 700 characters each.",
+      "example": "The cafe serves coffee and fresh bread.\nThe station has trains to the city every hour.\nThe library lends books and has a study room.",
+      "queryExample": "Where can I borrow something to read?"
+    },
+    {
+      "id": "keyword-extractor",
+      "name": "Keyword Extractor",
+      "description": "Rank phrases from your text by how well they represent its meaning.",
+      "icon": "search",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "embeddings",
+      "shape": "keywords",
+      "limit": 1800,
+      "placeholder": "Paste a short English passage…",
+      "tags": [
+        "keywords",
+        "keyphrases",
+        "semantic"
+      ],
+      "note": "Ranks phrases already in your text with sentence embeddings. Results are relevance estimates; names and unusual phrasing can be missed.",
+      "example": "Urban gardens provide fresh vegetables and green space. Community gardening brings neighbors together and teaches children about sustainable food."
+    },
+    {
+      "id": "duplicate-finder",
+      "name": "Similar Text Finder",
+      "description": "Find the closest matching pairs in a list of short passages.",
+      "icon": "folder",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "embeddings",
+      "shape": "duplicates",
+      "limit": 10000,
+      "placeholder": "Put one short English item on each line (2–20 lines)…",
+      "tags": [
+        "duplicates",
+        "similarity",
+        "compare"
+      ],
+      "note": "Uses English sentence embeddings. Similarity is a cosine score, not a probability, fact check, or plagiarism verdict. Shows up to five closest pairs; similar wording does not establish copied work.",
+      "example": "The cafe opens at eight in the morning.\nCoffee is served from 8 AM at the cafe.\nThe library closes at six in the evening."
+    },
+    {
+      "id": "extractive-summary",
+      "name": "Key Sentence Finder",
+      "description": "Pick representative sentences from a passage without rewriting them.",
+      "icon": "folder",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "embeddings",
+      "shape": "sentences",
+      "limit": 4500,
+      "placeholder": "Paste an English passage with at least two sentences…",
+      "tags": [
+        "extractive",
+        "summary",
+        "sentences"
+      ],
+      "note": "Ranks up to 20 sentences using embedding similarity and returns up to three in their original order. It can miss important details.",
+      "example": "The library opened on Monday. It offers books, free computer access, and a quiet study room. Reading clubs run every Saturday. Residents can register for a free membership. The project was funded by local donations."
+    },
+    {
+      "id": "topic-classifier",
+      "name": "Topic Classifier",
+      "description": "Estimate which everyday topic best fits a short passage.",
+      "icon": "grid",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "labels": [
+        "technology",
+        "business",
+        "education",
+        "sports",
+        "arts",
+        "travel",
+        "environment"
+      ],
+      "limit": 1600,
+      "placeholder": "Paste a short English passage to classify…",
+      "tags": [
+        "topic",
+        "classification",
+        "analysis"
+      ],
+      "note": "Compares the fixed topic labels. Scores are model estimates, and a passage may not fit any label well.",
+      "example": "The new computer uses less energy and can run software more quickly."
+    },
+    {
+      "id": "custom-classifier",
+      "name": "Custom Text Classifier",
+      "description": "Compare your text against topic labels that you choose.",
+      "icon": "grid",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "shape": "labels",
+      "limit": 1600,
+      "placeholder": "Enter a short English passage…",
+      "labelsExample": "design, delivery, price, customer service",
+      "tags": [
+        "custom",
+        "labels",
+        "classification"
+      ],
+      "note": "Choose 2–8 descriptive labels. Scores compare those labels; they do not verify facts or make reliable high-stakes decisions.",
+      "example": "The parcel arrived a day earlier than expected and was packed carefully."
+    },
+    {
+      "id": "fill-mask",
+      "name": "Missing Word Predictor",
+      "description": "Suggest words that could fit one blank in an English sentence.",
+      "icon": "pen",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "mask",
+      "limit": 700,
+      "placeholder": "Use [MASK] for one missing word, for example: The sky is [MASK].",
+      "tags": [
+        "word",
+        "fill mask",
+        "prediction"
+      ],
+      "note": "Use exactly one [MASK] placeholder. Predicts likely wording, not a verified answer.",
+      "example": "I drink a cup of [MASK] every morning."
+    },
+    {
+      "id": "custom-image-labels",
+      "name": "Custom Image Labels",
+      "description": "Compare a picture with descriptions you choose using CLIP.",
+      "icon": "image",
+      "category": "Images",
+      "kind": "image",
+      "model": "imageLabels",
+      "shape": "labels",
+      "labelsExample": "a cat, a dog, a bicycle, a landscape",
+      "tags": [
+        "clip",
+        "custom",
+        "image labels",
+        "recognition"
+      ],
+      "note": "Choose 2–8 short descriptions. Scores compare the options and can be misleading if none describes the image."
+    },
+    {
+      "id": "sound-classifier",
+      "name": "Sound Classifier",
+      "description": "Estimate common sounds in a short audio clip, such as music or barking.",
+      "icon": "audio",
+      "category": "Audio & Video",
+      "kind": "audio",
+      "model": "sounds",
+      "maxDuration": 10,
+      "tags": [
+        "sound",
+        "audio",
+        "classification"
+      ],
+      "note": "Audio up to 10 seconds. Uses AudioSet sound categories; it does not identify speakers or transcribe speech."
+    },
+    {
+      "id": "speech-translator",
+      "name": "Speech to English",
+      "description": "Translate speech in a short recording into English text.",
+      "icon": "audio",
+      "category": "Audio & Video",
+      "kind": "audio",
+      "model": "speech",
+      "speechTask": "translate",
+      "tags": [
+        "speech",
+        "english",
+        "translation",
+        "audio"
+      ],
+      "note": "Audio up to 2 minutes. Whisper Tiny supports multilingual speech, but translation quality varies. The output language is English."
+    },
+    {
+      "id": "audio-summary",
+      "name": "Audio Summarizer",
+      "description": "Transcribe a short English recording, then summarize its content.",
+      "icon": "audio",
+      "category": "Audio & Video",
+      "kind": "audio",
+      "model": "speech",
+      "after": "summary",
+      "tags": [
+        "audio",
+        "summary",
+        "meeting",
+        "transcription"
+      ],
+      "note": "English recordings up to 2 minutes. First downloads total about 327 MB. Review both the transcript and summary for errors."
+    },
+    {
+      "id": "image-text-summary",
+      "name": "Scan Summarizer",
+      "description": "Extract English text from a scan or screenshot and summarize it.",
+      "icon": "folder",
+      "category": "Images",
+      "kind": "image",
+      "model": "ocr",
+      "after": "summary",
+      "tags": [
+        "ocr",
+        "scan",
+        "summary",
+        "screenshot"
+      ],
+      "note": "For clear printed English text. OCR runs first, followed by a text summary. Download is about 300 MB plus the runtime. Check the extracted text."
+    },
+    {
+      "id": "reverse-translator",
+      "name": "Translate to English",
+      "description": "Translate French, Spanish, or German text into English.",
+      "icon": "graduation",
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "translation",
+      "reverse": true,
+      "limit": 1200,
+      "placeholder": "Enter French, Spanish, or German text…",
+      "tags": [
+        "translation",
+        "english",
+        "french",
+        "spanish",
+        "german"
+      ],
+      "note": "Select the language of your input. Each language pair downloads its own model. Short, simple passages work best.",
+      "example": "Bonjour ! Je vous souhaite une bonne journée."
+    },
+    {
+      "id": "ad-hook-lab",
+      "name": "Ad Hook Lab",
+      "category": "Marketing & SEO",
+      "description": "Draft different opening lines and matching visuals for a short ad.",
+      "prompt": "Create five distinct ad hooks. For each, give one opening line and one visual idea. Use only supplied product facts; do not invent results.",
+      "example": "A slim leather wallet with six card slots. Target: men who dislike bulky pockets.",
+      "symbol": [
+        "clapper",
+        "target"
+      ],
+      "tags": [
+        "hook",
+        "ads",
+        "ugc",
+        "video",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "ugc-shot-script",
+      "name": "UGC Shot Script",
+      "category": "Marketing & SEO",
+      "description": "Turn a product brief into a spoken script and practical shot list.",
+      "prompt": "Draft a 25-second UGC script. Pair each spoken section with a filmable shot. Include hook, problem, demo, and CTA. Do not invent testimonials or claims.",
+      "example": "A reusable water bottle with a carry strap. Show filling it, packing it, and taking it on a walk.",
+      "symbol": [
+        "clapper",
+        "person"
+      ],
+      "tags": [
+        "ugc",
+        "script",
+        "video",
+        "shots",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "vsl-outline",
+      "name": "VSL Outline",
+      "category": "Marketing & SEO",
+      "description": "Structure a sales video around your offer, evidence, and next step.",
+      "prompt": "Draft a short video sales letter outline. Include hook, problem, supplied solution, supplied evidence, and CTA. Mark missing evidence instead of inventing it.",
+      "example": "A beginner photography course. Six lessons, phone camera exercises, and a free first lesson.",
+      "symbol": [
+        "clapper",
+        "list"
+      ],
+      "tags": [
+        "vsl",
+        "video",
+        "sales",
+        "outline",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "creative-brief",
+      "name": "Creative Brief",
+      "category": "Marketing & SEO",
+      "description": "Give a campaign a clear audience, message, deliverables, and direction.",
+      "prompt": "Organize these facts into a short creative brief: goal, audience, message, deliverables, constraints, and open questions. Do not fill missing facts with guesses.",
+      "example": "Launch a handmade notebook. Two Instagram posts and one 15-second reel. Warm colors, recycled paper.",
+      "symbol": [
+        "clipboard",
+        "target"
+      ],
+      "tags": [
+        "campaign",
+        "brief",
+        "design",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "storyboard-planner",
+      "name": "Storyboard Planner",
+      "category": "Marketing & SEO",
+      "description": "Plan the sequence, framing, and action for a short video.",
+      "prompt": "Create a concise text storyboard with scene number, framing, action, and on-screen text. This is a shot plan, not generated video.",
+      "example": "A 15-second leather craft teaser. Start with texture, then stitching, then a brand end card.",
+      "symbol": [
+        "clapper",
+        "grid"
+      ],
+      "tags": [
+        "storyboard",
+        "scenes",
+        "video",
+        "framing",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "planner",
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "broll-planner",
+      "name": "B-roll Planner",
+      "category": "Marketing & SEO",
+      "description": "Find filmable supporting shots that fit your script and footage.",
+      "prompt": "Suggest eight practical supporting shots for this script. Explain which line each shot supports. Do not claim to create footage.",
+      "example": "A short video about preparing a small home office: clear the desk, position a light, organize cables.",
+      "symbol": [
+        "clapper",
+        "eye"
+      ],
+      "tags": [
+        "b-roll",
+        "footage",
+        "video",
+        "shots",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "planner",
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "sound-design-brief",
+      "name": "Sound Design Brief",
+      "category": "Marketing & SEO",
+      "description": "Plan music mood, transitions, and effects for your edit.",
+      "prompt": "Create a short sound design plan from this video brief. Suggest moods and types of effects, not copyrighted tracks or download links.",
+      "example": "A 20-second product reveal: quiet close-up, quick detail cuts, then a logo on white.",
+      "symbol": [
+        "audio",
+        "clapper"
+      ],
+      "tags": [
+        "sound",
+        "music",
+        "editing",
+        "video",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "planner",
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "thumbnail-brief",
+      "name": "Thumbnail Concept Brief",
+      "category": "Marketing & SEO",
+      "description": "Draft readable thumbnail headlines and visual arrangements.",
+      "prompt": "Suggest three thumbnail concepts. Each needs a headline under five words, a visual arrangement, and one focal point. Do not invent performance results.",
+      "example": "A video teaching beginners how to organize video footage before editing.",
+      "symbol": [
+        "image",
+        "heading"
+      ],
+      "tags": [
+        "thumbnail",
+        "youtube",
+        "design",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "youtube-description",
+      "name": "YouTube Description",
+      "category": "Marketing & SEO",
+      "description": "Create a useful video description from your topic and supplied links.",
+      "prompt": "Write a YouTube description with a short introduction, key takeaways, and a CTA. Include only supplied links and facts. Do not invent timestamps.",
+      "example": "Video: three tips for better phone photography. Covers window light, simple backgrounds, and steady framing.",
+      "symbol": [
+        "clapper",
+        "globe"
+      ],
+      "tags": [
+        "youtube",
+        "description",
+        "seo",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "carousel-planner",
+      "name": "Carousel Planner",
+      "category": "Marketing & SEO",
+      "description": "Turn one idea into a sequence of social slides.",
+      "prompt": "Create a six-slide carousel outline with a short heading and body for each slide, ending with a CTA. Use supplied facts only.",
+      "example": "Explain three details of a leather card holder: neat stitching, finished edges, and a compact size.",
+      "symbol": [
+        "cards",
+        "post"
+      ],
+      "tags": [
+        "carousel",
+        "slides",
+        "instagram",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "planner",
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "launch-checklist",
+      "name": "Launch Checklist",
+      "category": "Marketing & SEO",
+      "description": "Organize a product launch into practical tasks and missing decisions.",
+      "prompt": "Create a launch checklist from this brief. Separate preparation, launch-day actions, and follow-up. Mark unknowns.",
+      "example": "Launch a small online dates shop next month. Product photos and packaging are ready. Delivery details still need checking.",
+      "symbol": [
+        "list",
+        "flag"
+      ],
+      "tags": [
+        "launch",
+        "marketing",
+        "checklist",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "planner",
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "ad-angle-explorer",
+      "name": "Ad Angle Explorer",
+      "category": "Marketing & SEO",
+      "description": "Explore different reasons your audience might care about an offer.",
+      "prompt": "Suggest five distinct ad angles. Each needs an audience need, a supplied product detail, and a possible hook. Do not invent claims or research.",
+      "example": "A compact desk lamp with adjustable brightness and a foldable arm, for small home desks.",
+      "symbol": [
+        "bulb",
+        "target"
+      ],
+      "tags": [
+        "angle",
+        "advertising",
+        "audience",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "client-reply",
+      "name": "Client Reply Draft",
+      "category": "Business & Work",
+      "description": "Draft a clear, respectful response to a client message.",
+      "prompt": "Draft a concise professional reply to this client message using only my supplied instructions. Do not promise deadlines or prices not provided.",
+      "example": "Client asks for an extra reel. My reply should ask for the brief and say I will confirm a timeline after reviewing it.",
+      "symbol": [
+        "mail",
+        "comment"
+      ],
+      "tags": [
+        "client",
+        "reply",
+        "email",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "followup-email",
+      "name": "Follow-up Email",
+      "category": "Business & Work",
+      "description": "Write a polite follow-up with a specific next step.",
+      "prompt": "Write a short, friendly follow-up from these facts. Include one clear next step. Do not invent urgency or commitments.",
+      "example": "I sent a video draft three days ago. Ask the client for feedback so I can start the final revision.",
+      "symbol": [
+        "mail",
+        "clock"
+      ],
+      "tags": [
+        "follow-up",
+        "email",
+        "client",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "invoice-email",
+      "name": "Invoice Email",
+      "category": "Business & Work",
+      "description": "Prepare an email explaining a supplied invoice and payment details.",
+      "prompt": "Draft a brief invoice email. Include invoice number, amount, due date, and payment method only if supplied. Do not invent financial details.",
+      "example": "Invoice 014 for three social videos. Total $180. Due October 20. Payment by bank transfer.",
+      "symbol": [
+        "mail",
+        "resume"
+      ],
+      "tags": [
+        "invoice",
+        "payment",
+        "email",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "project-handover",
+      "name": "Project Handover Notes",
+      "category": "Business & Work",
+      "description": "Explain your deliverables, file organization, and next steps.",
+      "prompt": "Organize these facts into handover notes with deliverables, file locations, usage notes, and open items. Do not invent files or access permissions.",
+      "example": "Three MP4 reels and editable project files. Fonts listed in fonts.txt. Client should review captions before posting.",
+      "symbol": [
+        "briefcase",
+        "arrow"
+      ],
+      "tags": [
+        "handover",
+        "delivery",
+        "project",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "portfolio-bio",
+      "name": "Portfolio Bio",
+      "category": "Business & Work",
+      "description": "Draft a concise bio from your experience and services.",
+      "prompt": "Write a short first-person portfolio bio using only supplied experience, tools, and services. Do not invent awards or clients.",
+      "example": "Video editor with six years of experience. Tools: Premiere Pro, After Effects, and CapCut. Focus: UGC ads and social videos.",
+      "symbol": [
+        "badge",
+        "pen"
+      ],
+      "tags": [
+        "portfolio",
+        "bio",
+        "freelance",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "case-study-outline",
+      "name": "Case Study Outline",
+      "category": "Business & Work",
+      "description": "Present a project through its problem, process, and supplied results.",
+      "prompt": "Create a compact case study outline: brief, challenge, decisions, deliverables, and supplied results. Leave missing metrics as questions.",
+      "example": "Edited three ad variations from one UGC recording. Used different hooks and clear product close-ups. Results not yet available.",
+      "symbol": [
+        "briefcase",
+        "chart"
+      ],
+      "tags": [
+        "case study",
+        "portfolio",
+        "results",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "feedback-organizer",
+      "name": "Feedback Organizer",
+      "category": "Business & Work",
+      "description": "Turn scattered revision feedback into an ordered action list.",
+      "prompt": "Organize this feedback into specific revision tasks. Group similar notes and flag conflicts. Do not assume which conflicting request should win.",
+      "example": "Make captions larger. Reduce music. Client A wants the intro shorter; client B wants more detail in the intro.",
+      "symbol": [
+        "clipboard",
+        "filter"
+      ],
+      "tags": [
+        "feedback",
+        "revision",
+        "tasks",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "planner",
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "scope-questions",
+      "name": "Scope Question Builder",
+      "category": "Business & Work",
+      "description": "Prepare focused questions before pricing or starting a project.",
+      "prompt": "Create six practical scope questions from this project request. Ask about deliverables, assets, deadline, revisions, and usage only where unclear.",
+      "example": "A client wants social videos for a new leather accessories brand but has not specified quantity or formats.",
+      "symbol": [
+        "briefcase",
+        "search"
+      ],
+      "tags": [
+        "scope",
+        "questions",
+        "client",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "brief-checklist",
+      "name": "Project Brief Checklist",
+      "category": "Business & Work",
+      "description": "Spot missing details in your project brief before work starts.",
+      "prompt": "Review this brief and list supplied details and missing details. Do not invent requirements or claim to validate contracts.",
+      "example": "Make a product launch reel. Vertical format, about 20 seconds. Logo supplied. Voiceover, deadline, and CTA are not decided.",
+      "symbol": [
+        "clipboard",
+        "check"
+      ],
+      "tags": [
+        "brief",
+        "checklist",
+        "project",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "planner",
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "bullets-to-paragraph",
+      "name": "Bullets to Paragraph",
+      "category": "Chat & Writing",
+      "description": "Turn your bullet points into connected prose without adding facts.",
+      "prompt": "Turn these bullet points into one natural paragraph. Preserve the facts and do not add new information.",
+      "example": "- Workshop on Friday\n- Two hours\n- For beginners\n- Bring a notebook",
+      "symbol": [
+        "notes",
+        "pen"
+      ],
+      "tags": [
+        "bullets",
+        "paragraph",
+        "rewrite",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "rewrite",
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "faq-writer",
+      "name": "FAQ Writer",
+      "category": "Chat & Writing",
+      "description": "Create questions and answers grounded in your supplied information.",
+      "prompt": "Write four FAQ pairs from the supplied information. If a question is not answered by the source, mark it as unanswered.",
+      "example": "A workshop runs every Saturday at 10 AM. Tickets are free. Participants register by email. It is for beginners.",
+      "symbol": [
+        "doc",
+        "comment"
+      ],
+      "tags": [
+        "faq",
+        "questions",
+        "answers",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "newsletter-draft",
+      "name": "Newsletter Draft",
+      "category": "Chat & Writing",
+      "description": "Shape your announcements into a concise email newsletter.",
+      "prompt": "Draft a newsletter with a subject, introduction, three short sections, and a CTA. Use only supplied information.",
+      "example": "A bookstore has new fiction arrivals, a Saturday reading club, and a free bookmark with purchases this week.",
+      "symbol": [
+        "post",
+        "mail"
+      ],
+      "tags": [
+        "newsletter",
+        "email",
+        "announcement",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "review-reply",
+      "name": "Review Reply Writer",
+      "category": "Chat & Writing",
+      "description": "Respond to a customer review using your facts and next steps.",
+      "prompt": "Write a polite response to this review. Acknowledge the feedback and use only supplied next steps; do not promise refunds or outcomes not authorized.",
+      "example": "Review: delivery was late but the product is good. Reply: thank them and invite them to contact support about delivery.",
+      "symbol": [
+        "bubble",
+        "heart"
+      ],
+      "tags": [
+        "review",
+        "customer",
+        "reply",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "proofreading-notes",
+      "name": "Proofreading Notes",
+      "category": "Chat & Writing",
+      "description": "Explain possible wording problems and suggest edits you can review.",
+      "prompt": "Identify spelling, punctuation, and clarity issues in this text. Suggest edits and explain each briefly. Preserve the author's facts.",
+      "example": "We are happy to announce are new workshop, it starts on friday and every one is welcome.",
+      "symbol": [
+        "pencil",
+        "search"
+      ],
+      "tags": [
+        "proofread",
+        "grammar",
+        "editing",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "rewrite",
+      "icon": "pen",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "quiz-explanations",
+      "name": "Answer Explanation Helper",
+      "category": "Study & Learning",
+      "description": "Explain an answer using the question and source notes you supply.",
+      "prompt": "Explain the supplied answer using only these source notes. If the notes do not support it, say what is missing.",
+      "example": "Question: Why do plants need sunlight? Answer: photosynthesis. Notes: sunlight supplies the energy for making sugars from water and carbon dioxide.",
+      "symbol": [
+        "book",
+        "check"
+      ],
+      "tags": [
+        "quiz",
+        "answers",
+        "explanation",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "teachback-coach",
+      "name": "Teach-back Coach",
+      "category": "Study & Learning",
+      "description": "Compare your explanation with your notes and find gaps.",
+      "prompt": "Compare my explanation against the source notes. Identify aligned points, missing points, and unsupported claims. Ask one follow-up question.",
+      "example": "Source: evaporation changes liquid water into vapor. My explanation: evaporation is when water turns into ice.",
+      "symbol": [
+        "book",
+        "repeat"
+      ],
+      "tags": [
+        "teach-back",
+        "learning",
+        "feedback",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "socratic-questions",
+      "name": "Socratic Question Builder",
+      "category": "Study & Learning",
+      "description": "Explore an idea through focused follow-up questions.",
+      "prompt": "Write five thoughtful questions that help a learner examine this idea. Do not answer them or pretend to verify the premise.",
+      "example": "How can a community reduce wasted food?",
+      "symbol": [
+        "bubble",
+        "book"
+      ],
+      "tags": [
+        "questions",
+        "thinking",
+        "learning",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "reading-guide",
+      "name": "Reading Guide",
+      "category": "Study & Learning",
+      "description": "Create a short reading plan from a passage or supplied chapter outline.",
+      "prompt": "Create a reading guide with main topics, three comprehension questions, and unfamiliar terms from the supplied text. Do not invent external sources.",
+      "example": "Chapter outline: plant roots absorb water, leaves receive sunlight, and stems move water between them.",
+      "symbol": [
+        "book",
+        "search"
+      ],
+      "tags": [
+        "reading",
+        "guide",
+        "study",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "essay-outline",
+      "name": "Essay Outline",
+      "category": "Study & Learning",
+      "description": "Arrange your topic and notes into a clear essay structure.",
+      "prompt": "Create an essay outline with introduction, three body sections, and conclusion. Use only supplied notes and mark where evidence is needed.",
+      "example": "Topic: benefits of community gardens. Notes: shared green space, learning how to grow food, and meeting neighbors.",
+      "symbol": [
+        "book",
+        "heading"
+      ],
+      "tags": [
+        "essay",
+        "outline",
+        "writing",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "icon": "graduation",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "json-explainer",
+      "name": "JSON Explainer",
+      "category": "Coding & Planning",
+      "description": "Explain the structure and fields in a small JSON example.",
+      "prompt": "Explain this JSON structure and its fields. Identify apparent syntax issues but do not claim to parse or execute the supplied data.",
+      "example": "{\"project\":\"Notebook\",\"status\":\"draft\",\"tasks\":[\"cover\",\"layout\"]}",
+      "symbol": [
+        "terminal",
+        "grid"
+      ],
+      "tags": [
+        "json",
+        "data",
+        "explain",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "code",
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "api-doc-draft",
+      "name": "API Documentation Draft",
+      "category": "Coding & Planning",
+      "description": "Document an endpoint from the behavior and schema you provide.",
+      "prompt": "Draft compact API documentation from the supplied endpoint details. Include method, inputs, response, and known errors. Do not invent fields or authentication.",
+      "example": "GET /items returns an array of {id, name}. Optional query: limit. Unknown routes return 404.",
+      "symbol": [
+        "terminal",
+        "doc"
+      ],
+      "tags": [
+        "api",
+        "documentation",
+        "endpoint",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "code",
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "commit-message",
+      "name": "Commit Message Helper",
+      "category": "Coding & Planning",
+      "description": "Write a clear commit title and body from your change notes.",
+      "prompt": "Write three concise commit message options based only on these changes. Do not claim tests passed unless the notes say so.",
+      "example": "Added a saved-tools filter and fixed the empty-state text. Tested the filter locally.",
+      "symbol": [
+        "code",
+        "check"
+      ],
+      "tags": [
+        "git",
+        "commit",
+        "message",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "code",
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "css-helper",
+      "name": "CSS Layout Helper",
+      "category": "Coding & Planning",
+      "description": "Reason through a small CSS layout problem and a possible fix.",
+      "prompt": "Explain a likely cause of this CSS issue and suggest a small example fix. Do not claim to render or test the layout.",
+      "example": "A three-column grid overflows on mobile. Current CSS: grid-template-columns: repeat(3, 300px).",
+      "symbol": [
+        "code",
+        "grid"
+      ],
+      "tags": [
+        "css",
+        "layout",
+        "responsive",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "code",
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "shell-explainer",
+      "name": "Shell Command Explainer",
+      "category": "Coding & Planning",
+      "description": "Read a command and explain its arguments without executing it.",
+      "prompt": "Explain what this shell command does, argument by argument. Do not execute it or claim to inspect files. Mention destructive effects when present.",
+      "example": "rg --files -g \"*.js\" src",
+      "symbol": [
+        "terminal",
+        "text"
+      ],
+      "tags": [
+        "shell",
+        "bash",
+        "command",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "code",
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "algorithm-walkthrough",
+      "name": "Algorithm Walkthrough",
+      "category": "Coding & Planning",
+      "description": "Follow a small algorithm step by step with a supplied example.",
+      "prompt": "Walk through this algorithm using the supplied example. State the intermediate values. Do not claim to run the code.",
+      "example": "Binary search on [2, 4, 6, 8, 10], searching for 8.",
+      "symbol": [
+        "nodes",
+        "arrow"
+      ],
+      "tags": [
+        "algorithm",
+        "steps",
+        "coding",
+        "local",
+        "free",
+        "on-site"
+      ],
+      "workspace": "code",
+      "icon": "code",
+      "kind": "text",
+      "model": "chat",
+      "limit": 3000,
+      "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "message-intent",
+      "name": "Message Intent Classifier",
+      "description": "Compare a message against common request and response intents.",
+      "labels": [
+        "question",
+        "request",
+        "complaint",
+        "thanks",
+        "announcement"
+      ],
+      "symbol": [
+        "bubble",
+        "filter"
+      ],
+      "example": "Could you send the final version by Friday?",
+      "tags": [
+        "message",
+        "intent",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "email-priority",
+      "name": "Email Priority Clues",
+      "description": "Estimate whether the wording suggests an urgent action or routine information.",
+      "labels": [
+        "urgent action requested",
+        "routine action requested",
+        "informational update"
+      ],
+      "symbol": [
+        "mail",
+        "flag"
+      ],
+      "example": "Please review the draft when you have time this week.",
+      "tags": [
+        "email",
+        "priority",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "review-aspect",
+      "name": "Review Aspect Classifier",
+      "description": "Identify the likely focus of a product or service review.",
+      "labels": [
+        "product quality",
+        "delivery",
+        "packaging",
+        "price",
+        "customer service"
+      ],
+      "symbol": [
+        "box",
+        "search"
+      ],
+      "example": "The parcel arrived quickly and the box was carefully packed.",
+      "tags": [
+        "reviews",
+        "aspect",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "feedback-topics",
+      "name": "Feedback Topic Classifier",
+      "description": "Find the likely theme of design or content feedback.",
+      "labels": [
+        "layout",
+        "color",
+        "typography",
+        "copywriting",
+        "audio",
+        "video pacing"
+      ],
+      "symbol": [
+        "clipboard",
+        "tag"
+      ],
+      "example": "The captions are hard to read because they are too small.",
+      "tags": [
+        "feedback",
+        "design",
+        "topic",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "request-router",
+      "name": "Support Request Classifier",
+      "description": "Compare a support message against typical help categories.",
+      "labels": [
+        "account access",
+        "billing question",
+        "delivery question",
+        "technical issue",
+        "general information"
+      ],
+      "symbol": [
+        "nodes",
+        "filter"
+      ],
+      "example": "I cannot sign in after changing my password.",
+      "tags": [
+        "support",
+        "request",
+        "routing",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "writing-purpose",
+      "name": "Writing Purpose Classifier",
+      "description": "Estimate whether a passage aims to inform, persuade, describe, or tell a story.",
+      "labels": [
+        "inform",
+        "persuade",
+        "describe",
+        "tell a story"
+      ],
+      "symbol": [
+        "pencil",
+        "target"
+      ],
+      "example": "Join our free Saturday workshop to practice photography with other beginners.",
+      "tags": [
+        "purpose",
+        "text",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "gemini-chat",
+      "name": "Gemini Assistant",
+      "provider": "gemini",
+      "category": "Chat & Writing",
+      "operation": "chat",
+      "description": "Chat with Gemini using your own eligible free API project.",
+      "symbol": [
+        "bubble",
+        "globe"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-api",
+      "tags": [
+        "gemini",
+        "google gemini",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "gemini-vision",
+      "name": "Gemini Image Understanding",
+      "provider": "gemini",
+      "category": "Images",
+      "operation": "vision",
+      "description": "Ask a question about an image and read Gemini’s answer here.",
+      "symbol": [
+        "image",
+        "question"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "image",
+      "access": "free-api",
+      "tags": [
+        "gemini",
+        "google gemini",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "gemini-translate",
+      "name": "Gemini Multilingual Translator",
+      "provider": "gemini",
+      "category": "Research & Text",
+      "operation": "translate",
+      "description": "Translate text into your chosen language, including Urdu and Arabic.",
+      "symbol": [
+        "translate",
+        "globe"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-api",
+      "tags": [
+        "gemini",
+        "google gemini",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "groq-chat",
+      "name": "Groq Fast Assistant",
+      "provider": "groq",
+      "category": "Chat & Writing",
+      "operation": "chat",
+      "description": "Ask questions and draft content with Groq’s free GPT-OSS default.",
+      "symbol": [
+        "bubble",
+        "clock"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-api",
+      "tags": [
+        "groq",
+        "groq",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "groq-code",
+      "name": "Groq Coding Assistant",
+      "provider": "groq",
+      "category": "Coding & Planning",
+      "operation": "text",
+      "description": "Get code drafts and explanations through Groq’s free API plan.",
+      "symbol": [
+        "code",
+        "clock"
+      ],
+      "system": "Help with coding. Explain uncertainty and never claim to execute code.",
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-api",
+      "tags": [
+        "groq",
+        "groq",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "groq-transcribe",
+      "name": "Groq Whisper Transcriber",
+      "provider": "groq",
+      "category": "Audio & Video",
+      "operation": "transcribe",
+      "description": "Transcribe an audio file with Whisper Large V3 Turbo.",
+      "symbol": [
+        "mic",
+        "text"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-api",
+      "tags": [
+        "groq",
+        "groq",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "groq-audio-english",
+      "name": "Groq Audio to English",
+      "provider": "groq",
+      "category": "Audio & Video",
+      "operation": "audio-translate",
+      "description": "Translate an audio recording into English with Whisper Large V3.",
+      "symbol": [
+        "audio",
+        "globe"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-api",
+      "tags": [
+        "groq",
+        "groq",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "mistral-chat",
+      "name": "Mistral Assistant",
+      "provider": "mistral",
+      "category": "Chat & Writing",
+      "operation": "chat",
+      "description": "Use Mistral’s limited free API mode for an AI conversation.",
+      "symbol": [
+        "bubble",
+        "idea"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-api",
+      "tags": [
+        "mistral",
+        "mistral ai",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "mistral-code",
+      "name": "Mistral Code Draft",
+      "provider": "mistral",
+      "category": "Coding & Planning",
+      "operation": "text",
+      "description": "Draft and explain code with Mistral Small in Free mode.",
+      "symbol": [
+        "code",
+        "pencil"
+      ],
+      "system": "Help draft and explain small code examples. Do not claim to run or test the code.",
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-api",
+      "tags": [
+        "mistral",
+        "mistral ai",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "openrouter-chat",
+      "name": "OpenRouter Free Models",
+      "provider": "openrouter",
+      "category": "Chat & Writing",
+      "operation": "chat",
+      "description": "Chat with an automatically selected eligible free model.",
+      "symbol": [
+        "bubble",
+        "nodes"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-api",
+      "tags": [
+        "openrouter",
+        "openrouter",
+        "connected",
+        "api",
+        "free API"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "jina-rerank",
+      "name": "Jina Passage Reranker",
+      "provider": "jina",
+      "category": "Research & Text",
+      "operation": "rerank",
+      "description": "Rank your passages by relevance to a question using welcome tokens.",
+      "symbol": [
+        "search",
+        "nodes"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-credits",
+      "tags": [
+        "jina",
+        "jina ai",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "jina-reader",
+      "name": "Jina Web Page Reader",
+      "provider": "jina",
+      "category": "Research & Text",
+      "operation": "reader",
+      "description": "Turn a public web page into readable text inside this workspace.",
+      "symbol": [
+        "doc",
+        "globe"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-credits",
+      "tags": [
+        "jina",
+        "jina ai",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "jina-search",
+      "name": "Jina Web Research",
+      "provider": "jina",
+      "category": "Research & Text",
+      "operation": "web-search",
+      "description": "Ask a web research question using Jina’s DeepSearch API.",
+      "symbol": [
+        "search",
+        "globe"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-credits",
+      "tags": [
+        "jina",
+        "jina ai",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "cerebras-chat",
+      "name": "Cerebras Fast Assistant",
+      "provider": "cerebras",
+      "category": "Chat & Writing",
+      "operation": "chat",
+      "description": "Try fast GPT-OSS inference with the eligible $5 promotional credit.",
+      "symbol": [
+        "bubble",
+        "up"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-credits",
+      "tags": [
+        "cerebras",
+        "cerebras",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "stability-generate",
+      "name": "Stable Image Generator",
+      "provider": "stability",
+      "category": "Images",
+      "operation": "image-generate",
+      "description": "Generate an image from a prompt using Stable Image Core.",
+      "symbol": [
+        "image",
+        "spark"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "image",
+      "access": "free-credits",
+      "tags": [
+        "stability",
+        "stability ai",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "stability-cutout",
+      "name": "Stable Background Remover",
+      "provider": "stability",
+      "category": "Images",
+      "operation": "image-remove",
+      "description": "Remove an image background with Stability’s cloud image API.",
+      "symbol": [
+        "image",
+        "scissors"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "image",
+      "access": "free-credits",
+      "tags": [
+        "stability",
+        "stability ai",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "stability-upscale",
+      "name": "Stable Image Upscaler",
+      "provider": "stability",
+      "category": "Images",
+      "operation": "image-upscale",
+      "description": "Increase image resolution with Stability’s fast upscaler.",
+      "symbol": [
+        "image",
+        "up"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "image",
+      "access": "free-credits",
+      "tags": [
+        "stability",
+        "stability ai",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "elevenlabs-voice",
+      "name": "ElevenLabs Voice Studio",
+      "provider": "elevenlabs",
+      "category": "Audio & Video",
+      "operation": "tts",
+      "description": "Create speech, preview it here, and download an MP3.",
+      "symbol": [
+        "mic",
+        "spark"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-credits",
+      "tags": [
+        "elevenlabs",
+        "elevenlabs",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "elevenlabs-sfx",
+      "name": "ElevenLabs Sound Effects",
+      "provider": "elevenlabs",
+      "category": "Audio & Video",
+      "operation": "sound-effects",
+      "description": "Describe a sound effect and generate a downloadable audio clip.",
+      "symbol": [
+        "audio",
+        "spark"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-credits",
+      "tags": [
+        "elevenlabs",
+        "elevenlabs",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "elevenlabs-transcribe",
+      "name": "ElevenLabs Transcriber",
+      "provider": "elevenlabs",
+      "category": "Audio & Video",
+      "operation": "transcribe",
+      "description": "Upload a recording for an ElevenLabs speech-to-text transcript.",
+      "symbol": [
+        "mic",
+        "search"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-credits",
+      "tags": [
+        "elevenlabs",
+        "elevenlabs",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "cartesia-voice",
+      "name": "Cartesia Voice Studio",
+      "provider": "cartesia",
+      "category": "Audio & Video",
+      "operation": "tts",
+      "description": "Generate speech with a selected Cartesia voice and preview it here.",
+      "symbol": [
+        "mic",
+        "wave"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-credits",
+      "tags": [
+        "cartesia",
+        "cartesia",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "cartesia-transcribe",
+      "name": "Cartesia Transcriber",
+      "provider": "cartesia",
+      "category": "Audio & Video",
+      "operation": "transcribe",
+      "description": "Transcribe a short recording using Cartesia’s Ink Whisper model.",
+      "symbol": [
+        "audio",
+        "pen"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-credits",
+      "tags": [
+        "cartesia",
+        "cartesia",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "deepgram-transcribe",
+      "name": "Deepgram Transcriber",
+      "provider": "deepgram",
+      "category": "Audio & Video",
+      "operation": "transcribe",
+      "description": "Create a transcript with optional numbered speaker labels.",
+      "symbol": [
+        "mic",
+        "person"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-credits",
+      "tags": [
+        "deepgram",
+        "deepgram",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "deepgram-voice",
+      "name": "Deepgram Voice Studio",
+      "provider": "deepgram",
+      "category": "Audio & Video",
+      "operation": "tts",
+      "description": "Turn a script into downloadable speech with Deepgram Aura.",
+      "symbol": [
+        "mic",
+        "sound"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-credits",
+      "tags": [
+        "deepgram",
+        "deepgram",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "assemblyai-transcribe",
+      "name": "AssemblyAI Transcriber",
+      "provider": "assemblyai",
+      "category": "Audio & Video",
+      "operation": "transcribe",
+      "description": "Transcribe an audio file and read the result without leaving Free AI Harbor.",
+      "symbol": [
+        "audio",
+        "resume"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-credits",
+      "tags": [
+        "assemblyai",
+        "assemblyai",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "assemblyai-speakers",
+      "name": "AssemblyAI Speaker Transcript",
+      "provider": "assemblyai",
+      "category": "Audio & Video",
+      "operation": "transcribe",
+      "description": "Transcribe a conversation with numbered speaker sections.",
+      "symbol": [
+        "audio",
+        "person"
+      ],
+      "speakers": true,
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "audio",
+      "access": "free-credits",
+      "tags": [
+        "assemblyai",
+        "assemblyai",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    },
+    {
+      "id": "fireworks-chat",
+      "name": "Fireworks Assistant",
+      "provider": "fireworks",
+      "category": "Chat & Writing",
+      "operation": "chat",
+      "description": "Explore a cloud AI conversation with Fireworks’ starter credit.",
+      "symbol": [
+        "bubble",
+        "flag"
+      ],
+      "model": "cloud",
+      "kind": "cloud",
+      "icon": "chat",
+      "access": "free-credits",
+      "tags": [
+        "fireworks",
+        "fireworks ai",
+        "connected",
+        "api",
+        "free credits"
+      ],
+      "verifiedOn": "2026-10-12"
+    }
+  ],
+  "providers": {
+    "gemini": {
+      "name": "Google Gemini",
+      "mark": "G",
+      "access": "free-api",
+      "allowance": "Free API tier",
+      "cadence": "Recurring usage limits",
+      "limits": "Eligible models have free input and output. Request quotas depend on the model, region, and account; check AI Studio. A paid Gemini app subscription is separate.",
+      "after": "Wait for quota reset or enable paid API billing for higher usage.",
+      "setup": "Sign in to Google AI Studio and create a Gemini API key. Keep the project on Free tier for free API use.",
+      "keyUrl": "https://aistudio.google.com/apikey",
+      "source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "account": "https://aistudio.google.com/usage",
+      "model": "gemini-2.5-flash",
+      "docs": "https://ai.google.dev/api/generate-content",
+      "caution": "Free-tier content may be used by Google to improve its products. See the linked provider terms."
+    },
+    "groq": {
+      "name": "Groq",
+      "mark": "Q",
+      "access": "free-api",
+      "allowance": "Free API plan",
+      "cadence": "Daily / minute limits",
+      "limits": "GPT-OSS free defaults: 30 requests/minute and 1,000/day, with token limits. Whisper has separate audio quotas. Organization limits can vary.",
+      "after": "Wait for quota reset or upgrade to the paid Developer plan.",
+      "setup": "Create a Groq account and an API key in the console. Choose the Free plan.",
+      "keyUrl": "https://console.groq.com/keys",
+      "source": "https://console.groq.com/docs/rate-limits",
+      "account": "https://console.groq.com/settings/limits",
+      "model": "openai/gpt-oss-20b",
+      "docs": "https://console.groq.com/docs/openai"
+    },
+    "mistral": {
+      "name": "Mistral AI",
+      "mark": "M",
+      "access": "free-api",
+      "allowance": "Free API mode",
+      "cadence": "Monthly model limits",
+      "limits": "Free mode has model-specific monthly quotas shown in your account. No payment card is required for Free mode.",
+      "after": "Wait for the allowance to renew or switch to pay-as-you-go.",
+      "setup": "Create a Mistral Studio account, select Free mode, and create an API key.",
+      "keyUrl": "https://console.mistral.ai/api-keys",
+      "source": "https://docs.mistral.ai/admin/billing-usage/usage-limits",
+      "account": "https://console.mistral.ai/limits",
+      "model": "mistral-small-latest",
+      "docs": "https://docs.mistral.ai/api/endpoint/chat"
+    },
+    "openrouter": {
+      "name": "OpenRouter",
+      "mark": "O",
+      "access": "free-api",
+      "allowance": "Free models only",
+      "cadence": "50 requests/day",
+      "limits": "The free router selects eligible free models. Standard free limits: 50 requests/day and 20/minute; purchasing at least $10 in credits can raise the daily ceiling. Model availability varies.",
+      "after": "Wait for the daily reset, or purchase provider credits to qualify for higher limits. This module always uses the free router.",
+      "setup": "Create an OpenRouter account and API key. This workspace is locked to openrouter/free.",
+      "keyUrl": "https://openrouter.ai/settings/keys",
+      "source": "https://openrouter.ai/pricing",
+      "account": "https://openrouter.ai/settings/credits",
+      "model": "openrouter/free",
+      "docs": "https://openrouter.ai/openrouter/free"
+    },
+    "jina": {
+      "name": "Jina AI",
+      "mark": "J",
+      "access": "free-credits",
+      "allowance": "10M welcome tokens",
+      "cadence": "One-time shared allowance",
+      "limits": "Welcome tokens are shared across Jina APIs. Token consumption differs by model and task; this is not a monthly reset or a live balance.",
+      "after": "Purchase additional tokens in your Jina account when the allowance runs out.",
+      "setup": "Get a Jina API key from its dashboard. The welcome allowance belongs to your account.",
+      "keyUrl": "https://jina.ai/api-dashboard/",
+      "source": "https://jina.ai/api-dashboard/pricing/",
+      "account": "https://jina.ai/api-dashboard/",
+      "model": "jina-reranker-v3.5",
+      "docs": "https://jina.ai/reranker/"
+    },
+    "cerebras": {
+      "name": "Cerebras",
+      "mark": "C",
+      "access": "free-credits",
+      "allowance": "$5 starter credit",
+      "cadence": "One-time · expires in 30 days",
+      "limits": "A valid payment method is required to receive the $5 promotional credit. For development and evaluation. Access pauses on expiry or exhaustion without a separate PayGo purchase.",
+      "after": "Separately buy PayGo credits to continue; activation does not automatically enroll you in paid usage.",
+      "setup": "Create a Cerebras account, activate the offer with a payment method, and create an API key.",
+      "keyUrl": "https://cloud.cerebras.ai/",
+      "source": "https://www.cerebras.ai/pricing",
+      "account": "https://cloud.cerebras.ai/",
+      "model": "gpt-oss-120b",
+      "docs": "https://inference-docs.cerebras.ai/resources/openai"
+    },
+    "stability": {
+      "name": "Stability AI",
+      "mark": "S",
+      "access": "free-credits",
+      "allowance": "25 starter credits",
+      "cadence": "One-time trial",
+      "limits": "New eligible accounts get 25 API credits for testing. The getting-started guide specifies Google social signup. 1 credit is $0.01; each action has its own cost.",
+      "after": "Buy additional credits through the provider after the trial is used.",
+      "setup": "Create a Stability developer account and API key. Check your credited balance before generating.",
+      "keyUrl": "https://platform.stability.ai/account/keys",
+      "source": "https://platform.stability.ai/pricing",
+      "account": "https://platform.stability.ai/account/credits",
+      "model": "Stable Image",
+      "docs": "https://platform.stability.ai/docs/api-reference"
+    },
+    "elevenlabs": {
+      "name": "ElevenLabs",
+      "mark": "E",
+      "access": "free-credits",
+      "allowance": "10K credits/month",
+      "cadence": "Monthly shared allowance",
+      "limits": "Free-plan credits are shared across features; API requests use your account allowance. Free output has no commercial license. Commercial rights and higher limits require a paid plan.",
+      "after": "Wait for the monthly reset or upgrade the provider plan for more credits.",
+      "setup": "Create an ElevenLabs account and an API key with permission for the feature you want to use.",
+      "keyUrl": "https://elevenlabs.io/app/settings/api-keys",
+      "source": "https://elevenlabs.io/pricing",
+      "account": "https://elevenlabs.io/app/settings/subscription",
+      "model": "eleven_multilingual_v2",
+      "docs": "https://elevenlabs.io/docs/api-reference/text-to-speech/convert",
+      "caution": "Free output is for personal use; a commercial license starts on a paid provider plan."
+    },
+    "cartesia": {
+      "name": "Cartesia",
+      "mark": "T",
+      "access": "free-credits",
+      "allowance": "20K credits/month",
+      "cadence": "Monthly · shared TTS / STT",
+      "limits": "Free-plan credits cover text to speech and transcription. The free tier is for personal, noncommercial use. Available voices and models depend on your account.",
+      "after": "Wait for the monthly reset or buy a paid plan with more credits and commercial rights.",
+      "setup": "Create a Cartesia account and API key. Use Load voices to choose a voice available to your account.",
+      "keyUrl": "https://play.cartesia.ai/keys",
+      "source": "https://www.cartesia.ai/pricing",
+      "account": "https://play.cartesia.ai/",
+      "model": "sonic-3.6",
+      "docs": "https://docs.cartesia.ai/api-reference/tts/bytes",
+      "caution": "The free plan does not include commercial use rights."
+    },
+    "deepgram": {
+      "name": "Deepgram",
+      "mark": "D",
+      "access": "free-credits",
+      "allowance": "$200 starter credit",
+      "cadence": "One-time · no card needed",
+      "limits": "New eligible accounts receive $200 in API credit without a payment card. Transcription and voice generation draw from the same provider balance.",
+      "after": "Continue with the provider’s paid usage after the trial credit runs out.",
+      "setup": "Create a Deepgram account and an API key with usage permission.",
+      "keyUrl": "https://console.deepgram.com/",
+      "source": "https://deepgram.com/pricing",
+      "account": "https://console.deepgram.com/",
+      "model": "nova-3",
+      "docs": "https://developers.deepgram.com/reference/speech-to-text/listen"
+    },
+    "assemblyai": {
+      "name": "AssemblyAI",
+      "mark": "A",
+      "access": "free-credits",
+      "allowance": "$50 starter credit",
+      "cadence": "One-time · no card needed",
+      "limits": "The free trial covers transcription and speech understanding; it does not cover the LLM Gateway. An insufficient balance stops new requests.",
+      "after": "Add payment details and purchase provider credits to continue.",
+      "setup": "Create an AssemblyAI account and copy the API key from your dashboard.",
+      "keyUrl": "https://www.assemblyai.com/dashboard/",
+      "source": "https://support.assemblyai.com/articles/5370767329-can-i-sign-up-for-free",
+      "account": "https://www.assemblyai.com/dashboard/",
+      "model": "universal-3-5-pro",
+      "docs": "https://www.assemblyai.com/docs/api-reference/transcripts/submit"
+    },
+    "fireworks": {
+      "name": "Fireworks AI",
+      "mark": "F",
+      "access": "free-credits",
+      "allowance": "$1 signup credit",
+      "cadence": "One-time starter offer",
+      "limits": "Fireworks describes $1 in signup credit for new accounts. Its current API billing uses prepaid credits. Account eligibility and available models can change.",
+      "after": "Purchase more provider credits after the initial allowance is used.",
+      "setup": "Create a Fireworks account and an API key. Confirm the signup credit in your dashboard.",
+      "keyUrl": "https://app.fireworks.ai/api-keys",
+      "source": "https://fireworks.ai/blog/best-llm-api-providers",
+      "account": "https://app.fireworks.ai/",
+      "model": "accounts/fireworks/models/glm-5p3-flash",
+      "docs": "https://docs.fireworks.ai/api-reference/post-chatcompletions"
+    }
+  },
+  "models": {
+    "chat": {
+      "task": "text-generation",
+      "id": "HuggingFaceTB/SmolLM2-360M-Instruct",
+      "revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+      "dtype": "q8",
+      "size": "365 MB",
+      "label": "SmolLM2 360M",
+      "license": "Apache 2.0"
+    },
+    "summary": {
+      "task": "summarization",
+      "id": "Xenova/distilbart-cnn-6-6",
+      "revision": "6b476295a3cf27d5b20e8c8b847a54ab8e5d0df9",
+      "dtype": "q8",
+      "size": "285 MB",
+      "label": "DistilBART",
+      "license": "Apache 2.0"
+    },
+    "sentiment": {
+      "task": "sentiment-analysis",
+      "id": "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
+      "revision": "0b6928efcb76139cae2c6881d49cda67fe119f42",
+      "dtype": "q8",
+      "size": "67 MB",
+      "label": "DistilBERT",
+      "license": "Apache 2.0"
+    },
+    "qa": {
+      "task": "question-answering",
+      "id": "Xenova/distilbert-base-cased-distilled-squad",
+      "revision": "bdbb0a5e9c617c3c7ea9f3cbaf2be3ad871bcd7d",
+      "dtype": "q8",
+      "size": "65 MB",
+      "label": "DistilBERT SQuAD",
+      "license": "Apache 2.0"
+    },
+    "entities": {
+      "task": "token-classification",
+      "id": "Xenova/bert-base-NER",
+      "revision": "8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa",
+      "dtype": "q8",
+      "size": "109 MB",
+      "label": "BERT NER",
+      "license": "MIT"
+    },
+    "portrait": {
+      "task": "background-removal",
+      "id": "Xenova/modnet",
+      "revision": "fa2fa546052fba4c08921230a26cc69a333fca12",
+      "dtype": "fp32",
+      "size": "26 MB",
+      "label": "MODNet",
+      "license": "Apache 2.0"
+    },
+    "classification": {
+      "task": "image-classification",
+      "id": "onnx-community/mobilenet_v2_1.0_224",
+      "revision": "c5903ea5f5bb219f02c85a778af0fedf14f502d8",
+      "dtype": "q8",
+      "size": "4 MB",
+      "label": "MobileNet V2",
+      "license": "Publisher model terms"
+    },
+    "caption": {
+      "task": "image-to-text",
+      "id": "Xenova/vit-gpt2-image-captioning",
+      "revision": "215b4edcb7ec1fad5905a18a03f7b2007f6fabd0",
+      "dtype": "q8",
+      "size": "250 MB",
+      "label": "ViT + GPT-2",
+      "license": "Apache 2.0"
+    },
+    "detection": {
+      "task": "object-detection",
+      "id": "Xenova/detr-resnet-50",
+      "revision": "8be7ab59ff663484ee9ba2e8d8f267330d5ad03e",
+      "dtype": "q8",
+      "size": "43 MB",
+      "label": "DETR",
+      "license": "Apache 2.0"
+    },
+    "depth": {
+      "task": "depth-estimation",
+      "id": "Xenova/depth-anything-small-hf",
+      "revision": "2e942621ab9f2371c1df9eb223291b5ac31475e6",
+      "dtype": "q8",
+      "size": "27 MB",
+      "label": "Depth Anything",
+      "license": "Apache 2.0"
+    },
+    "speech": {
+      "task": "automatic-speech-recognition",
+      "id": "Xenova/whisper-tiny",
+      "revision": "5332fcc35e32a33b86612b9a57a89be7906102b1",
+      "dtype": "q8",
+      "size": "42 MB",
+      "label": "Whisper Tiny",
+      "license": "MIT"
+    },
+    "voice": {
+      "task": "text-to-speech",
+      "id": "Xenova/speecht5_tts",
+      "revision": "1723781b8ce2d02f0400c8337be04ae8ee3d6d56",
+      "dtype": "fp32",
+      "size": "645 MB",
+      "label": "SpeechT5",
+      "license": "MIT"
+    },
+    "ocr": {
+      "task": "ocr",
+      "id": "tesseract.js",
+      "size": "15 MB+",
+      "label": "Tesseract OCR",
+      "license": "Apache 2.0"
+    },
+    "embeddings": {
+      "task": "feature-extraction",
+      "id": "Xenova/all-MiniLM-L6-v2",
+      "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+      "dtype": "q8",
+      "size": "23 MB",
+      "label": "MiniLM sentence embeddings",
+      "license": "Apache 2.0"
+    },
+    "topics": {
+      "task": "zero-shot-classification",
+      "id": "Xenova/nli-deberta-v3-xsmall",
+      "revision": "2a4f614a701367a02d51389039afc998faeda637",
+      "dtype": "q8",
+      "size": "88 MB",
+      "label": "DeBERTa NLI",
+      "license": "Apache 2.0"
+    },
+    "mask": {
+      "task": "fill-mask",
+      "id": "Xenova/distilbert-base-uncased",
+      "revision": "5d73105e39e322b779ff7a8fcd11530fa579165b",
+      "dtype": "q8",
+      "size": "68 MB",
+      "label": "DistilBERT masked language model",
+      "license": "Apache 2.0"
+    },
+    "imageLabels": {
+      "task": "zero-shot-image-classification",
+      "id": "Xenova/clip-vit-base-patch32",
+      "revision": "d15189d7028b43f1d3e65039190477f6af591c2a",
+      "dtype": "q8",
+      "size": "154 MB",
+      "label": "CLIP",
+      "license": "MIT"
+    },
+    "sounds": {
+      "task": "audio-classification",
+      "id": "Xenova/ast-finetuned-audioset-10-10-0.4593",
+      "revision": "249a1fbf0286b40e7f1ed687a8ae396997bf7dc6",
+      "dtype": "q8",
+      "size": "91 MB",
+      "label": "Audio Spectrogram Transformer",
+      "license": "BSD 3-Clause"
+    }
+  },
+  "translations": {
+    "fr": {
+      "name": "French",
+      "model": "Xenova/opus-mt-en-fr",
+      "revision": "28726206f80896b90035bd99cccd5cc1e151f916",
+      "license": "Apache 2.0"
+    },
+    "es": {
+      "name": "Spanish",
+      "model": "Xenova/opus-mt-en-es",
+      "revision": "4b002a4c7edd54a7ced58877258b87f7efd3f892",
+      "license": "Apache 2.0"
+    },
+    "de": {
+      "name": "German",
+      "model": "Xenova/opus-mt-en-de",
+      "revision": "1ca130c44c4c5441ef16d48aae521a424ab644f7",
+      "license": "CC BY 4.0"
+    }
+  },
+  "reverseTranslations": {
+    "fr": {
+      "name": "French",
+      "model": "Xenova/opus-mt-fr-en",
+      "revision": "6b166a182780e118c997879d0ad5be4b53671644",
+      "license": "Apache 2.0"
+    },
+    "es": {
+      "name": "Spanish",
+      "model": "Xenova/opus-mt-es-en",
+      "revision": "eadfd7c658a9d8929ac3b8e996b68a68e2c7d480",
+      "license": "Apache 2.0"
+    },
+    "de": {
+      "name": "German",
+      "model": "Xenova/opus-mt-de-en",
+      "revision": "399dfd68706739fffd503f876093e455ae268a06",
+      "license": "Apache 2.0"
+    }
+  }
+}

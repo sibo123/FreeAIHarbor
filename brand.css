@@ -1,0 +1,21 @@
+/* The lighthouse mark is shared by the wordmark, favicon, and AI chat. */
+.brand{flex-shrink:0;gap:10px;letter-spacing:-.9px;font-size:25px;white-space:nowrap}
+.brand img{width:36px;height:36px;flex-shrink:0;border-radius:10px}
+.brand-wordmark{display:inline-flex;align-items:baseline}
+.brand-ai{color:var(--green)}
+.brand-dot{margin-left:1px}
+.footer-top .brand{font-size:24px}
+.chat-brand-symbol,.assistant-avatar{background:transparent}
+.chat-brand-symbol img{display:block;width:29px;height:29px;border-radius:8px}
+.assistant-avatar img{display:block;width:100%;height:100%;border-radius:inherit}
+.chat-sidebar-brand strong{font-size:13px;white-space:nowrap;letter-spacing:-.25px}
+.chat-sidebar-brand{gap:8px;padding-right:3px;padding-left:3px}
+.chat-sidebar-close{margin-left:auto;flex-shrink:0}
+@media(max-width:720px){.brand{font-size:22px;gap:8px}.brand img{width:30px;height:30px}}
+@media(max-width:560px){
+  .header-inner{height:auto;min-height:92px;flex-wrap:wrap;justify-content:center;gap:0;padding-top:10px;padding-bottom:7px}
+  .site-header .brand{justify-content:center;width:100%;font-size:23px}
+  .main-nav{height:35px;justify-content:center;gap:25px}
+  .main-nav .nav-link{font-size:11px;white-space:nowrap}
+  .footer-top .brand{font-size:23px}
+}

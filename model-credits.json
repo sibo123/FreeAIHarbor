@@ -1,0 +1,922 @@
+{
+  "runtime": {
+    "recommended_pin": "@huggingface/transformers@3.8.1",
+    "latest_npm_observed": "4.3.1",
+    "latest_published": "2026-10-06T15:54:29.246Z",
+    "license": "Apache-2.0",
+    "options": {
+      "device": "wasm",
+      "dtype": "q8"
+    },
+    "q8_artifact_suffix": "_quantized",
+    "sources": [
+      "https://huggingface.co/docs/transformers.js/v3.8.1/index",
+      "https://huggingface.co/docs/transformers.js/v3.8.1/api/pipelines",
+      "https://huggingface.co/docs/transformers.js/v3.8.1/guides/dtypes",
+      "https://registry.npmjs.org/@huggingface/transformers",
+      "https://registry.npmjs.org/@huggingface/transformers/-/transformers-3.8.1.tgz"
+    ],
+    "notes": [
+      "Versioned docs explicitly state default browser CPU WASM and q8 default for WASM.",
+      "Latest main docs have conflicting stale stable-version banner; use actual npm registry for latest claims.",
+      "Pin known version rather than CDN latest. Set wasm.numThreads=1 for hosts without cross-origin isolation; env.allowLocalModels=false and use progress_callback.",
+      "Lazy-load only selected model. Browser caches public weights but storage can be evicted; do not promise guaranteed offline availability.",
+      "Keep active models few and dispose unused pipelines to avoid exceeding browser memory.",
+      "General writing and code tools should be labeled small local models and output should be bounded."
+    ]
+  },
+  "models": [
+    {
+      "id": "HuggingFaceTB/SmolLM2-360M-Instruct",
+      "revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+      "task": "text-generation",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "English chat / writing / simple code helper",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 364564671
+        }
+      ],
+      "onnx_download_bytes": 364564671,
+      "hardware_guidance_inference_not_benchmark": "Desktop recommended; 365 MB weights plus runtime and tokenizers. Limit context and generated tokens.",
+      "limitations": "Official publisher exports optimized GQA ONNX; config leaves q8 KV cache float32. Llama architecture is supported in 3.8.1. Runtime inference still must be tested.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-360M-Instruct?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/distilbart-cnn-6-6",
+      "revision": "6b476295a3cf27d5b20e8c8b847a54ab8e5d0df9",
+      "task": "summarization",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "English summarizer",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 155102167
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 128819737
+        }
+      ],
+      "onnx_download_bytes": 283921904,
+      "hardware_guidance_inference_not_benchmark": "Desktop recommended; 284 MB weights; cap input to model context.",
+      "limitations": "English news-oriented summaries; not multilingual. Encoder and merged decoder selected.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/distilbart-cnn-6-6",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/distilbart-cnn-6-6/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/distilbart-cnn-6-6?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/distilbart-cnn-6-6",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
+      "revision": "0b6928efcb76139cae2c6881d49cda67fe119f42",
+      "task": "sentiment-analysis",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "English sentiment",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 67581197
+        }
+      ],
+      "onnx_download_bytes": 67581197,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 67.6 MB weights; modest input lengths.",
+      "limitations": "Binary positive/negative model; do not invent neutral output.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/distilbert-base-uncased-finetuned-sst-2-english",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/distilbert-base-uncased-finetuned-sst-2-english/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/distilbert-base-uncased-finetuned-sst-2-english?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/distilbert-base-cased-distilled-squad",
+      "revision": "bdbb0a5e9c617c3c7ea9f3cbaf2be3ad871bcd7d",
+      "task": "question-answering",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "Ask supplied English text",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 65811627
+        }
+      ],
+      "onnx_download_bytes": 65811627,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 65.8 MB weights; context limit around 512 tokens.",
+      "limitations": "Extractive answer from provided context, not open-ended factual chat. Call pipe(question, context).",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/distilbert-base-cased-distilled-squad",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/distilbert-base-cased-distilled-squad/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/distilbert-base-cased-distilled-squad?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/distilbert/distilbert-base-cased-distilled-squad",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/bert-base-NER",
+      "revision": "8e892123e8b7c2c0c2bd1dcb598b7d244c4e53aa",
+      "task": "token-classification",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "mit",
+      "feature": "People / places / organizations extractor",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 108952255
+        }
+      ],
+      "onnx_download_bytes": 108952255,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 109 MB weights; cap input to 512 tokens.",
+      "limitations": "Returns BIO entity labels; use correct grouping before displaying entities.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/bert-base-NER",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/bert-base-NER/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/bert-base-NER?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/dslim/bert-base-NER",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "onnx-community/mobilenet_v2_1.0_224",
+      "revision": "c5903ea5f5bb219f02c85a778af0fedf14f502d8",
+      "task": "image-classification",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "other",
+      "feature": "Image labeler",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 3696179
+        }
+      ],
+      "onnx_download_bytes": 3696179,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 3.70 MB weights; mobile-friendly inference candidate.",
+      "limitations": "Exact namespace is onnx-community. Original Google model card lists license other; upstream TensorFlow Models repository uses Apache-2.0. Do not incorrectly label weight card Apache-2.0; alternative Xenova/vit-base-patch16-224 has Apache-2.0 upstream.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/onnx-community/mobilenet_v2_1.0_224",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/onnx-community/mobilenet_v2_1.0_224/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/onnx-community/mobilenet_v2_1.0_224?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/google/mobilenet_v2_1.0_224",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/detr-resnet-50",
+      "revision": "8be7ab59ff663484ee9ba2e8d8f267330d5ad03e",
+      "task": "object-detection",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "Objects and boxes",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 43102531
+        }
+      ],
+      "onnx_download_bytes": 43102531,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 43.1 MB weights; downsize high-resolution inputs.",
+      "limitations": "COCO classes only; draw returned bounding boxes, does not identify arbitrary objects.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/detr-resnet-50",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/detr-resnet-50/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/detr-resnet-50?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/facebook/detr-resnet-50",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/vit-gpt2-image-captioning",
+      "revision": "215b4edcb7ec1fad5905a18a03f7b2007f6fabd0",
+      "task": "image-to-text",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "Image caption / alt text",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 158599996
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 87453213
+        }
+      ],
+      "onnx_download_bytes": 246053209,
+      "hardware_guidance_inference_not_benchmark": "Desktop recommended; 246 MB weights; max_new_tokens 32-64.",
+      "limitations": "Short English captions, can miss or misdescribe details.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/vit-gpt2-image-captioning",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/vit-gpt2-image-captioning/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/vit-gpt2-image-captioning?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/nlpconnect/vit-gpt2-image-captioning",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/depth-anything-small-hf",
+      "revision": "2e942621ab9f2371c1df9eb223291b5ac31475e6",
+      "task": "depth-estimation",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "Depth-map image",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 27524771
+        }
+      ],
+      "onnx_download_bytes": 27524771,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 27.5 MB weights; downsize inputs.",
+      "limitations": "Output is relative depth; do not claim measurements in meters. Returns depth RawImage and predicted_depth Tensor.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/depth-anything-small-hf",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/depth-anything-small-hf/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/depth-anything-small-hf?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/LiheYoung/depth-anything-small-hf",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/modnet",
+      "revision": "fa2fa546052fba4c08921230a26cc69a333fca12",
+      "task": "background-removal",
+      "device": "wasm",
+      "dtype": "fp32",
+      "license": "apache-2.0",
+      "feature": "Portrait background remover",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model.onnx",
+          "size": 25888640
+        }
+      ],
+      "onnx_download_bytes": 25888640,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 25.9 MB weights; moderately sized portrait inputs.",
+      "limitations": "Author recommends fp32. Exact pipeline is background-removal, not image-segmentation. Portraits only; quality not guaranteed on products. Returned RawImage supports toBlob()/toCanvas().",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/modnet",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/modnet/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/modnet?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/modnet",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/flan-t5-small",
+      "revision": "311454e83bc784267fd7eef5940ee854144abbec",
+      "task": "text2text-generation",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "Simple short text transformations",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 59339331
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 35759127
+        }
+      ],
+      "onnx_download_bytes": 95098458,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 95.1 MB weights; short prompts and output limits.",
+      "limitations": "Compact T5 instruction model; useful fallback for simple rewrites, not a large-chat-model substitute. English/French/Romanian/German/multilingual card tags do not promise every language.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/flan-t5-small",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/flan-t5-small/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/flan-t5-small?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/google/flan-t5-small",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/whisper-tiny",
+      "revision": "5332fcc35e32a33b86612b9a57a89be7906102b1",
+      "task": "automatic-speech-recognition",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "Audio transcript / timestamps",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 30727765
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 10124910
+        }
+      ],
+      "onnx_download_bytes": 40852675,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 40.9 MB weights; 16 kHz mono float waveform, chunks around 30 seconds.",
+      "limitations": "Multilingual tiny Whisper; accuracy lower than large models. Audio may be decoded in browser via AudioContext. return_timestamps:true for segments / SRT; word timestamps only after validating model alignment support.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/whisper-tiny",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/whisper-tiny/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/whisper-tiny?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/openai/whisper-tiny",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/opus-mt-en-fr",
+      "revision": "28726206f80896b90035bd99cccd5cc1e151f916",
+      "task": "translation",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "English to French",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 57381512
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 50090398
+        }
+      ],
+      "onnx_download_bytes": 107471910,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 107.5 MB weights; selected pair only.",
+      "limitations": "One direction only. Reverse translation requires a different model. No language detection or Urdu claim.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/opus-mt-en-fr",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/opus-mt-en-fr/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/opus-mt-en-fr?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-fr",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/opus-mt-en-es",
+      "revision": "4b002a4c7edd54a7ced58877258b87f7efd3f892",
+      "task": "translation",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "feature": "English to Spanish",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 60212804
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 52899742
+        }
+      ],
+      "onnx_download_bytes": 113112546,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 113.1 MB weights; selected pair only.",
+      "limitations": "One direction only. Encoder and merged decoder selected.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/opus-mt-en-es",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/opus-mt-en-es/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/opus-mt-en-es?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-es",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/opus-mt-en-de",
+      "revision": "1ca130c44c4c5441ef16d48aae521a424ab644f7",
+      "task": "translation",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "cc-by-4.0",
+      "feature": "English to German",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 56652404
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 49366942
+        }
+      ],
+      "onnx_download_bytes": 106019346,
+      "hardware_guidance_inference_not_benchmark": "CPU WASM; 106.0 MB weights; selected pair only.",
+      "limitations": "Needs attribution to Helsinki-NLP / University of Helsinki and CC-BY-4.0 license link. One direction only.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/opus-mt-en-de",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/opus-mt-en-de/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/opus-mt-en-de?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-en-de",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/speecht5_tts",
+      "revision": "1723781b8ce2d02f0400c8337be04ae8ee3d6d56",
+      "task": "text-to-speech",
+      "device": "wasm",
+      "dtype": "fp32",
+      "license": "mit",
+      "feature": "English synthesized WAV",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/encoder_model.onnx",
+          "size": 342803468
+        },
+        {
+          "rfilename": "onnx/decoder_model_merged.onnx",
+          "size": 244486683
+        }
+      ],
+      "onnx_download_bytes": 587290151,
+      "hardware_guidance_inference_not_benchmark": "About 645 MB including the default fp32 HiFi-GAN vocoder. Desktop recommended.",
+      "limitations": "Uses fp32 after real speech generation and transcription checks found quantized speech was unclear. Uses one synthetic English voice and a public speaker embedding.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/speecht5_tts",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/speecht5_tts/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/speecht5_tts?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/microsoft/speecht5_tts",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/speecht5_hifigan",
+      "revision": "cf980c3610d7b7f20919960031066ef7905737bd",
+      "task": "vocoder",
+      "device": "wasm",
+      "dtype": "fp32",
+      "license": "mit",
+      "feature": "SpeechT5 vocoder",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model.onnx",
+          "size": 55432026
+        }
+      ],
+      "onnx_download_bytes": 55432026,
+      "hardware_guidance_inference_not_benchmark": "55.4 MB fp32 weights; used by TTS pipeline.",
+      "limitations": "No standalone pipeline task; default TextToAudioPipeline loads this model fp32.",
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/speecht5_hifigan",
+          "purpose": "ONNX compatibility/model card"
+        },
+        {
+          "url": "https://huggingface.co/Xenova/speecht5_hifigan/tree/main/onnx",
+          "purpose": "Artifact names"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/speecht5_hifigan?blobs=true",
+          "purpose": "Live exact artifact bytes and revision"
+        },
+        {
+          "url": "https://huggingface.co/microsoft/speecht5_hifigan",
+          "purpose": "Weight license / original release"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/all-MiniLM-L6-v2",
+      "revision": "751bff37182d3f1213fa05d7196b954e230abad9",
+      "task": "feature-extraction",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 22972370
+        }
+      ],
+      "onnx_download_bytes": 22972370,
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/all-MiniLM-L6-v2",
+          "purpose": "Public ONNX model"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/all-MiniLM-L6-v2?blobs=true",
+          "purpose": "Pinned revision and exact artifact sizes"
+        },
+        {
+          "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
+          "purpose": "Upstream model and terms"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/distilbert-base-uncased",
+      "revision": "5d73105e39e322b779ff7a8fcd11530fa579165b",
+      "task": "fill-mask",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 67710626
+        }
+      ],
+      "onnx_download_bytes": 67710626,
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/distilbert-base-uncased",
+          "purpose": "Public ONNX model"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/distilbert-base-uncased?blobs=true",
+          "purpose": "Pinned revision and exact artifact sizes"
+        },
+        {
+          "url": "https://huggingface.co/distilbert-base-uncased",
+          "purpose": "Upstream model and terms"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/clip-vit-base-patch32",
+      "revision": "d15189d7028b43f1d3e65039190477f6af591c2a",
+      "task": "zero-shot-image-classification",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "mit",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 153695702
+        }
+      ],
+      "onnx_download_bytes": 153695702,
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/clip-vit-base-patch32",
+          "purpose": "Public ONNX model"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/clip-vit-base-patch32?blobs=true",
+          "purpose": "Pinned revision and exact artifact sizes"
+        },
+        {
+          "url": "https://huggingface.co/openai/clip-vit-base-patch32",
+          "purpose": "Upstream model and terms"
+        },
+        {
+          "url": "https://github.com/openai/CLIP/blob/main/LICENSE",
+          "purpose": "MIT license"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/ast-finetuned-audioset-10-10-0.4593",
+      "revision": "249a1fbf0286b40e7f1ed687a8ae396997bf7dc6",
+      "task": "audio-classification",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "bsd-3-clause",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 90807386
+        }
+      ],
+      "onnx_download_bytes": 90807386,
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/ast-finetuned-audioset-10-10-0.4593",
+          "purpose": "Public ONNX model"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/ast-finetuned-audioset-10-10-0.4593?blobs=true",
+          "purpose": "Pinned revision and exact artifact sizes"
+        },
+        {
+          "url": "https://huggingface.co/MIT/ast-finetuned-audioset-10-10-0.4593",
+          "purpose": "Upstream model and terms"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/opus-mt-fr-en",
+      "revision": "6b166a182780e118c997879d0ad5be4b53671644",
+      "task": "translation",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 57381512
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 50090398
+        }
+      ],
+      "onnx_download_bytes": 107471910,
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/opus-mt-fr-en",
+          "purpose": "Public ONNX model"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/opus-mt-fr-en?blobs=true",
+          "purpose": "Pinned revision and exact artifact sizes"
+        },
+        {
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-fr-en",
+          "purpose": "Upstream model and terms"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/opus-mt-es-en",
+      "revision": "eadfd7c658a9d8929ac3b8e996b68a68e2c7d480",
+      "task": "translation",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 60212804
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 52899742
+        }
+      ],
+      "onnx_download_bytes": 113112546,
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/opus-mt-es-en",
+          "purpose": "Public ONNX model"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/opus-mt-es-en?blobs=true",
+          "purpose": "Pinned revision and exact artifact sizes"
+        },
+        {
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-es-en",
+          "purpose": "Upstream model and terms"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/opus-mt-de-en",
+      "revision": "399dfd68706739fffd503f876093e455ae268a06",
+      "task": "translation",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/decoder_model_merged_quantized.onnx",
+          "size": 56652404
+        },
+        {
+          "rfilename": "onnx/encoder_model_quantized.onnx",
+          "size": 49366942
+        }
+      ],
+      "onnx_download_bytes": 106019346,
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/opus-mt-de-en",
+          "purpose": "Public ONNX model"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/opus-mt-de-en?blobs=true",
+          "purpose": "Pinned revision and exact artifact sizes"
+        },
+        {
+          "url": "https://huggingface.co/Helsinki-NLP/opus-mt-de-en",
+          "purpose": "Upstream model and terms"
+        }
+      ]
+    },
+    {
+      "id": "Xenova/nli-deberta-v3-xsmall",
+      "revision": "2a4f614a701367a02d51389039afc998faeda637",
+      "task": "zero-shot-classification",
+      "device": "wasm",
+      "dtype": "q8",
+      "license": "apache-2.0",
+      "onnx_artifacts": [
+        {
+          "rfilename": "onnx/model_quantized.onnx",
+          "size": 87246587
+        }
+      ],
+      "onnx_download_bytes": 87246587,
+      "sources": [
+        {
+          "url": "https://huggingface.co/Xenova/nli-deberta-v3-xsmall",
+          "purpose": "Public ONNX model"
+        },
+        {
+          "url": "https://huggingface.co/api/models/Xenova/nli-deberta-v3-xsmall?blobs=true",
+          "purpose": "Pinned revision and exact artifact sizes"
+        },
+        {
+          "url": "https://huggingface.co/cross-encoder/nli-deberta-v3-xsmall",
+          "purpose": "Upstream model and terms"
+        }
+      ]
+    }
+  ]
+}
