@@ -116,7 +116,8 @@ const symbols={
  'joke-writer':['quote','smile'],'prompt-builder':['terminal','spark'],'text-similarity':['notes','equal'],'semantic-search':['search','idea'],
  'keyword-extractor':['search','tag'],'duplicate-finder':['cards','copy'],'extractive-summary':['notes','filter'],'topic-classifier':['grid','text'],
  'custom-classifier':['grid','plus'],'fill-mask':['mask','question'],'custom-image-labels':['image','plus'],'sound-classifier':['audio','search'],
- 'speech-translator':['mic','globe'],'audio-summary':['audio','less'],'image-text-summary':['image','less'],'reverse-translator':['translate','repeat']
+ 'speech-translator':['mic','globe'],'audio-summary':['audio','less'],'image-text-summary':['image','less'],'reverse-translator':['translate','repeat'],
+ 'photo-editor':['image','spark'],'logo-designer':['badge','spark'],'prompt-generator':['terminal','spark']
 };
 // Miniatures can also use a simplified base. This keeps all 80 symbols in one coherent system.
 mini.list=mini.lines;mini.post=mini.comment;mini.briefcase='<path d="M1 3h8v6H1zM3 3V1h4v2M1 5h8"/>';

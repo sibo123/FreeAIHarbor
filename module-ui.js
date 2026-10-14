@@ -192,6 +192,8 @@ export function createModuleUI({tools,onEdit,onSwap,onUseOutput,onNotify,onRun,o
   if(out.kind==='audio'){
    duration=out.audio.length/out.rate;mediaShell('Generated voice');bindPlayer($('#output-content audio'));waveform(out.audio,duration);$('#module-output-stats').textContent=mediaTime(duration)+' · WAV';return;
   }
+  if(out.kind==='logos'){$('#module-output-stats').textContent=out.logos.length+' concepts · SVG / PNG';return}
+  if(out.kind==='prompts'){$('#module-output-stats').textContent=out.target+' · Master Prompt';return}
   if(['text','answer','document'].includes(out.kind)&&out.text?.trim()){textResult(out.text,out.sourceText);return}
   if(out.kind==='scores'&&out.items.length){const best=out.items.reduce((a,b)=>a.score>b.score?a:b);$('#output-content').insertAdjacentHTML('afterbegin',`<div class="analysis-summary"><span class="section-kicker">HIGHEST MODEL SCORE</span><strong>${esc(best.label)}</strong><span>${(best.score*100).toFixed(1)}%</span></div>`);$('#module-output-stats').textContent=out.items.length+' labels';return}
   if(out.kind==='entities')entityResult(out);

@@ -58,11 +58,14 @@ export const LAB_TOOLS=[
  {id:'audio-transcription',name:'Audio Transcriber',description:'Turn a short audio recording into text without uploading it to a service.',icon:'audio',category:'Audio & Video',kind:'audio',model:'speech',tags:['speech to text','transcription','audio'],note:'Audio up to 2 minutes. Accuracy varies with language, recording quality, and background noise.'},
  {id:'subtitle-generator',name:'Subtitle Generator',description:'Create timed SRT subtitles from a short audio recording or video soundtrack.',icon:'video',category:'Audio & Video',kind:'audio',model:'speech',tags:['subtitles','srt','captions','video'],note:'Audio up to 2 minutes. For a video, upload its audio track. Check timings and text before publishing.'},
  {id:'text-to-speech',name:'Text to Speech',description:'Generate an English voice recording and download it as a WAV file.',icon:'audio',category:'Audio & Video',kind:'text',model:'voice',tags:['tts','voiceover','narration','speech'],limit:600,placeholder:'Type a short English passage to turn into speech…',note:'Uses one synthetic English voice. It does not clone voices.'},
+ {id:'photo-editor',name:'AI Photo Editor',description:'Enhance, retouch, and apply cinematic AI-style filters and lighting adjustments to photos for free in your browser.',icon:'image',category:'Images',kind:'image',model:'canvas',tags:['photo editor','filters','enhance','retouch','color grade','free','on-site'],note:'Processes 100% on your device via client-side canvas. No file size or privacy limits.'},
+ {id:'logo-designer',name:'AI Logo Designer',description:'Design free professional vector logos, modern brand emblems, and geometric marks with instant SVG & PNG export.',icon:'sparkles',category:'Marketing & SEO',kind:'text',model:'client',tags:['logo','branding','vector','svg','graphic design','free','on-site'],limit:300,placeholder:'Enter your brand name (e.g. Apex AI, Lumina, Harbor)…',note:'Generates 4 distinct vector SVG concepts with dark & light mockups. Download SVG or high-res PNG for free.'},
+ {id:'prompt-generator',name:'AI Prompt Generator',description:'Generate masterfully engineered prompts for Midjourney, Stable Diffusion, DALL-E, ChatGPT, and Claude with customizable styles and parameters.',icon:'sparkles',category:'Chat & Writing',kind:'text',model:'client',tags:['prompt generator','midjourney','chatgpt','dall-e','flux','claude','free'],limit:2000,placeholder:'Describe your idea or subject (e.g. a futuristic cyberpunk street market in Tokyo during rain)…',note:'Creates master prompts, parameter flags, negative prompt tokens, and creative variations with 1-click copy.'},
  ...EXTRA_TOOLS,
  ...NEW_LOCAL_TOOLS,
  ...CLOUD_TOOLS
 ];
-export const FEATURED_LAB=['ai-chat','portrait-cutout','audio-transcription'];
+export const FEATURED_LAB=['photo-editor','logo-designer','prompt-generator','ai-chat','portrait-cutout','audio-transcription'];
 export function findTools({query='',category='All tools',access='all',savedOnly=false,saved=new Set()}={}){
  const terms=query.toLowerCase().trim().split(/\s+/).filter(Boolean);
  return LAB_TOOLS.filter(t=>(category==='All tools'||t.category===category)&&(access==='all'||(access==='local-free'?!t.provider:t.access===access))&&(!savedOnly||saved.has(t.id))&&terms.every(w=>[t.name,t.description,...t.tags].join(' ').toLowerCase().includes(w)));
@@ -72,6 +75,7 @@ export function modelInfo(tool){
  if(tool.provider){const provider=providerFor(tool);return {label:provider.name,size:'No model download',allowance:provider.allowance,license:'Provider terms'}}
  if(tool.model==='translation'){const m=translationFor(tool);return {...m,id:m.model,label:'Opus MT',size:'110 MB per language pair'}}
  if(tool.after==='summary')return {...MODELS[tool.model],label:MODELS[tool.model].label+' + DistilBART',size:tool.model==='ocr'?'300 MB+':'327 MB'};
+ if(!tool.model||tool.model==='canvas'||tool.model==='client'||!MODELS[tool.model])return {label:'In-browser engine',size:'Instant · 0 MB',license:'Client-side / Free'};
  return MODELS[tool.model];
 }
 export function taskMessages(tool,text,tone='Natural',history=[]){
