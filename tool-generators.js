@@ -1,11 +1,14 @@
 // Client-side instant engines for Free AI Harbor tools: Photo Editor, Logo Designer, and Prompt Generator.
 // 100% free, runs entirely on-device with zero API keys or external server dependencies.
 
-export function applyPhotoEnhancement(sourceCanvas, {
-  preset = 'Auto Enhance',
-  lighting = 'Balanced Normal',
-  effect = 'None',
-  intensity = '100% Full Effect'
+// ----------------------------------------------------
+// AI PHOTO STUDIO ENGINE (Natural Language Client Instruction Parser & Darkroom Filters)
+// ----------------------------------------------------
+
+export function processClientPhoto(sourceCanvas, {
+  instruction = '',
+  preset = '',
+  adjustments = {}
 } = {}) {
   const width = sourceCanvas.width;
   const height = sourceCanvas.height;
@@ -15,168 +18,251 @@ export function applyPhotoEnhancement(sourceCanvas, {
   const ctx = canvas.getContext('2d');
   ctx.drawImage(sourceCanvas, 0, 0);
 
+  const rawText = `${instruction} ${preset}`.toLowerCase();
+  const appliedNotes = [];
+
+  // Parse instruction for color temperature & lighting
+  let warmth = 0;       // -50 (cool) to +50 (warm)
+  let contrast = 0;     // -50 to +50
+  let saturation = 0;   // -100 to +100
+  let brightness = 0;   // -50 to +50
+  let isBW = false;
+  let isCinematic = false;
+  let isCyberpunk = false;
+  let isVintage = false;
+  let isSoftPortrait = false;
+  let isSharp = false;
+  let isVignette = false;
+  let isGoldenHour = false;
+  let isNordic = false;
+  let isShadowLift = false;
+  let summary = 'AI Photo Enhancement';
+
+  // Keyword Matching in Client Instructions
+  if (rawText.includes('golden') || rawText.includes('sunset') || rawText.includes('warm') || rawText.includes('amber') || rawText.includes('sun')) {
+    warmth += 35;
+    contrast += 16;
+    saturation += 15;
+    isGoldenHour = true;
+    appliedNotes.push('Golden Hour Sunset Warmth (+35K warmth)');
+    summary = 'Golden Hour Sunset Warmth';
+  }
+  if (rawText.includes('cinematic') || rawText.includes('teal') || rawText.includes('orange') || rawText.includes('hollywood') || rawText.includes('movie')) {
+    isCinematic = true;
+    contrast += 22;
+    appliedNotes.push('Cinematic Teal & Orange Split Toning');
+    summary = 'Cinematic Teal & Orange';
+  }
+  if (rawText.includes('b&w') || rawText.includes('black and white') || rawText.includes('monochrome') || rawText.includes('grayscale') || rawText.includes('noir')) {
+    isBW = true;
+    contrast += 25;
+    appliedNotes.push('Dramatic Noir Monochrome (High Contrast B&W)');
+    summary = 'Dramatic Noir B&W';
+  }
+  if (rawText.includes('cyberpunk') || rawText.includes('neon') || rawText.includes('synthwave') || rawText.includes('violet') || rawText.includes('magenta')) {
+    isCyberpunk = true;
+    contrast += 28;
+    saturation += 30;
+    appliedNotes.push('Cyberpunk Neon Electric Lighting (Violet & Cyan)');
+    summary = 'Cyberpunk Neon';
+  }
+  if (rawText.includes('vintage') || rawText.includes('film') || rawText.includes('retro') || rawText.includes('35mm') || rawText.includes('sepia') || rawText.includes('analog') || rawText.includes('kodak')) {
+    isVintage = true;
+    warmth += 20;
+    appliedNotes.push('Vintage 35mm Analog Film Grain & Matte Shadows');
+    summary = 'Vintage 35mm Film';
+  }
+  if (rawText.includes('portrait') || rawText.includes('soft') || rawText.includes('glow') || rawText.includes('skin') || rawText.includes('dreamy') || rawText.includes('pastel')) {
+    isSoftPortrait = true;
+    warmth += 10;
+    appliedNotes.push('Soft Portrait Glow & Skin Tone Flattery');
+    summary = 'Soft Portrait Glow';
+  }
+  if (rawText.includes('vibrant') || rawText.includes('pop') || rawText.includes('vivid') || rawText.includes('saturat') || rawText.includes('color')) {
+    saturation += 40;
+    contrast += 14;
+    appliedNotes.push('Vibrant Color Pop (+40% saturation boost)');
+    if (summary === 'AI Photo Enhancement') summary = 'Vibrant Color Pop';
+  }
+  if (rawText.includes('bright') || rawText.includes('lift') || rawText.includes('shadow') || rawText.includes('lighten') || rawText.includes('exposure')) {
+    brightness += 22;
+    isShadowLift = true;
+    appliedNotes.push('Shadow Recovery & Exposure Boost (+22%)');
+    if (summary === 'AI Photo Enhancement') summary = 'Brighten & Lift Shadows';
+  }
+  if (rawText.includes('dark') || rawText.includes('moody') || rawText.includes('dim') || rawText.includes('night') || rawText.includes('dusk')) {
+    brightness -= 18;
+    contrast += 20;
+    appliedNotes.push('Moody Low-Key Lighting & Deep Contrast');
+    if (summary === 'AI Photo Enhancement') summary = 'Moody Low-Key';
+  }
+  if (rawText.includes('sharp') || rawText.includes('detail') || rawText.includes('crisp') || rawText.includes('clarity') || rawText.includes('focus')) {
+    isSharp = true;
+    appliedNotes.push('Crystal Sharpness & Edge Clarity');
+    if (summary === 'AI Photo Enhancement') summary = 'Crystal Sharp & Clarity';
+  }
+  if (rawText.includes('nordic') || rawText.includes('cool') || rawText.includes('blue') || rawText.includes('frost') || rawText.includes('winter') || rawText.includes('cold')) {
+    isNordic = true;
+    warmth -= 28;
+    appliedNotes.push('Cool Nordic Atmosphere (Cool Cyan/Blue Cast)');
+    summary = 'Cool Nordic Atmosphere';
+  }
+  if (rawText.includes('vignette') || rawText.includes('focus center')) {
+    isVignette = true;
+    appliedNotes.push('Subtle Cinematic Radial Vignette');
+  }
+
+  // Combine manual sliders if passed
+  if (adjustments.brightness) brightness += Number(adjustments.brightness);
+  if (adjustments.contrast) contrast += Number(adjustments.contrast);
+  if (adjustments.saturation) saturation += Number(adjustments.saturation);
+  if (adjustments.temperature) warmth += Number(adjustments.temperature);
+  if (adjustments.vignette && Number(adjustments.vignette) > 0) isVignette = true;
+  if (adjustments.sharpness && Number(adjustments.sharpness) > 0) isSharp = true;
+
+  // Default fallback if no instruction given
+  if (appliedNotes.length === 0) {
+    contrast += 16;
+    saturation += 15;
+    brightness += 8;
+    isSharp = true;
+    appliedNotes.push('Auto Dynamic Range Optimization', 'Enhanced Vibrance & Contrast', 'Edge Sharpening');
+    summary = 'Natural Auto Enhancement';
+  }
+
+  // 1. Pixel Level Color & Tone Grading
   const imgData = ctx.getImageData(0, 0, width, height);
   const data = imgData.data;
   const len = data.length;
 
-  const mult = intensity.includes('50%') ? 0.5 : intensity.includes('75%') ? 0.75 : intensity.includes('125%') ? 1.25 : 1.0;
-
-  // 1. Calculate luminance stats for auto-levels
-  let minLum = 255, maxLum = 0, sumLum = 0;
-  for (let i = 0; i < len; i += 16) {
-    const lum = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-    if (lum < minLum) minLum = lum;
-    if (lum > maxLum) maxLum = lum;
-    sumLum += lum;
-  }
-  const avgLum = sumLum / (len / 16);
-  const lumRange = Math.max(30, maxLum - minLum);
+  const contrastFactor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+  const satFactor = (100 + saturation) / 100;
 
   for (let i = 0; i < len; i += 4) {
     let r = data[i];
     let g = data[i + 1];
     let b = data[i + 2];
 
-    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+    // Standard perceptual luminance
+    const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-    // Apply Presets
-    if (preset === 'Auto Enhance') {
-      // Dynamic range expansion + S-curve contrast + vibrance
-      let norm = (lum - minLum) / lumRange;
-      norm = Math.max(0, Math.min(1, norm));
-      const sCurve = norm < 0.5 ? 2 * norm * norm : 1 - Math.pow(-2 * norm + 2, 2) / 2;
-      const boost = (sCurve - (lum / 255)) * 45 * mult;
-
-      r += boost;
-      g += boost;
-      b += boost;
-
-      // Vibrance boost
-      const maxC = Math.max(r, g, b);
-      const sat = maxC === 0 ? 0 : (maxC - Math.min(r, g, b)) / maxC;
-      const vib = (1 - sat) * 22 * mult;
-      r += (r - lum) * (0.2 + vib / 100);
-      g += (g - lum) * (0.2 + vib / 100);
-      b += (b - lum) * (0.2 + vib / 100);
-    } else if (preset === 'Cinematic Teal & Orange') {
-      // Hollywood blockbuster color grading
-      const shadowWeight = Math.max(0, 1 - lum / 160);
-      const highlightWeight = Math.max(0, (lum - 90) / 165);
-
-      // Shadows -> Teal (boost cyan/blue, reduce red)
-      r -= 18 * shadowWeight * mult;
-      g += 8 * shadowWeight * mult;
-      b += 22 * shadowWeight * mult;
-
-      // Highlights -> Amber/Orange (boost red, reduce blue)
-      r += 26 * highlightWeight * mult;
-      g += 10 * highlightWeight * mult;
-      b -= 20 * highlightWeight * mult;
-
-      // Contrast punch
-      const s = (lum - 128) * 0.25 * mult;
-      r += s; g += s; b += s;
-    } else if (preset === 'Vibrant Colors') {
-      // Rich saturation & vivid punch
-      const satBoost = 0.45 * mult;
-      r = lum + (r - lum) * (1 + satBoost);
-      g = lum + (g - lum) * (1 + satBoost);
-      b = lum + (b - lum) * (1 + satBoost);
-      // Slight contrast
-      const c = (lum - 128) * 0.15 * mult;
-      r += c; g += c; b += c;
-    } else if (preset === 'Cyberpunk Neon') {
-      // Electric Violet & Fluorescent Cyan
-      if (lum < 110) {
-        // Deep shadows towards electric violet
-        r += 18 * mult;
-        b += 30 * mult;
+    // Apply brightness
+    if (brightness !== 0) {
+      if (isShadowLift && lum < 140) {
+        // Targeted shadow lift without blowing highlights
+        const shadowWeight = (140 - lum) / 140;
+        r += brightness * 1.5 * shadowWeight;
+        g += brightness * 1.5 * shadowWeight;
+        b += brightness * 1.5 * shadowWeight;
       } else {
-        // Mids & Highlights towards neon cyan/pink
-        g += 15 * mult;
-        b += 24 * mult;
+        r += brightness * 1.2;
+        g += brightness * 1.2;
+        b += brightness * 1.2;
       }
-      // High contrast
-      const s = (lum - 128) * 0.35 * mult;
-      r += s; g += s; b += s;
-    } else if (preset === 'Vintage Film Warmth') {
-      // Warm sepia tone + matte shadows
-      r += 22 * mult;
-      g += 8 * mult;
-      b -= 18 * mult;
-      // Lift black floor (matte look)
-      if (r < 25) r = 25 * mult + r * (1 - mult);
-      if (g < 25) g = 25 * mult + g * (1 - mult);
-      if (b < 25) b = 25 * mult + b * (1 - mult);
-    } else if (preset === 'Crisp Monochrome B&W') {
-      // High contrast fine art monochrome
-      const bw = lum;
-      const s = (bw - 128) * 0.42 * mult;
-      const finalBw = Math.max(0, Math.min(255, bw + s));
-      r = finalBw;
-      g = finalBw;
-      b = finalBw;
-    } else if (preset === 'Soft Portrait Glow') {
-      // Flattering warm skin tones with soft highlight roll-off
-      r += 10 * mult;
-      g += 4 * mult;
-      b -= 2 * mult;
+    }
+
+    // Apply Contrast
+    if (contrast !== 0) {
+      r = contrastFactor * (r - 128) + 128;
+      g = contrastFactor * (g - 128) + 128;
+      b = contrastFactor * (b - 128) + 128;
+    }
+
+    // Apply B&W
+    if (isBW) {
+      let bw = lum;
+      // High contrast S-curve for deep blacks
+      bw = contrastFactor * (bw - 128) + 128;
+      r = bw; g = bw; b = bw;
+    }
+
+    // Apply Cinematic Teal & Orange
+    if (isCinematic && !isBW) {
+      const shadowWeight = Math.max(0, 1 - lum / 150);
+      const highlightWeight = Math.max(0, (lum - 100) / 155);
+
+      // Deep shadows -> Teal
+      r -= 20 * shadowWeight;
+      g += 8 * shadowWeight;
+      b += 24 * shadowWeight;
+
+      // Highlights -> Amber / Warm Bronze
+      r += 28 * highlightWeight;
+      g += 12 * highlightWeight;
+      b -= 18 * highlightWeight;
+    }
+
+    // Apply Cyberpunk Neon
+    if (isCyberpunk && !isBW) {
+      if (lum < 115) {
+        // Shadows to intense neon purple/violet
+        r += 24;
+        b += 38;
+      } else {
+        // Mids & Highlights to fluorescent cyan
+        g += 18;
+        b += 30;
+      }
+    }
+
+    // Apply Vintage Film
+    if (isVintage && !isBW) {
+      r += 18;
+      g += 6;
+      b -= 16;
+      // Matte shadows: raise black floor
+      if (r < 28) r = 28 + r * 0.2;
+      if (g < 28) g = 28 + g * 0.2;
+      if (b < 28) b = 28 + b * 0.2;
+    }
+
+    // Apply Nordic Cool
+    if (isNordic && !isBW) {
+      b += 20;
+      g += 6;
+      r -= 14;
+    }
+
+    // Apply Warmth / Temperature
+    if (warmth !== 0 && !isBW) {
+      if (warmth > 0) {
+        r += warmth * 0.75;
+        g += warmth * 0.3;
+        b -= warmth * 0.45;
+      } else {
+        const cool = Math.abs(warmth);
+        b += cool * 0.7;
+        g += cool * 0.2;
+        r -= cool * 0.5;
+      }
+    }
+
+    // Apply Saturation / Vibrance
+    if (saturation !== 0 && !isBW) {
+      const currentLum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      r = currentLum + (r - currentLum) * satFactor;
+      g = currentLum + (g - currentLum) * satFactor;
+      b = currentLum + (b - currentLum) * satFactor;
+    }
+
+    // Soft Portrait glow highlight compression
+    if (isSoftPortrait && !isBW) {
       if (lum > 170) {
-        // Soft highlight compression
-        const soft = (lum - 170) * 0.2 * mult;
-        r -= soft; g -= soft; b -= soft;
+        const rollOff = (lum - 170) * 0.25;
+        r -= rollOff;
+        g -= rollOff;
+        b -= rollOff;
       }
-    } else if (preset === 'Dramatic High Contrast') {
-      // Aggressive contrast
-      const diff = lum - 128;
-      const factor = (diff * Math.abs(diff)) / 128 * 0.45 * mult;
-      r += factor;
-      g += factor;
-      b += factor;
-    } else if (preset === 'Clean Studio Light') {
-      // Neutral daylight balance, shadow fill
-      if (lum < 140) {
-        const shadowLift = (140 - lum) * 0.3 * mult;
-        r += shadowLift;
-        g += shadowLift;
-        b += shadowLift;
-      }
-      r += 4 * mult;
-      g += 4 * mult;
-      b += 4 * mult;
+      r += 8;
+      g += 4;
     }
 
-    // Apply Lighting Adjustments
-    if (lighting === 'Brighten Shadows' && lum < 130) {
-      const lift = (130 - lum) * 0.4 * mult;
-      r += lift; g += lift; b += lift;
-    } else if (lighting === 'Boost Exposure (+20%)') {
-      r *= 1 + 0.2 * mult;
-      g *= 1 + 0.2 * mult;
-      b *= 1 + 0.2 * mult;
-    } else if (lighting === 'Dim Highlights (-20%)' && lum > 160) {
-      const dim = (lum - 160) * 0.35 * mult;
-      r -= dim; g -= dim; b -= dim;
-    } else if (lighting === 'HDR Clarity') {
-      // Shadow boost + highlight tone mapping
-      if (lum < 120) {
-        const boost = (120 - lum) * 0.3 * mult;
-        r += boost; g += boost; b += boost;
-      } else if (lum > 180) {
-        const comp = (lum - 180) * 0.25 * mult;
-        r -= comp; g -= comp; b -= comp;
-      }
-      const mid = 1 - Math.abs(lum - 128) / 128;
-      r += (r - lum) * 0.25 * mid * mult;
-      g += (g - lum) * 0.25 * mid * mult;
-      b += (b - lum) * 0.25 * mid * mult;
-    }
-
-    // Cool Nordic Tint
-    if (effect === 'Cool Nordic Tint') {
-      b += 14 * mult;
-      g += 4 * mult;
-      r -= 8 * mult;
+    // Analog film noise simulation
+    if (isVintage) {
+      const noise = (Math.random() - 0.5) * 12;
+      r += noise;
+      g += noise;
+      b += noise;
     }
 
     data[i] = Math.max(0, Math.min(255, r));
@@ -186,59 +272,91 @@ export function applyPhotoEnhancement(sourceCanvas, {
 
   ctx.putImageData(imgData, 0, 0);
 
-  // Apply Vignette Effect
-  if (effect === 'Vignette Border') {
+  // 2. Convolution Sharpening Filter (Real 3x3 unsharp masking kernel)
+  if (isSharp) {
+    const sharpCanvas = document.createElement('canvas');
+    sharpCanvas.width = width;
+    sharpCanvas.height = height;
+    const sCtx = sharpCanvas.getContext('2d');
+    const srcData = ctx.getImageData(0, 0, width, height);
+    const dstData = sCtx.createImageData(width, height);
+    const s = srcData.data;
+    const d = dstData.data;
+
+    // Kernel:
+    // [  0, -0.6,  0 ]
+    // [ -0.6, 3.4, -0.6 ]
+    // [  0, -0.6,  0 ]
+    const w = width, h = height;
+    for (let y = 1; y < h - 1; y++) {
+      for (let x = 1; x < w - 1; x++) {
+        const idx = (y * w + x) * 4;
+        const up = ((y - 1) * w + x) * 4;
+        const down = ((y + 1) * w + x) * 4;
+        const left = (y * w + (x - 1)) * 4;
+        const right = (y * w + (x + 1)) * 4;
+
+        for (let c = 0; c < 3; c++) {
+          const val = 3.4 * s[idx + c] - 0.6 * (s[up + c] + s[down + c] + s[left + c] + s[right + c]);
+          d[idx + c] = Math.max(0, Math.min(255, val));
+        }
+        d[idx + 3] = s[idx + 3]; // Preserve alpha
+      }
+    }
+    sCtx.putImageData(dstData, 0, 0);
+    ctx.drawImage(sharpCanvas, 0, 0);
+  }
+
+  // 3. Volumetric Warm Sunburst / Radial Lighting Overlay
+  if (isGoldenHour) {
+    const sunGrad = ctx.createRadialGradient(
+      width * 0.9, height * 0.1, 10,
+      width * 0.45, height * 0.45, Math.hypot(width, height) * 0.9
+    );
+    sunGrad.addColorStop(0, 'rgba(255, 195, 60, 0.32)');
+    sunGrad.addColorStop(0.35, 'rgba(255, 145, 30, 0.16)');
+    sunGrad.addColorStop(0.7, 'rgba(255, 100, 20, 0.05)');
+    sunGrad.addColorStop(1, 'rgba(255, 90, 0, 0)');
+    ctx.fillStyle = sunGrad;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  // 4. Subtle Radial Vignette
+  if (isVignette || isVintage || isCinematic) {
     const rx = width / 2;
     const ry = height / 2;
     const maxR = Math.hypot(rx, ry);
-    const grad = ctx.createRadialGradient(rx, ry, maxR * 0.4, rx, ry, maxR);
-    grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(0.7, 'rgba(0,0,0,0.15)');
-    grad.addColorStop(1, `rgba(0,0,0,${0.55 * mult})`);
-    ctx.fillStyle = grad;
+    const vignetteGrad = ctx.createRadialGradient(rx, ry, maxR * 0.42, rx, ry, maxR * 0.98);
+    vignetteGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+    vignetteGrad.addColorStop(0.75, 'rgba(0, 0, 0, 0.18)');
+    vignetteGrad.addColorStop(1, 'rgba(0, 0, 0, 0.55)');
+    ctx.fillStyle = vignetteGrad;
     ctx.fillRect(0, 0, width, height);
-  } else if (effect === 'Golden Hour Glow') {
-    // Warm sunburst gradient from top-right
-    const grad = ctx.createRadialGradient(width * 0.9, height * 0.1, 10, width * 0.5, height * 0.5, Math.hypot(width, height) * 0.85);
-    grad.addColorStop(0, `rgba(255,190,70,${0.35 * mult})`);
-    grad.addColorStop(0.4, `rgba(255,140,40,${0.18 * mult})`);
-    grad.addColorStop(1, 'rgba(255,100,0,0)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, width, height);
-  } else if (effect === 'Soft Background Blur') {
-    // Subtle tilt-shift radial focus
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = width;
-    tempCanvas.height = height;
-    const tempCtx = tempCanvas.getContext('2d');
-    tempCtx.filter = `blur(${Math.max(4, Math.round(width / 180))}px)`;
-    tempCtx.drawImage(canvas, 0, 0);
-
-    // Mask center out of blurred image
-    const maskCanvas = document.createElement('canvas');
-    maskCanvas.width = width;
-    maskCanvas.height = height;
-    const mCtx = maskCanvas.getContext('2d');
-    const rx = width / 2, ry = height / 2;
-    const maxR = Math.hypot(rx, ry);
-    const rad = mCtx.createRadialGradient(rx, ry, maxR * 0.25, rx, ry, maxR * 0.7);
-    rad.addColorStop(0, 'rgba(0,0,0,0)');
-    rad.addColorStop(1, 'rgba(0,0,0,1)');
-    mCtx.fillStyle = rad;
-    mCtx.fillRect(0, 0, width, height);
-
-    tempCtx.globalCompositeOperation = 'destination-in';
-    tempCtx.drawImage(maskCanvas, 0, 0);
-
-    ctx.drawImage(tempCanvas, 0, 0);
   }
 
-  return canvas;
+  return {
+    canvas,
+    appliedNotes,
+    summary
+  };
+}
+
+// Backward-compatible alias
+export function applyPhotoEnhancement(sourceCanvas, options = {}) {
+  const result = processClientPhoto(sourceCanvas, {
+    preset: options.preset || 'Auto Enhance',
+    instruction: `${options.lighting || ''} ${options.effect || ''}`,
+    adjustments: {
+      intensity: options.intensity
+    }
+  });
+  return result.canvas;
 }
 
 // ----------------------------------------------------
-// AI LOGO DESIGNER ENGINE
+// AI LOGO DESIGNER ENGINE (Crisp, High-Resolution Vector Studio)
 // ----------------------------------------------------
+
 export function generateLogos({
   brand = 'Apex',
   tagline = '',
@@ -251,217 +369,398 @@ export function generateLogos({
   const safeTagline = (tagline || '').trim().toUpperCase();
   const initials = safeBrand.split(/\s+/).map(w => w[0]).join('').slice(0, 2) || safeBrand.slice(0, 2);
 
-  // Palette definitions
+  // Curated premium design agency palettes
   const palettes = {
-    'Emerald & Electric Mint': { primary: '#10b981', secondary: '#059669', accent: '#34d399', dark: '#022c22', light: '#ecfdf5', glow: '#6ee7b7' },
-    'Cyber Neon Cyan & Violet': { primary: '#06b6d4', secondary: '#3b82f6', accent: '#8b5cf6', dark: '#0f172a', light: '#f0f9ff', glow: '#38bdf8' },
-    'Royal Blue & Champagne Gold': { primary: '#1d4ed8', secondary: '#2563eb', accent: '#f59e0b', dark: '#0f172a', light: '#f8fafc', glow: '#fbbf24' },
-    'Warm Sunset Amber & Coral': { primary: '#f97316', secondary: '#ea580c', accent: '#ec4899', dark: '#2e1065', light: '#fff7ed', glow: '#fdba74' },
-    'Charcoal, Platinum & Slate': { primary: '#334155', secondary: '#1e293b', accent: '#0284c7', dark: '#0b0f19', light: '#f1f5f9', glow: '#94a3b8' },
-    'Nordic Forest Sage & Cream': { primary: '#2d6a4f', secondary: '#1b4332', accent: '#74c69d', dark: '#081c15', light: '#f4fbf7', glow: '#b7e4c7' }
+    'Emerald & Electric Mint': {
+      primary: '#10b981', secondary: '#059669', accent: '#34d399', dark: '#041d17', light: '#ffffff', glow: '#6ee7b7'
+    },
+    'Cyber Neon Cyan & Violet': {
+      primary: '#06b6d4', secondary: '#3b82f6', accent: '#8b5cf6', dark: '#090d19', light: '#ffffff', glow: '#38bdf8'
+    },
+    'Royal Blue & Champagne Gold': {
+      primary: '#1d4ed8', secondary: '#2563eb', accent: '#f59e0b', dark: '#0a1024', light: '#ffffff', glow: '#fbbf24'
+    },
+    'Warm Sunset Amber & Coral': {
+      primary: '#f97316', secondary: '#ea580c', accent: '#ec4899', dark: '#1b0d24', light: '#ffffff', glow: '#fdba74'
+    },
+    'Charcoal, Platinum & Slate': {
+      primary: '#475569', secondary: '#1e293b', accent: '#0ea5e9', dark: '#070b12', light: '#ffffff', glow: '#94a3b8'
+    },
+    'Nordic Forest Sage & Cream': {
+      primary: '#2d6a4f', secondary: '#1b4332', accent: '#52b788', dark: '#071810', light: '#ffffff', glow: '#95d5b2'
+    }
   };
+
   const c = palettes[palette] || palettes['Emerald & Electric Mint'];
 
   // Industry graphic motifs
-  const isTech = industry.includes('Tech') || industry.includes('AI');
-  const isCoffee = industry.includes('Coffee') || industry.includes('Food');
-  const isFitness = industry.includes('Fitness') || industry.includes('Sports');
-  const isCreative = industry.includes('Design') || industry.includes('Creative');
-  const isEco = industry.includes('Eco') || industry.includes('Nature');
-  const isLuxury = industry.includes('Fashion') || industry.includes('Luxury');
-  const isRealEstate = industry.includes('Real Estate') || industry.includes('Architecture');
-  const isGaming = industry.includes('Gaming') || industry.includes('Entertainment');
+  const isTech = industry.includes('Tech') || industry.includes('AI') || industry.includes('Cyber');
+  const isCoffee = industry.includes('Coffee') || industry.includes('Food') || industry.includes('Cafe');
+  const isFitness = industry.includes('Fitness') || industry.includes('Sports') || industry.includes('Athletics');
+  const isCreative = industry.includes('Design') || industry.includes('Creative') || industry.includes('Studio');
+  const isEco = industry.includes('Eco') || industry.includes('Nature') || industry.includes('Green');
+  const isLuxury = industry.includes('Fashion') || industry.includes('Luxury') || industry.includes('Jewelry');
+  const isRealEstate = industry.includes('Real Estate') || industry.includes('Architecture') || industry.includes('Build');
+  const isGaming = industry.includes('Gaming') || industry.includes('Esports') || industry.includes('Entertainment');
 
-  // SVG Concept 1: Modern Geometric Symbol + Wordmark
-  function buildConcept1(isDark = true) {
-    const bg = isDark ? c.dark : c.light;
-    const textCol = isDark ? '#ffffff' : '#0f172a';
-    const tagCol = isDark ? c.glow : c.secondary;
-
-    let iconPath = '';
+  // ==========================================
+  // CONCEPT 1: Modern Geometric Tech Mark
+  // ==========================================
+  function getEmblemPath1() {
     if (isTech) {
-      iconPath = `
-        <polygon points="120,45 155,65 155,105 120,125 85,105 85,65" fill="none" stroke="url(#c1_grad)" stroke-width="6"/>
-        <circle cx="120" cy="85" r="14" fill="url(#c1_grad)"/>
-        <line x1="120" y1="45" x2="120" y2="71" stroke="${c.accent}" stroke-width="3"/>
-        <line x1="85" y1="105" x2="108" y2="92" stroke="${c.accent}" stroke-width="3"/>
-        <line x1="155" y1="105" x2="132" y2="92" stroke="${c.accent}" stroke-width="3"/>
-      `;
-    } else if (isCoffee) {
-      iconPath = `
-        <path d="M100 65 h34 a18 18 0 0 1 18 18 v10 a18 18 0 0 1 -18 18 h-34 a6 6 0 0 1 -6 -6 v-34 a6 6 0 0 1 6 -6 z" fill="none" stroke="url(#c1_grad)" stroke-width="5"/>
-        <path d="M134 75 h8 a9 9 0 0 1 9 9 v6 a9 9 0 0 1 -9 9 h-8" fill="none" stroke="${c.accent}" stroke-width="4"/>
-        <path d="M108 52 q5 -10 0 -18" stroke="${c.accent}" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <path d="M120 50 q5 -12 0 -20" stroke="${c.primary}" stroke-width="3" stroke-linecap="round" fill="none"/>
-      `;
-    } else if (isFitness) {
-      iconPath = `
-        <polygon points="125,40 100,85 118,85 110,125 140,78 122,78" fill="url(#c1_grad)"/>
-        <circle cx="120" cy="85" r="42" fill="none" stroke="${c.accent}" stroke-width="4" stroke-dasharray="14 8"/>
-      `;
-    } else if (isEco) {
-      iconPath = `
-        <path d="M120 120 c0 -35 22 -60 38 -65 c0 28 -14 55 -38 65 z" fill="url(#c1_grad)"/>
-        <path d="M120 120 c0 -30 -18 -50 -32 -55 c0 24 12 45 32 55 z" fill="${c.accent}" opacity="0.85"/>
-        <line x1="120" y1="120" x2="120" y2="60" stroke="${isDark ? '#fff' : c.dark}" stroke-width="2.5"/>
-      `;
-    } else if (isLuxury) {
-      iconPath = `
-        <polygon points="120,45 152,80 120,122 88,80" fill="none" stroke="url(#c1_grad)" stroke-width="5"/>
-        <polygon points="120,58 142,80 120,108 98,80" fill="${c.accent}" opacity="0.3"/>
-        <circle cx="120" cy="80" r="4" fill="${textCol}"/>
-      `;
-    } else {
-      // Modern Geometric Diamond Prism
-      iconPath = `
-        <polygon points="120,42 155,70 120,125 85,70" fill="none" stroke="url(#c1_grad)" stroke-width="5.5"/>
-        <line x1="85" y1="70" x2="155" y2="70" stroke="${c.accent}" stroke-width="3"/>
-        <line x1="120" y1="42" x2="120" y2="125" stroke="${c.accent}" stroke-width="2" stroke-dasharray="4 4"/>
+      return `
+        <!-- Isometric High-Tech Hexagon Cube -->
+        <polygon points="0,-75 65,-38 65,38 0,75 -65,38 -65,-38" fill="none" stroke="url(#c1_grad)" stroke-width="8" stroke-linejoin="round"/>
+        <line x1="0" y1="0" x2="0" y2="75" stroke="url(#c1_grad)" stroke-width="8"/>
+        <line x1="0" y1="0" x2="65" y2="-38" stroke="url(#c1_grad)" stroke-width="8"/>
+        <line x1="0" y1="0" x2="-65" y2="-38" stroke="url(#c1_grad)" stroke-width="8"/>
+        <circle cx="0" cy="0" r="16" fill="${c.accent}"/>
+        <circle cx="0" cy="-75" r="7" fill="${c.glow}"/>
+        <circle cx="65" cy="38" r="7" fill="${c.glow}"/>
+        <circle cx="-65" cy="38" r="7" fill="${c.glow}"/>
       `;
     }
-
+    if (isCoffee) {
+      return `
+        <!-- Minimalist Coffee Cup & Aroma Steam -->
+        <path d="M-40,-15 h80 a35,35 0 0 1 35,35 v10 a35,35 0 0 1 -35,35 h-80 a10,10 0 0 1 -10,-10 v-60 a10,10 0 0 1 10,-10 z" fill="none" stroke="url(#c1_grad)" stroke-width="9"/>
+        <path d="M40,5 h22 a20,20 0 0 1 20,20 v5 a20,20 0 0 1 -20,20 h-22" fill="none" stroke="${c.accent}" stroke-width="8"/>
+        <path d="M-20,-35 q15,-20 0,-40" stroke="${c.glow}" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <path d="M10,-30 q15,-25 0,-48" stroke="${c.accent}" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <line x1="-55" y1="75" x2="55" y2="75" stroke="${c.accent}" stroke-width="7" stroke-linecap="round"/>
+      `;
+    }
+    if (isFitness) {
+      return `
+        <!-- Kinetic Power Lightning Prism -->
+        <polygon points="10,-80 -45,5 -5,5 -20,80 48,-5 8,-5" fill="url(#c1_grad)"/>
+        <circle cx="0" cy="0" r="72" fill="none" stroke="${c.accent}" stroke-width="6" stroke-dasharray="28 14"/>
+        <circle cx="0" cy="0" r="82" fill="none" stroke="${c.glow}" stroke-width="2.5" opacity="0.6"/>
+      `;
+    }
+    if (isEco) {
+      return `
+        <!-- Sacred Geometry Leaf Crest -->
+        <path d="M0,75 C0,10 45,-40 70,-55 C70,-5 40,45 0,75 Z" fill="url(#c1_grad)"/>
+        <path d="M0,75 C0,15 -38,-35 -58,-50 C-58,-5 -30,45 0,75 Z" fill="${c.accent}" opacity="0.85"/>
+        <line x1="0" y1="75" x2="0" y2="-40" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+      `;
+    }
+    if (isLuxury) {
+      return `
+        <!-- Precision Faceted Brilliant Diamond -->
+        <polygon points="0,-75 68,-10 0,75 -68,-10" fill="none" stroke="url(#c1_grad)" stroke-width="8"/>
+        <polygon points="0,-48 44,-10 0,48 -44,-10" fill="${c.accent}" opacity="0.25"/>
+        <line x1="-68" y1="-10" x2="68" y2="-10" stroke="${c.accent}" stroke-width="5"/>
+        <circle cx="0" cy="-10" r="10" fill="${c.glow}"/>
+      `;
+    }
+    if (isRealEstate) {
+      return `
+        <!-- Modern Architecture Spire & Horizon -->
+        <polygon points="-55,65 -55,0 0,-70 55,0 55,65 15,65 15,-10 -15,-10 -15,65" fill="none" stroke="url(#c1_grad)" stroke-width="8" stroke-linejoin="round"/>
+        <polygon points="-30,65 -30,25 0,-10 30,25 30,65" fill="${c.accent}" opacity="0.3"/>
+        <circle cx="0" cy="-35" r="9" fill="${c.glow}"/>
+      `;
+    }
+    // Universal Geometric Nexus Diamond
     return `
-<svg viewBox="0 0 500 170" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <polygon points="0,-75 70,0 0,75 -70,0" fill="none" stroke="url(#c1_grad)" stroke-width="9" stroke-linejoin="round"/>
+      <circle cx="0" cy="0" r="32" fill="none" stroke="${c.accent}" stroke-width="6"/>
+      <line x1="-70" y1="0" x2="70" y2="0" stroke="${c.glow}" stroke-width="4"/>
+      <line x1="0" y1="-75" x2="0" y2="75" stroke="${c.glow}" stroke-width="4"/>
+      <circle cx="0" cy="0" r="12" fill="url(#c1_grad)"/>
+    `;
+  }
+
+  function buildConcept1(surface = 'dark', layout = 'stacked') {
+    const isDark = surface === 'dark';
+    const isTrans = surface === 'transparent';
+    const bg = isTrans ? 'none' : isDark ? c.dark : c.light;
+    const textCol = isDark || isTrans ? '#ffffff' : '#0f172a';
+    const tagCol = isDark || isTrans ? c.glow : c.secondary;
+    const emblem = getEmblemPath1();
+
+    if (layout === 'horizontal') {
+      return `
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
   <defs>
     <linearGradient id="c1_grad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="${c.primary}"/>
       <stop offset="100%" stop-color="${c.accent}"/>
     </linearGradient>
   </defs>
-  <rect width="500" height="170" rx="16" fill="${bg}"/>
-  <g transform="translate(10, 0)">
-    ${iconPath}
-    <text x="180" y="93" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif" font-size="34" font-weight="800" letter-spacing="1.5" fill="${textCol}">${escapeXml(safeBrand)}</text>
-    ${safeTagline ? `<text x="182" y="122" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="12" font-weight="600" letter-spacing="4" fill="${tagCol}">${escapeXml(safeTagline)}</text>` : ''}
+  ${!isTrans ? `<rect width="900" height="300" rx="20" fill="${bg}"/>` : ''}
+  <g transform="translate(160, 150) scale(1.15)">
+    ${emblem}
+  </g>
+  <g transform="translate(320, 145)">
+    <text x="0" y="20" font-family="-apple-system,BlinkMacSystemFont,'Montserrat','Inter','Segoe UI',sans-serif" font-size="58" font-weight="900" letter-spacing="3" fill="${textCol}">${escapeXml(safeBrand)}</text>
+    ${safeTagline ? `<text x="4" y="65" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="18" font-weight="700" letter-spacing="6" fill="${tagCol}">${escapeXml(safeTagline)}</text>` : ''}
+  </g>
+</svg>`;
+    }
+
+    // Stacked (Centered)
+    return `
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <defs>
+    <linearGradient id="c1_grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${c.primary}"/>
+      <stop offset="100%" stop-color="${c.accent}"/>
+    </linearGradient>
+  </defs>
+  ${!isTrans ? `<rect width="800" height="600" rx="24" fill="${bg}"/>` : ''}
+  <g transform="translate(400, 230) scale(1.45)">
+    ${emblem}
+  </g>
+  <g transform="translate(400, 440)">
+    <text x="0" y="0" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Montserrat','Inter','Segoe UI',sans-serif" font-size="64" font-weight="900" letter-spacing="4" fill="${textCol}">${escapeXml(safeBrand)}</text>
+    ${safeTagline ? `<text x="0" y="48" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="20" font-weight="700" letter-spacing="8" fill="${tagCol}">${escapeXml(safeTagline)}</text>` : ''}
   </g>
 </svg>`;
   }
 
-  // SVG Concept 2: Minimalist Monogram / Lettermark Emblem
-  function buildConcept2(isDark = true) {
-    const bg = isDark ? '#0b101b' : '#ffffff';
+  // ==========================================
+  // CONCEPT 2: Luxury Monogram Crest Emblem
+  // ==========================================
+  function buildConcept2(surface = 'dark', layout = 'stacked') {
+    const isDark = surface === 'dark';
+    const isTrans = surface === 'transparent';
+    const bg = isTrans ? 'none' : isDark ? '#080d19' : '#ffffff';
+    const textCol = isDark || isTrans ? '#ffffff' : '#0f172a';
+    const tagCol = isDark || isTrans ? '#94a3b8' : '#475569';
     const borderCol = isDark ? '#1e293b' : '#e2e8f0';
-    const textCol = isDark ? '#ffffff' : '#0f172a';
-    const tagCol = isDark ? '#94a3b8' : '#64748b';
 
-    return `
-<svg viewBox="0 0 500 170" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    const emblem = `
+      <rect x="-85" y="-85" width="170" height="170" rx="42" fill="url(#c2_grad)" filter="drop-shadow(0 12px 24px rgba(0,0,0,0.35))"/>
+      <rect x="-73" y="-73" width="146" height="146" rx="34" fill="none" stroke="${isDark ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.45)'}" stroke-width="4"/>
+      <circle cx="0" cy="0" r="54" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+      <text x="0" y="24" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Playfair Display',Georgia,serif" font-size="76" font-weight="900" fill="#ffffff" letter-spacing="-2">${escapeXml(initials)}</text>
+    `;
+
+    if (layout === 'horizontal') {
+      return `
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
   <defs>
     <linearGradient id="c2_grad" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="${c.secondary}"/>
       <stop offset="100%" stop-color="${c.primary}"/>
     </linearGradient>
   </defs>
-  <rect width="500" height="170" rx="16" fill="${bg}" stroke="${borderCol}" stroke-width="1.5"/>
-  <g transform="translate(45, 25)">
-    <rect x="20" y="10" width="100" height="100" rx="24" fill="url(#c2_grad)"/>
-    <circle cx="70" cy="60" r="42" fill="none" stroke="${isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'}" stroke-width="3"/>
-    <text x="70" y="74" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Georgia,serif" font-size="46" font-weight="900" fill="#ffffff" letter-spacing="-1">${escapeXml(initials)}</text>
+  ${!isTrans ? `<rect width="900" height="300" rx="20" fill="${bg}" stroke="${borderCol}" stroke-width="1.5"/>` : ''}
+  <g transform="translate(170, 150) scale(0.95)">
+    ${emblem}
   </g>
-  <g transform="translate(180, 72)">
-    <text x="0" y="20" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="32" font-weight="700" letter-spacing="2" fill="${textCol}">${escapeXml(safeBrand)}</text>
-    ${safeTagline ? `<text x="2" y="46" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="11" font-weight="600" letter-spacing="3.5" fill="${tagCol}">${escapeXml(safeTagline)}</text>` : ''}
+  <g transform="translate(320, 145)">
+    <text x="0" y="18" font-family="-apple-system,BlinkMacSystemFont,'Cinzel','Times New Roman',Georgia,serif" font-size="56" font-weight="800" letter-spacing="3" fill="${textCol}">${escapeXml(safeBrand)}</text>
+    ${safeTagline ? `<text x="2" y="60" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="16" font-weight="700" letter-spacing="6" fill="${tagCol}">${escapeXml(safeTagline)}</text>` : ''}
+  </g>
+</svg>`;
+    }
+
+    // Stacked
+    return `
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <defs>
+    <linearGradient id="c2_grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${c.secondary}"/>
+      <stop offset="100%" stop-color="${c.primary}"/>
+    </linearGradient>
+  </defs>
+  ${!isTrans ? `<rect width="800" height="600" rx="24" fill="${bg}" stroke="${borderCol}" stroke-width="1.5"/>` : ''}
+  <g transform="translate(400, 220) scale(1.25)">
+    ${emblem}
+  </g>
+  <g transform="translate(400, 440)">
+    <text x="0" y="0" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Cinzel','Times New Roman',Georgia,serif" font-size="62" font-weight="800" letter-spacing="4" fill="${textCol}">${escapeXml(safeBrand)}</text>
+    ${safeTagline ? `<text x="0" y="46" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="18" font-weight="700" letter-spacing="7" fill="${tagCol}">${escapeXml(safeTagline)}</text>` : ''}
   </g>
 </svg>`;
   }
 
-  // SVG Concept 3: Modern Badge & Shield Crest
-  function buildConcept3(isDark = true) {
-    const bg = isDark ? c.dark : '#f8fafc';
-    const textCol = isDark ? '#ffffff' : '#0f172a';
+  // ==========================================
+  // CONCEPT 3: Dynamic Abstract Flow Mark
+  // ==========================================
+  function buildConcept3(surface = 'dark', layout = 'stacked') {
+    const isDark = surface === 'dark';
+    const isTrans = surface === 'transparent';
+    const bg = isTrans ? 'none' : isDark ? '#070b16' : '#ffffff';
+    const textCol = isDark || isTrans ? '#ffffff' : '#0f172a';
+    const tagCol = isDark || isTrans ? c.accent : c.primary;
+
+    const emblem = `
+      <!-- Interlocking Möbius Infinity Wave -->
+      <path d="M-75,25 C-75,-45 -25,-45 0,-5 C25,35 75,35 75,-35" fill="none" stroke="url(#c3_flow1)" stroke-width="16" stroke-linecap="round"/>
+      <path d="M-75,-25 C-75,45 -25,45 0,5 C25,-35 75,-35 75,35" fill="none" stroke="url(#c3_flow2)" stroke-width="16" stroke-linecap="round" opacity="0.88"/>
+      <circle cx="0" cy="0" r="14" fill="${c.glow}"/>
+      <circle cx="-75" cy="25" r="9" fill="${c.accent}"/>
+      <circle cx="75" cy="-35" r="9" fill="${c.primary}"/>
+    `;
+
+    if (layout === 'horizontal') {
+      return `
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <defs>
+    <linearGradient id="c3_flow1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${c.primary}"/>
+      <stop offset="100%" stop-color="${c.accent}"/>
+    </linearGradient>
+    <linearGradient id="c3_flow2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="${c.accent}"/>
+      <stop offset="100%" stop-color="${c.glow}"/>
+    </linearGradient>
+  </defs>
+  ${!isTrans ? `<rect width="900" height="300" rx="20" fill="${bg}"/>` : ''}
+  <g transform="translate(170, 150) scale(1.1)">
+    ${emblem}
+  </g>
+  <g transform="translate(330, 145)">
+    <text x="0" y="20" font-family="-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif" font-size="58" font-weight="900" letter-spacing="3" fill="${textCol}">${escapeXml(safeBrand)}</text>
+    ${safeTagline ? `<text x="2" y="62" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="18" font-weight="700" letter-spacing="6" fill="${tagCol}">${escapeXml(safeTagline)}</text>` : ''}
+  </g>
+</svg>`;
+    }
+
+    // Stacked
+    return `
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <defs>
+    <linearGradient id="c3_flow1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${c.primary}"/>
+      <stop offset="100%" stop-color="${c.accent}"/>
+    </linearGradient>
+    <linearGradient id="c3_flow2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="${c.accent}"/>
+      <stop offset="100%" stop-color="${c.glow}"/>
+    </linearGradient>
+  </defs>
+  ${!isTrans ? `<rect width="800" height="600" rx="24" fill="${bg}"/>` : ''}
+  <g transform="translate(400, 220) scale(1.4)">
+    ${emblem}
+  </g>
+  <g transform="translate(400, 440)">
+    <text x="0" y="0" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif" font-size="64" font-weight="900" letter-spacing="4" fill="${textCol}">${escapeXml(safeBrand)}</text>
+    ${safeTagline ? `<text x="0" y="48" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" font-size="19" font-weight="700" letter-spacing="8" fill="${tagCol}">${escapeXml(safeTagline)}</text>` : ''}
+  </g>
+</svg>`;
+  }
+
+  // ==========================================
+  // CONCEPT 4: Authority Badge & Shield Crest
+  // ==========================================
+  function buildConcept4(surface = 'dark', layout = 'stacked') {
+    const isDark = surface === 'dark';
+    const isTrans = surface === 'transparent';
+    const bg = isTrans ? 'none' : isDark ? c.dark : '#ffffff';
+    const textCol = isDark || isTrans ? '#ffffff' : '#0f172a';
     const bannerBg = isDark ? c.primary : c.secondary;
 
-    return `
-<svg viewBox="0 0 500 170" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    const emblem = `
+      <!-- Regal Crest Shield -->
+      <path d="M0,-85 L72,-55 V15 C72,60 0,90 0,90 C0,90 -72,60 -72,15 V-55 Z" fill="none" stroke="url(#c4_crest)" stroke-width="8" stroke-linejoin="round"/>
+      <path d="M0,-68 L54,-45 V12 C54,48 0,72 0,72 C0,72 -54,48 -54,12 V-45 Z" fill="${c.accent}" opacity="0.2"/>
+      <line x1="0" y1="-85" x2="0" y2="90" stroke="url(#c4_crest)" stroke-width="4" stroke-dasharray="8 6"/>
+      <!-- Monogram Initial inside crest -->
+      <text x="0" y="24" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Georgia,serif" font-size="60" font-weight="900" fill="${c.glow}">${escapeXml(initials[0] || 'A')}</text>
+      <!-- Shield stars -->
+      <circle cx="-30" cy="-35" r="4.5" fill="${c.glow}"/>
+      <circle cx="30" cy="-35" r="4.5" fill="${c.glow}"/>
+    `;
+
+    if (layout === 'horizontal') {
+      return `
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
   <defs>
-    <linearGradient id="c3_shield" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="c4_crest" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="${c.primary}"/>
       <stop offset="50%" stop-color="${c.secondary}"/>
       <stop offset="100%" stop-color="${c.accent}"/>
     </linearGradient>
   </defs>
-  <rect width="500" height="170" rx="16" fill="${bg}"/>
-  <g transform="translate(50, 15)">
-    <!-- Badge / Shield outline -->
-    <path d="M70 20 L115 32 V75 C115 105 70 125 70 125 C70 125 25 105 25 75 V32 Z" fill="none" stroke="url(#c3_shield)" stroke-width="4.5"/>
-    <path d="M70 30 L103 40 V72 C103 96 70 113 70 113 C70 113 37 96 37 72 V40 Z" fill="${c.accent}" opacity="0.18"/>
-    <!-- Central Icon Initial -->
-    <text x="70" y="80" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="34" font-weight="900" fill="${c.accent}">${escapeXml(initials[0] || 'A')}</text>
-    <!-- Stars -->
-    <circle cx="50" cy="50" r="2.5" fill="${c.glow}"/>
-    <circle cx="90" cy="50" r="2.5" fill="${c.glow}"/>
+  ${!isTrans ? `<rect width="900" height="300" rx="20" fill="${bg}"/>` : ''}
+  <g transform="translate(170, 150) scale(1.05)">
+    ${emblem}
   </g>
-  <g transform="translate(195, 75)">
-    <text x="0" y="16" font-family="Georgia,serif" font-size="32" font-weight="700" letter-spacing="1" fill="${textCol}">${escapeXml(safeBrand)}</text>
-    <rect x="0" y="27" width="160" height="2" fill="${c.accent}"/>
-    <text x="0" y="47" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="10.5" font-weight="700" letter-spacing="4" fill="${c.glow}">${escapeXml(safeTagline || industry.toUpperCase())}</text>
+  <g transform="translate(325, 145)">
+    <text x="0" y="18" font-family="-apple-system,BlinkMacSystemFont,Georgia,serif" font-size="56" font-weight="900" letter-spacing="2" fill="${textCol}">${escapeXml(safeBrand)}</text>
+    <rect x="0" y="32" width="220" height="3.5" rx="1.5" fill="${c.accent}"/>
+    <text x="2" y="64" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="16" font-weight="800" letter-spacing="6" fill="${c.glow}">${escapeXml(safeTagline || industry.toUpperCase())}</text>
   </g>
 </svg>`;
-  }
+    }
 
-  // SVG Concept 4: Abstract Dynamic Flow / Tech Wave
-  function buildConcept4(isDark = true) {
-    const bg = isDark ? '#080d1a' : '#f1f5f9';
-    const textCol = isDark ? '#ffffff' : '#0f172a';
-
+    // Stacked
     return `
-<svg viewBox="0 0 500 170" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
   <defs>
-    <linearGradient id="c4_grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="c4_crest" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="${c.primary}"/>
+      <stop offset="50%" stop-color="${c.secondary}"/>
       <stop offset="100%" stop-color="${c.accent}"/>
     </linearGradient>
-    <linearGradient id="c4_grad2" x1="100%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="${c.accent}"/>
-      <stop offset="100%" stop-color="${c.glow}"/>
-    </linearGradient>
   </defs>
-  <rect width="500" height="170" rx="16" fill="${bg}"/>
-  <g transform="translate(30, 20)">
-    <!-- Interlocking kinetic loops -->
-    <path d="M50 85 C50 50 80 50 95 70 C110 90 140 90 140 55" fill="none" stroke="url(#c4_grad1)" stroke-width="7" stroke-linecap="round"/>
-    <path d="M50 55 C50 90 80 90 95 70 C110 50 140 50 140 85" fill="none" stroke="url(#c4_grad2)" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
-    <circle cx="95" cy="70" r="7" fill="${c.accent}"/>
+  ${!isTrans ? `<rect width="800" height="600" rx="24" fill="${bg}"/>` : ''}
+  <g transform="translate(400, 220) scale(1.35)">
+    ${emblem}
   </g>
-  <g transform="translate(195, 74)">
-    <text x="0" y="18" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" font-size="33" font-weight="900" letter-spacing="2.5" fill="${textCol}">${escapeXml(safeBrand)}</text>
-    <text x="2" y="44" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="11" font-weight="600" letter-spacing="3" fill="${c.accent}">${escapeXml(safeTagline || 'STUDIO')}</text>
+  <g transform="translate(400, 440)">
+    <text x="0" y="0" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Georgia,serif" font-size="62" font-weight="900" letter-spacing="3" fill="${textCol}">${escapeXml(safeBrand)}</text>
+    <rect x="-110" y="16" width="220" height="3.5" rx="1.5" fill="${c.accent}"/>
+    <text x="0" y="48" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,sans-serif" font-size="18" font-weight="800" letter-spacing="7" fill="${c.glow}">${escapeXml(safeTagline || industry.toUpperCase())}</text>
   </g>
 </svg>`;
   }
 
+  // Generate All Variants for All 4 Concepts
   return [
     {
-      id: 'concept-geometric',
-      name: 'Concept 1: Modern Geometric Symbol',
-      desc: 'Clean geometric glyph paired with modern bold wordmark and tracked tagline.',
-      svgDark: buildConcept1(true),
-      svgLight: buildConcept1(false),
+      id: 'concept-1',
+      name: 'Concept 1: Modern Geometric Emblem',
+      desc: `High-impact geometric mark tailored for ${industry}. Sharp, modern, and memorable.`,
+      svgDark: buildConcept1('dark', 'stacked'),
+      svgLight: buildConcept1('light', 'stacked'),
+      svgTrans: buildConcept1('transparent', 'stacked'),
+      svgDarkH: buildConcept1('dark', 'horizontal'),
+      svgLightH: buildConcept1('light', 'horizontal'),
+      svgTransH: buildConcept1('transparent', 'horizontal'),
       palette: [c.primary, c.accent, c.secondary, c.dark]
     },
     {
-      id: 'concept-monogram',
-      name: 'Concept 2: Minimalist Monogram Emblem',
-      desc: 'Distinctive squircle badge featuring brand initials for modern apps and social icons.',
-      svgDark: buildConcept2(true),
-      svgLight: buildConcept2(false),
+      id: 'concept-2',
+      name: 'Concept 2: Luxury Monogram Crest',
+      desc: 'Sophisticated squircle badge with brand initials. Perfect for app icons and premium identity.',
+      svgDark: buildConcept2('dark', 'stacked'),
+      svgLight: buildConcept2('light', 'stacked'),
+      svgTrans: buildConcept2('transparent', 'stacked'),
+      svgDarkH: buildConcept2('dark', 'horizontal'),
+      svgLightH: buildConcept2('light', 'horizontal'),
+      svgTransH: buildConcept2('transparent', 'horizontal'),
       palette: [c.secondary, c.primary, c.glow]
     },
     {
-      id: 'concept-badge',
-      name: 'Concept 3: Modern Badge & Shield Crest',
-      desc: 'Authoritative emblem mark with established styling, star accents, and classic typography.',
-      svgDark: buildConcept3(true),
-      svgLight: buildConcept3(false),
-      palette: [c.primary, c.accent, c.dark]
+      id: 'concept-3',
+      name: 'Concept 3: Dynamic Abstract Flow',
+      desc: 'Dual-loop kinetic ribbon symbolizing momentum, seamless flow, and innovation.',
+      svgDark: buildConcept3('dark', 'stacked'),
+      svgLight: buildConcept3('light', 'stacked'),
+      svgTrans: buildConcept3('transparent', 'stacked'),
+      svgDarkH: buildConcept3('dark', 'horizontal'),
+      svgLightH: buildConcept3('light', 'horizontal'),
+      svgTransH: buildConcept3('transparent', 'horizontal'),
+      palette: [c.primary, c.accent, c.glow]
     },
     {
-      id: 'concept-flow',
-      name: 'Concept 4: Dynamic Kinetic Flow Mark',
-      desc: 'Forward-moving dual-loop ribbon representing synergy, momentum, and continuous innovation.',
-      svgDark: buildConcept4(true),
-      svgLight: buildConcept4(false),
-      palette: [c.primary, c.accent, c.glow]
+      id: 'concept-4',
+      name: 'Concept 4: Authority Shield Crest',
+      desc: 'Regal heraldic crest with classic typography and precision star accents. Inspires trust.',
+      svgDark: buildConcept4('dark', 'stacked'),
+      svgLight: buildConcept4('light', 'stacked'),
+      svgTrans: buildConcept4('transparent', 'stacked'),
+      svgDarkH: buildConcept4('dark', 'horizontal'),
+      svgLightH: buildConcept4('light', 'horizontal'),
+      svgTransH: buildConcept4('transparent', 'horizontal'),
+      palette: [c.primary, c.secondary, c.accent]
     }
   ];
 }
@@ -479,13 +778,11 @@ export function generatePrompts({
 } = {}) {
   const userConcept = (subject || 'A serene mountain cabin by a quiet lake at dawn').trim();
 
-  // Model-specific flags & syntax
   const isMidjourney = target.includes('Midjourney');
   const isDalle = target.includes('DALL-E');
   const isFlux = target.includes('FLUX') || target.includes('Stable');
   const isChatGpt = target.includes('ChatGPT') || target.includes('Claude');
 
-  // Aspect ratio flag
   const arMatch = aspect.match(/\b(\d+:\d+)\b/);
   const ar = arMatch ? arMatch[1] : '16:9';
 
@@ -549,13 +846,11 @@ ${userConcept}`;
   const selectedLight = lightingKeywords[lighting] || lightingKeywords['Volumetric Golden Hour'];
   const selectedShot = cameraKeywords[shot] || cameraKeywords['Wide Angle Cinematic (24mm)'];
 
-  // 1. Master Production Prompt
   let masterPrompt = `${userConcept}, ${selectedStyle}, ${selectedShot}, ${selectedLight}`;
   if (isMidjourney) {
     masterPrompt += ` --ar ${ar} --v 6.0 --stylize 250 --quality 2`;
   }
 
-  // 2. Parameters & Flags
   let params = '';
   if (isMidjourney) {
     params = `--ar ${ar} --v 6.0 --stylize 250 --quality 2 --chaos 5`;
@@ -565,10 +860,7 @@ ${userConcept}`;
     params = `Aspect Ratio: ${ar}, Quality: HD, Style: Natural & Vivid, Composition: High-Fidelity 4K`;
   }
 
-  // 3. Negative Prompt
   const negativePrompt = 'deformed, bad anatomy, distorted limbs, blurry background artifacts, duplicate features, extra fingers, poorly rendered faces, low quality textures, pixelated, watermark, signature, banner text, logo overlay, overexposed, oversaturated';
-
-  // 4. Creative Alternative (Minimalist / Story-driven for FLUX and DALL-E)
   const altPrompt = `An evocative and natural scene depicting ${userConcept}. Captured with natural lighting and ${lighting.toLowerCase()}, rendered with rich realistic textures and subtle depth. Clean composition with zero distortion.`;
 
   return {

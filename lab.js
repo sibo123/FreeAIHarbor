@@ -1,5 +1,5 @@
 import {LAB_TOOLS,LAB_CATEGORIES,MODELS,TRANSLATIONS,REVERSE_TRANSLATIONS,FEATURED_LAB,findTools,modelInfo,escapeHTML as esc,toSRT,encodeWAV} from './lab-tools.js';
-import {applyPhotoEnhancement,generateLogos,generatePrompts} from './tool-generators.js';
+import {applyPhotoEnhancement,processClientPhoto,generateLogos,generatePrompts} from './tool-generators.js';
 import {labelsFrom,passages,sentencesFrom} from './semantic-tools.js';
 import {icon,fillIcons} from './icons.js';
 import {createChatUI} from './chat-ui.js';
@@ -16,6 +16,7 @@ const state={view:'all',query:'',category:'All tools',access:'all',sort:'suggest
 let active=null,worker=null,ocrWorker=null,running=false,job=0,result=null,lastText='',inputFile=null,inputPreviewURL=null,resultURL=null,toastTimer,chatHistory=[],preparedImage=null;
 const inputDrafts=new Map();
 let chatUI=null,moduleUI=null,cloudUI=null;
+let logoStudioState={activeIdx:0,surface:'dark',layout:'stacked'};
 function card(t,featured=false){const m=modelInfo(t),p=t.provider?providerFor(t):null;return `<article class="tool-card lab-card identity-card${t.provider?' cloud-card':''}${featured?' featured-card':''}" data-card="${t.id}" style="${identityStyle(t)}">${toolVisual(t)}<div class="identity-card-body">${featured?`<div class="featured-label">${icon('sparkles')} A good place to start</div>`:''}<div class="tool-card-top"><div class="tool-title-wrap"><h3 class="tool-title"><button data-open="${t.id}">${esc(t.name)}</button></h3><span class="tool-category">${esc(t.category)}</span></div><button class="save-button${saved.has(t.id)?' is-saved':''}" data-save="${t.id}" aria-pressed="${saved.has(t.id)}" aria-label="${saved.has(t.id)?'Unsave':'Save'} ${esc(t.name)}">${icon('bookmark')}</button></div><p class="tool-description">${esc(t.description)}</p><p class="download-size">${icon(p?'shield-check':'monitor')} ${p?esc(p.allowance)+' · '+esc(p.cadence):'First download: ~'+esc(m.size)}</p>${p?`<p class="provider-caption">${esc(p.name)} · Your API key needed</p>`:''}<div class="tool-card-footer"><span class="access-badge ${p?t.access:'free'}">${esc(accessLabel(t))}</span><button class="card-details" data-open="${t.id}">Use tool ${icon('arrow-right')}</button></div></div></article>`}
 function render(){
  $('#saved-count').textContent=saved.size;$('#tool-total').textContent=LAB_TOOLS.length;$('#category-total').textContent=LAB_CATEGORIES.length-1;
@@ -43,9 +44,115 @@ function updateURL(id,push=true){const u=new URL(location.href);u.search='';u.ha
 function clearURLs(){if(inputPreviewURL){URL.revokeObjectURL(inputPreviewURL);inputPreviewURL=null}if(resultURL){URL.revokeObjectURL(resultURL);resultURL=null}}
 function resetOutput(){result=null;lastText='';$('#output-content').innerHTML=`<div class="output-placeholder">${icon('sparkles')}<h3>A little possibility awaits.</h3><p>Add your input and run the tool. Your result will appear here.</p></div>`;$('#output-actions').classList.add('hidden');$('#copy-output').disabled=false;$('#download-output').disabled=false;moduleUI?.empty()}
 function warning(message){$('#input-warning').textContent=message;$('#input-warning').classList.toggle('hidden',!message)}
+async function loadSamplePhoto(type){
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=900;const ctx=canvas.getContext('2d');
+ if(type==='portrait'){
+  const bg=ctx.createLinearGradient(0,0,1200,900);bg.addColorStop(0,'#1e293b');bg.addColorStop(1,'#0f172a');ctx.fillStyle=bg;ctx.fillRect(0,0,1200,900);
+  ctx.fillStyle='rgba(245,158,11,0.2)';ctx.beginPath();ctx.arc(300,260,160,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(236,72,153,0.15)';ctx.beginPath();ctx.arc(920,380,180,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#f0ab7a';ctx.beginPath();ctx.arc(600,380,165,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#334155';ctx.beginPath();ctx.ellipse(600,740,320,240,0,0,Math.PI*2);ctx.fill();
+  const rim=ctx.createLinearGradient(400,200,800,500);rim.addColorStop(0,'rgba(255,230,150,0.5)');rim.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=rim;ctx.beginPath();ctx.arc(600,380,165,0,Math.PI*2);ctx.fill();
+ }else if(type==='landscape'){
+  const sky=ctx.createLinearGradient(0,0,0,600);sky.addColorStop(0,'#1e1b4b');sky.addColorStop(0.35,'#6b21a8');sky.addColorStop(0.65,'#ea580c');sky.addColorStop(1,'#fde047');ctx.fillStyle=sky;ctx.fillRect(0,0,1200,900);
+  const sun=ctx.createRadialGradient(600,520,10,600,520,260);sun.addColorStop(0,'rgba(255,255,240,1)');sun.addColorStop(0.3,'rgba(254,215,170,0.8)');sun.addColorStop(1,'rgba(249,115,22,0)');ctx.fillStyle=sun;ctx.fillRect(0,0,1200,900);
+  ctx.fillStyle='#311042';ctx.beginPath();ctx.moveTo(0,620);ctx.lineTo(240,420);ctx.lineTo(460,560);ctx.lineTo(600,450);ctx.lineTo(820,580);ctx.lineTo(1040,410);ctx.lineTo(1200,600);ctx.lineTo(1200,900);ctx.lineTo(0,900);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#140727';ctx.beginPath();ctx.moveTo(0,700);ctx.lineTo(380,530);ctx.lineTo(760,690);ctx.lineTo(1000,560);ctx.lineTo(1200,720);ctx.lineTo(1200,900);ctx.lineTo(0,900);ctx.closePath();ctx.fill();
+  const water=ctx.createLinearGradient(0,720,0,900);water.addColorStop(0,'#1c1917');water.addColorStop(1,'#0c0a09');ctx.fillStyle=water;ctx.fillRect(0,750,1200,150);
+ }else{
+  const st=ctx.createRadialGradient(600,450,50,600,450,700);st.addColorStop(0,'#475569');st.addColorStop(1,'#0f172a');ctx.fillStyle=st;ctx.fillRect(0,0,1200,900);
+  ctx.fillStyle='#1e293b';ctx.fillRect(0,580,1200,320);
+  ctx.fillStyle='#f8fafc';ctx.beginPath();ctx.moveTo(480,440);ctx.lineTo(720,440);ctx.lineTo(690,660);ctx.lineTo(510,660);ctx.closePath();ctx.fill();
+  ctx.lineWidth=22;ctx.strokeStyle='#f8fafc';ctx.beginPath();ctx.arc(730,530,50,-Math.PI*0.4,Math.PI*0.4);ctx.stroke();
+  ctx.fillStyle='#3e2723';ctx.beginPath();ctx.ellipse(600,445,110,22,0,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#d7ccc8';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(600,445,70,12,0,0,Math.PI*2);ctx.stroke();
+ }
+ const blob=await new Promise(r=>canvas.toBlob(r,'image/jpeg',0.92));
+ const file=new File([blob],`sample-${type}.jpg`,{type:'image/jpeg'});
+ selectFile(file);
+ toast(`Loaded sample ${type}. Now type instructions or click a preset and Run AI!`);
+}
+function applyPhotoChip(chip){
+ const textarea=$('#photo-instruction');
+ const map={
+  'golden-hour':'Make it warm with golden hour sunset lighting, soft sunburst glow, and rich contrast',
+  'cinematic':'Cinematic teal and orange split toning with deep filmic contrast and punchy shadows',
+  'bw-noir':'Dramatic high-contrast black and white noir with deep shadows and crisp monochrome texture',
+  'vibrant':'Vibrant color pop with rich saturation, punchy colors, and dynamic range clarity',
+  'cyberpunk':'Cyberpunk neon vibe with electric violet shadows and fluorescent cyan rim lights',
+  'brighten':'Brighten and lift deep shadows, boost clean exposure across the image',
+  'vintage':'Vintage 35mm analog film aesthetic with warm grain, sepia tones, and matte shadows',
+  'sharp':'Crystal sharp clarity with enhanced edge details, texture resolution, and micro-contrast',
+  'nordic':'Cool Nordic atmosphere with frosty blue tones, crisp whites, and clean highlights',
+  'portrait-glow':'Soft flattering portrait glow with gentle skin tone warmth and highlight roll-off'
+ };
+ if(textarea&&map[chip]){textarea.value=map[chip];textarea.dispatchEvent(new Event('input'))}
+ document.querySelectorAll('.photo-chip').forEach(c=>c.classList.toggle('active',c.dataset.chip===chip));
+ toast(`Preset loaded: “${chip.replace('-',' ')}”`);
+}
 function showControls(t){
  let html='';
- if(['text','qa'].includes(t.kind)){
+ if(t.id==='photo-editor'){
+  html=`
+   <label class="file-upload" id="drop-zone">
+    <span data-icon="image">${icon('image')}</span>
+    <strong>Choose or drop a photo to edit</strong>
+    <small>JPG, PNG, WebP, or BMP · up to 15 MB · processed on your device</small>
+    <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp,image/bmp">
+   </label>
+   <div id="input-preview" class="input-preview hidden"></div>
+   <p id="file-caption" class="file-caption"></p>
+   
+   <div class="photo-samples-shelf">
+    <span class="photo-samples-label">Or try a sample photo:</span>
+    <div class="photo-samples-btns">
+     <button type="button" class="photo-sample-btn" data-sample="portrait">👤 Portrait Sample</button>
+     <button type="button" class="photo-sample-btn" data-sample="landscape">🏔️ Sunset Landscape</button>
+     <button type="button" class="photo-sample-btn" data-sample="product">☕ Coffee Product</button>
+    </div>
+   </div>
+
+   <div class="photo-instruction-box">
+    <label class="field-label" for="photo-instruction">
+     <strong>Client Edit Instructions / AI Edit Prompt</strong>
+     <span class="instruction-sub">Type how you want AI to edit this photo (lighting, mood, contrast, warmth, sharpness):</span>
+    </label>
+    <textarea id="photo-instruction" class="tool-textarea photo-prompt-textarea" rows="3" placeholder="Tell AI how to edit this photo... e.g.:
+• 'Make it warm with golden hour sunset lighting and soft glow'
+• 'Cinematic teal and orange with deep punchy contrast'
+• 'Dramatic high-contrast black and white noir look'
+• 'Brighten shadows, boost vibrant colors and sharpen details'"></textarea>
+   </div>
+
+   <div class="photo-chips-shelf">
+    <span class="chips-label">1-Click Client Preset Chips:</span>
+    <div class="photo-chips-list">
+     <button type="button" class="photo-chip" data-chip="golden-hour">🌅 Golden Hour Sunset</button>
+     <button type="button" class="photo-chip" data-chip="cinematic">🎬 Cinematic Teal & Orange</button>
+     <button type="button" class="photo-chip" data-chip="bw-noir">🖤 Dramatic Noir B&W</button>
+     <button type="button" class="photo-chip" data-chip="vibrant">⚡ Vibrant Color Pop</button>
+     <button type="button" class="photo-chip" data-chip="cyberpunk">🔮 Cyberpunk Neon</button>
+     <button type="button" class="photo-chip" data-chip="brighten">☀️ Brighten & Lift Shadows</button>
+     <button type="button" class="photo-chip" data-chip="vintage">📷 Vintage 35mm Film</button>
+     <button type="button" class="photo-chip" data-chip="sharp">💎 Crystal Sharp & Clarity</button>
+     <button type="button" class="photo-chip" data-chip="nordic">❄️ Cool Nordic Tone</button>
+     <button type="button" class="photo-chip" data-chip="portrait-glow">🌸 Soft Portrait Glow</button>
+    </div>
+   </div>
+
+   <details class="photo-adjustments-accordion">
+    <summary><span>Manual Fine-Tuning Sliders (Optional)</span></summary>
+    <div class="photo-sliders-grid">
+     <label>Brightness: <span id="val-brightness">0%</span><input type="range" id="slider-brightness" min="-50" max="50" value="0"></label>
+     <label>Contrast: <span id="val-contrast">0%</span><input type="range" id="slider-contrast" min="-50" max="50" value="0"></label>
+     <label>Saturation: <span id="val-saturation">0%</span><input type="range" id="slider-saturation" min="-100" max="100" value="0"></label>
+     <label>Warmth (Warm/Cool): <span id="val-temp">0</span><input type="range" id="slider-temp" min="-50" max="50" value="0"></label>
+     <label>Sharpness: <span id="val-sharpness">0%</span><input type="range" id="slider-sharpness" min="0" max="100" value="0"></label>
+     <label>Vignette: <span id="val-vignette">0%</span><input type="range" id="slider-vignette" min="0" max="100" value="0"></label>
+    </div>
+   </details>
+  `;
+ }else if(['text','qa'].includes(t.kind)){
   if(t.kind==='qa')html+=`<label class="field-label" for="question-input">Your question</label><input class="tool-input" id="question-input" type="text" maxlength="250" placeholder="What do you want to find in the passage?" required>`;
   if(t.shape==='search')html+=`<label class="field-label" for="question-input">Your search query</label><input class="tool-input" id="question-input" type="text" maxlength="250" placeholder="What do you want to find?" required>`;
   html+=`<label class="field-label" for="text-input">${t.kind==='qa'?'Your source passage':t.shape==='pair'?'First passage':t.shape==='search'||t.shape==='duplicates'?'Your passages · one per line':t.id==='ai-chat'?'Your message':'Your text or brief'}</label><textarea id="text-input" class="tool-textarea" maxlength="${t.limit}" placeholder="${esc(t.placeholder)}" required></textarea><p id="character-count" class="character-count">0 / ${t.limit.toLocaleString()} characters</p>`;
@@ -61,9 +168,23 @@ function showControls(t){
  if(t.note&&(['image','audio'].includes(t.kind)||t.model==='voice'))html+=`<p class="tool-input-hint">${esc(t.note)}</p>`;
  $('#input-controls').innerHTML=html;$('#use-example').classList.toggle('hidden',!['text','qa'].includes(t.kind));
  if($('#text-input')){$('#text-input').value=inputDrafts.get(t.id)||'';$('#text-input').addEventListener('input',()=>{$('#character-count').textContent=`${$('#text-input').value.length} / ${t.limit.toLocaleString()} characters`;inputDrafts.set(t.id,$('#text-input').value)});$('#text-input').dispatchEvent(new Event('input'))}
+ if(t.id==='logo-designer'){
+  const label=$('label[for="text-input"]');if(label)label.classList.add('hidden');
+  const ti=$('#text-input');if(ti)ti.classList.add('hidden');
+  const cc=$('#character-count');if(cc)cc.classList.add('hidden');
+ }
  if($('#file-input')){
   $('#file-input').addEventListener('change',()=>selectFile($('#file-input').files[0]));
   const drop=$('#drop-zone');drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('dragging')});drop.addEventListener('dragleave',()=>drop.classList.remove('dragging'));drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('dragging');const f=e.dataTransfer.files[0];if(f){selectFile(f);try{const dt=new DataTransfer();dt.items.add(f);$('#file-input').files=dt.files}catch{}}});
+ }
+ if(t.id==='photo-editor'){
+  $('#input-controls').querySelectorAll('.photo-sample-btn').forEach(btn=>btn.addEventListener('click',()=>loadSamplePhoto(btn.dataset.sample)));
+  $('#input-controls').querySelectorAll('.photo-chip').forEach(btn=>btn.addEventListener('click',()=>applyPhotoChip(btn.dataset.chip)));
+  $('#input-controls').querySelectorAll('.photo-sliders-grid input[type="range"]').forEach(sl=>sl.addEventListener('input',e=>{
+   const name=e.target.id.replace('slider-','');
+   const valEl=$('#val-'+name);
+   if(valEl)valEl.textContent=e.target.value+(name==='temp'?'':'%');
+  }));
  }
 }
 function openTool(id,push=true){
@@ -118,46 +239,194 @@ async function runOCR(currentJob){
  else{await showResult({kind:'text',text:out.data.text});setRunning(false)}
 }
 function downloadSVG(svgString,filename='logo.svg'){const blob=new Blob([svgString],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-function downloadLogoPNG(svgString,filename='logo.png'){const canvas=document.createElement('canvas');canvas.width=1000;canvas.height=340;const ctx=canvas.getContext('2d'),img=new Image(),svgBlob=new Blob([svgString],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(svgBlob);img.onload=()=>{ctx.drawImage(img,0,0,1000,340);URL.revokeObjectURL(url);canvas.toBlob(blob=>{if(!blob)return;const pngUrl=URL.createObjectURL(blob),a=document.createElement('a');a.href=pngUrl;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(pngUrl),1000)},'image/png')};img.src=url}
+function downloadLogoPNG(svgString,filename='logo.png',width=2048,height=1536){const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;const ctx=canvas.getContext('2d'),img=new Image(),svgBlob=new Blob([svgString],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(svgBlob);img.onload=()=>{ctx.drawImage(img,0,0,width,height);URL.revokeObjectURL(url);canvas.toBlob(blob=>{if(!blob)return;const pngUrl=URL.createObjectURL(blob),a=document.createElement('a');a.href=pngUrl;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(pngUrl),1000)},'image/png')};img.src=url}
+function downloadPhoto(canvas,filename='enhanced-photo.jpg',mime='image/jpeg',quality=0.95){if(!canvas)return;canvas.toBlob(blob=>{if(!blob)return;const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast(`Downloading ${filename}…`)},mime,quality)}
+function getLogoSvg(item,surface,layout){
+ if(layout==='horizontal'){
+  if(surface==='light')return item.svgLightH;
+  if(surface==='transparent')return item.svgTransH;
+  return item.svgDarkH;
+ }
+ if(surface==='light')return item.svgLight;
+ if(surface==='transparent')return item.svgTrans;
+ return item.svgDark;
+}
 function renderLogoGallery(out){
  const logos=out.logos||[];
- return `<div class="logo-gallery"><div class="logo-gallery-header"><div class="logo-gallery-title"><h3>${esc(out.brand)} — Vector Logo Concepts</h3><p>${esc(out.industry)} · ${esc(out.palette)}</p></div><button type="button" class="logo-theme-all" id="toggle-all-logo-themes">${icon('sparkles')} Toggle Dark / Light Surface</button></div><div class="logo-grid">${logos.map((l,i)=>`<article class="logo-card" data-logo-index="${i}"><div class="logo-card-head"><div class="logo-concept-info"><strong>${esc(l.name)}</strong><span>${esc(l.desc)}</span></div><button type="button" class="logo-card-theme-toggle" data-logo-action="toggle-theme" data-logo-idx="${i}">Switch Mode</button></div><div class="logo-svg-display" id="logo-preview-${i}" data-theme="dark">${l.svgDark}</div><div class="logo-card-footer"><div class="logo-swatches" title="Brand Colors">${l.palette.map(hex=>`<span class="logo-swatch" style="background:${hex};" title="${hex}"></span>`).join('')}</div><div class="logo-actions"><button type="button" class="logo-btn logo-btn-copy" data-logo-action="copy-svg" data-logo-idx="${i}">${icon('copy')} Copy SVG</button><button type="button" class="logo-btn logo-btn-png" data-logo-action="download-png" data-logo-idx="${i}">${icon('download')} PNG</button><button type="button" class="logo-btn logo-btn-svg" data-logo-action="download-svg" data-logo-idx="${i}">${icon('download')} SVG (Vector)</button></div></div></article>`).join('')}</div><div class="logo-disclaimer"><strong>💡 Designer Tip:</strong> SVGs are infinite-resolution vector graphics ready for websites, embroidery, signage, and print. Use PNG for immediate social media and chat sharing.</div></div>`;
+ const currentIdx=Math.min(Math.max(0,logoStudioState.activeIdx),logos.length-1);
+ const item=logos[currentIdx]||logos[0]||{};
+ const surface=logoStudioState.surface||'dark';
+ const layout=logoStudioState.layout||'stacked';
+ const activeSvg=getLogoSvg(item,surface,layout);
+ return `
+<div class="logo-hero-studio">
+ <div class="logo-studio-topbar">
+  <div class="logo-concept-selector" role="tablist" aria-label="Logo Concepts">
+   ${logos.map((l,i)=>`
+    <button type="button" class="logo-concept-tab${i===currentIdx?' active':''}" data-logo-concept="${i}">
+     <span class="concept-num">${i+1}</span>
+     <span class="concept-title">${esc(l.name.replace(/Concept \d+: /,''))}</span>
+    </button>
+   `).join('')}
+  </div>
+  <div class="logo-controls-group">
+   <div class="logo-surface-selector" title="Switch Surface Mode">
+    <button type="button" class="logo-surface-btn${surface==='dark'?' active':''}" data-logo-surface="dark">🌙 Dark Slate</button>
+    <button type="button" class="logo-surface-btn${surface==='light'?' active':''}" data-logo-surface="light">☀️ Pure White</button>
+    <button type="button" class="logo-surface-btn${surface==='transparent'?' active':''}" data-logo-surface="transparent">🏁 Transparent</button>
+    <button type="button" class="logo-surface-btn${surface==='mockup'?' active':''}" data-logo-surface="mockup">🎴 Mockup</button>
+   </div>
+   <div class="logo-layout-selector" title="Switch Logo Layout">
+    <button type="button" class="logo-layout-btn${layout==='stacked'?' active':''}" data-logo-layout="stacked">Centered (Stacked)</button>
+    <button type="button" class="logo-layout-btn${layout==='horizontal'?' active':''}" data-logo-layout="horizontal">Horizontal (Banner)</button>
+   </div>
+  </div>
+ </div>
+
+ <div class="logo-hero-viewport ${surface}-surface ${surface==='mockup'?'mockup-mode':''}" id="logo-hero-viewport">
+  <div class="logo-hero-canvas-inner" id="logo-hero-svg-target">
+   ${activeSvg}
+  </div>
+ </div>
+
+ <div class="logo-hero-actions">
+  <button type="button" class="logo-action-btn primary" data-hero-logo="download-svg">
+   ${icon('download')} Download Vector SVG (Infinite Resolution)
+  </button>
+  <button type="button" class="logo-action-btn accent" data-hero-logo="download-png">
+   ${icon('image')} Download High-Res PNG (2048 × 1536)
+  </button>
+  <button type="button" class="logo-action-btn secondary" data-hero-logo="copy-svg">
+   ${icon('copy')} Copy SVG Code
+  </button>
+ </div>
+
+ <div class="logo-concept-strip">
+  <div class="logo-strip-header">
+   <h4>All 4 Generated Concepts (Click any to display BIG above):</h4>
+   <span class="logo-brand-info">${esc(out.brand)} · ${esc(out.industry)}</span>
+  </div>
+  <div class="logo-thumbnails-row">
+   ${logos.map((l,i)=>`
+    <div class="logo-thumbnail-card${i===currentIdx?' active':''}" data-logo-concept="${i}">
+     <div class="logo-thumb-preview">${l.svgDark}</div>
+     <div class="logo-thumb-meta">
+      <strong>${esc(l.name)}</strong>
+      <span>${esc(l.desc)}</span>
+     </div>
+    </div>
+   `).join('')}
+  </div>
+ </div>
+
+ <div class="logo-disclaimer">
+  <strong>💡 Vector Graphics Ready:</strong> Scalable Vector Graphics (SVG) scale infinitely without loss of quality. Perfect for websites, business cards, signage, and print. Use High-Res PNG for immediate social media and chat sharing.
+ </div>
+</div>`;
+}
+function renderPhotoStudioStage(out,resultURL,sourceURL){
+ return `
+<div class="photo-studio-stage">
+ <div class="photo-applied-banner">
+  <div class="photo-applied-header">
+   <span class="photo-applied-icon">${icon('sparkles')}</span>
+   <div>
+    <strong>Client Instructions Applied: ${esc(out.summary)}</strong>
+    <p>${esc(out.instruction?`“${out.instruction}”`:'Automatic AI enhancement and dynamic range optimization applied.')}</p>
+   </div>
+  </div>
+  <div class="photo-applied-tags">
+   ${(out.appliedNotes||[]).map(note=>`<span class="photo-applied-tag">✓ ${esc(note)}</span>`).join('')}
+  </div>
+ </div>
+
+ <div class="photo-compare-viewport" id="photo-compare-viewport">
+  <div class="photo-compare-container" id="photo-compare-container" style="--split-pct:50%;">
+   <img class="photo-img-before" src="${sourceURL}" alt="Original photo before AI edits">
+   <div class="photo-after-wrapper" id="photo-after-wrapper">
+    <img class="photo-img-after" src="${resultURL}" alt="AI edited photo after client instructions">
+   </div>
+   <div class="photo-split-divider" id="photo-split-divider">
+    <span class="photo-split-handle">⇄</span>
+   </div>
+   <span class="photo-badge-label before">BEFORE (Original)</span>
+   <span class="photo-badge-label after">AFTER (AI Edit)</span>
+  </div>
+ </div>
+
+ <div class="photo-compare-slider-bar">
+  <label for="photo-split-range">
+   <span>Drag to slide Before / After:</span>
+   <input type="range" id="photo-split-range" min="0" max="100" value="50" aria-label="Before and after split slider">
+  </label>
+  <div class="photo-view-toggles">
+   <button type="button" class="photo-toggle-btn active" data-photo-view="split">Split View</button>
+   <button type="button" class="photo-toggle-btn" data-photo-view="after">After Only</button>
+   <button type="button" class="photo-toggle-btn" data-photo-view="before">Before Only</button>
+  </div>
+ </div>
+
+ <div class="photo-actions-bar">
+  <button type="button" class="photo-action-btn primary" data-photo-action="download-jpg">
+   ${icon('download')} Download High-Res JPG
+  </button>
+  <button type="button" class="photo-action-btn secondary" data-photo-action="download-png">
+   ${icon('download')} Download Lossless PNG
+  </button>
+ </div>
+</div>`;
 }
 function renderPromptCards(out){
  return `<div class="prompt-gallery"><div class="prompt-card"><div class="prompt-card-header"><div class="prompt-badge-group"><span class="prompt-badge">Production Master Prompt</span><span class="prompt-badge secondary">${esc(out.target)}</span></div><button type="button" class="prompt-copy-btn" data-copy-prompt="master">${icon('copy')} Copy Prompt</button></div><div class="prompt-body" id="prompt-text-master">${esc(out.master)}</div></div><div class="prompt-card"><div class="prompt-card-header"><div class="prompt-badge-group"><span class="prompt-badge">Optimized Parameters & Settings</span></div><button type="button" class="prompt-copy-btn" data-copy-prompt="params">${icon('copy')} Copy Settings</button></div><div class="prompt-body code-font" id="prompt-text-params">${esc(out.params)}</div></div><div class="prompt-card"><div class="prompt-card-header"><div class="prompt-badge-group"><span class="prompt-badge">Negative Prompt (Exclusions)</span></div><button type="button" class="prompt-copy-btn" data-copy-prompt="negative">${icon('copy')} Copy Exclusions</button></div><div class="prompt-body code-font" id="prompt-text-negative">${esc(out.negative)}</div></div><div class="prompt-card"><div class="prompt-card-header"><div class="prompt-badge-group"><span class="prompt-badge">Natural Language Variation (FLUX / DALL-E)</span></div><button type="button" class="prompt-copy-btn" data-copy-prompt="alternative">${icon('copy')} Copy Variation</button></div><div class="prompt-body" id="prompt-text-alternative">${esc(out.alternative)}</div></div></div>`;
 }
 async function runPhotoEditor(currentJob){
- progress('Enhancing photo on your device…');
- const preset=$('#module-extra-preset')?.value||'Auto Enhance';
- const lighting=$('#module-extra-lighting')?.value||'Balanced Normal';
- const effect=$('#module-extra-effect')?.value||'None';
- const intensity=$('#module-extra-intensity')?.value||'100% Full Effect';
+ progress('Analyzing client instructions & applying edits…');
+ const instruction=$('#photo-instruction')?.value.trim()||$('#text-input')?.value.trim()||'';
+ const brightness=Number($('#slider-brightness')?.value||0);
+ const contrast=Number($('#slider-contrast')?.value||0);
+ const saturation=Number($('#slider-saturation')?.value||0);
+ const temperature=Number($('#slider-temp')?.value||0);
+ const sharpness=Number($('#slider-sharpness')?.value||0);
+ const vignette=Number($('#slider-vignette')?.value||0);
  const bitmap=await createImageBitmap(inputFile);
  const canvas=document.createElement('canvas');
- const maxDim=2400;
+ const maxDim=2200;
  const scale=Math.min(1,maxDim/Math.max(bitmap.width,bitmap.height));
  canvas.width=Math.round(bitmap.width*scale);
  canvas.height=Math.round(bitmap.height*scale);
  const ctx=canvas.getContext('2d');
  ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
  bitmap.close();
- const enhanced=applyPhotoEnhancement(canvas,{preset,lighting,effect,intensity});
- preparedImage=enhanced;
- const blob=await new Promise(r=>enhanced.toBlob(r,'image/png'));
+ const processed=processClientPhoto(canvas,{
+  instruction,
+  adjustments:{brightness,contrast,saturation,temperature,sharpness,vignette}
+ });
+ preparedImage=processed.canvas;
+ const blob=await new Promise(r=>processed.canvas.toBlob(r,'image/jpeg',0.95));
  if(job!==currentJob)return;
  const buffer=await blob.arrayBuffer();
  if(job!==currentJob)return;
- await showResult({kind:'image',buffer,mime:'image/png',preset,lighting,effect},currentJob);
+ await showResult({
+  kind:'photo-editor',
+  buffer,
+  mime:'image/jpeg',
+  processedCanvas:processed.canvas,
+  appliedNotes:processed.appliedNotes,
+  summary:processed.summary,
+  instruction,
+  sourceURL:inputPreviewURL
+ },currentJob);
  setRunning(false);
 }
 async function runLogoDesigner(currentJob){
  progress('Designing vector brand concepts…');
- const brand=$('#module-extra-brand')?.value.trim()||$('#text-input')?.value.trim()||'Brand';
+ const brand=$('#module-extra-brand')?.value.trim()||$('#text-input')?.value.trim()||'NovaSphere';
  const tagline=$('#module-extra-tagline')?.value.trim()||'';
  const industry=$('#module-extra-industry')?.value||'Technology & AI';
  const style=$('#module-extra-style')?.value||'Modern Geometric Mark';
  const palette=$('#module-extra-palette')?.value||'Emerald & Electric Mint';
  const logos=generateLogos({brand,tagline,industry,style,palette});
+ logoStudioState.activeIdx=0;
  const textExport=logos.map((l,i)=>`--- CONCEPT ${i+1}: ${l.name.toUpperCase()} ---\n${l.desc}\nBrand: ${brand}\nTagline: ${tagline||'None'}\nIndustry: ${industry}\nColors: ${l.palette.join(', ')}\n\nSVG CODE:\n${l.svgLight}`).join('\n\n');
  await showResult({kind:'logos',text:textExport,logos,brand,tagline,industry,palette},currentJob);
  setRunning(false);
@@ -177,7 +446,7 @@ async function runPromptGenerator(currentJob){
 }
 async function run(event){
  event.preventDefault();if(running||!active)return;warning('');const t=active;
- if(t.id==='photo-editor'){if(!inputFile){warning('Choose an image first.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runPhotoEditor(currentJob);return}
+ if(t.id==='photo-editor'){if(!inputFile){warning('Choose or load an image first.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runPhotoEditor(currentJob);return}
  if(t.id==='logo-designer'){const brand=$('#module-extra-brand')?.value.trim()||$('#text-input')?.value.trim();if(!brand){warning('Enter your brand name.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runLogoDesigner(currentJob);return}
  if(t.id==='prompt-generator'){const subject=$('#text-input')?.value.trim();if(!subject){warning('Please describe your subject or prompt concept.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runPromptGenerator(currentJob);return}
  const text=$('#text-input')?.value.trim();if(['text','qa'].includes(t.kind)&&!text){warning('Add some text before running this tool.');return}if(t.kind==='qa'&&!$('#question-input').value.trim()){warning('Add your question.');return}if(['image','audio'].includes(t.kind)&&!inputFile){warning('Choose a file first.');return}
@@ -218,6 +487,9 @@ async function showResult(out,expectedJob=job){
  }else if(out.kind==='entities'){
   const names={PER:'Person',ORG:'Organization',LOC:'Location',MISC:'Other'};
   html=out.items.length?`<div class="entity-list">${out.items.map(x=>`<span class="entity-item"><small>${esc(names[x.entity_group]||x.entity_group||x.entity)}</small>${esc(x.word)}</span>`).join('')}</div>`:'<p class="result-note">No named entities were found in this passage.</p>';lastText=out.items.map(x=>`${x.entity_group||x.entity}: ${x.word}`).join('\n');
+ }else if(out.kind==='photo-editor'){
+  const blob=new Blob([out.buffer],{type:out.mime});resultURL=URL.createObjectURL(blob);
+  html=renderPhotoStudioStage(out,resultURL,out.sourceURL||inputPreviewURL);
  }else if(out.kind==='image'){
   const blob=new Blob([out.buffer],{type:out.mime});resultURL=URL.createObjectURL(blob);html=`<div class="result-image-wrap"><img src="${resultURL}" alt="AI-generated ${active.id==='depth-map'?'relative depth map':'portrait cutout'}"></div>`;
  }else if(out.kind==='audio'){
@@ -231,14 +503,26 @@ async function showResult(out,expectedJob=job){
  }else if(out.kind==='prompts'){
   html=renderPromptCards(out);
  }
- $('#output-content').innerHTML=html;$('#output-actions').classList.remove('hidden');$('#copy-output').classList.toggle('hidden',!lastText);$('#download-output').textContent=out.kind==='image'||out.kind==='detection'?'Download PNG':out.kind==='audio'?'Download WAV':out.kind==='logos'?'Download SVG':active.id==='subtitle-generator'?'Download SRT':'Download text';
+ $('#output-content').innerHTML=html;$('#output-actions').classList.remove('hidden');$('#copy-output').classList.toggle('hidden',!lastText&&out.kind!=='logos'&&out.kind!=='photo-editor');$('#download-output').textContent=out.kind==='photo-editor'?'Download JPG':out.kind==='image'||out.kind==='detection'?'Download PNG':out.kind==='audio'?'Download WAV':out.kind==='logos'?'Download SVG':active.id==='subtitle-generator'?'Download SRT':'Download text';
  $('#download-output').disabled=active.id==='subtitle-generator'&&!lastText;
  moduleUI?.result(out,{text:lastText,source:inputPreviewURL,processed:resultURL});
 }
-function download(){if(!result)return;let blob,name=active.id+'.txt';if(result.kind==='image'||result.kind==='detection'){blob=new Blob([result.buffer],{type:'image/png'});name=active.id+'.png'}else if(result.kind==='audio'){blob=new Blob([result.buffer],{type:'audio/wav'});name='freeaiharbor-voice.wav'}else if(result.kind==='logos'&&result.logos?.length){const safeBrand=(result.brand||'logo').toLowerCase().replace(/[^a-z0-9]+/g,'-');downloadSVG(result.logos[0].svgLight,`${safeBrand}-concept-1.svg`);return}else{blob=new Blob([lastText],{type:'text/plain;charset=utf-8'});if(active.id==='subtitle-generator')name='freeaiharbor-subtitles.srt'}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function download(){
+ if(!result)return;let blob,name=active.id+'.txt';
+ if(result.kind==='photo-editor'){downloadPhoto(result.processedCanvas,'enhanced-photo.jpg','image/jpeg',0.95);return}
+ if(result.kind==='image'||result.kind==='detection'){blob=new Blob([result.buffer],{type:'image/png'});name=active.id+'.png'}
+ else if(result.kind==='audio'){blob=new Blob([result.buffer],{type:'audio/wav'});name='freeaiharbor-voice.wav'}
+ else if(result.kind==='logos'&&result.logos?.length){
+  const item=result.logos[logoStudioState.activeIdx]||result.logos[0];
+  const safeBrand=(result.brand||'logo').toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  downloadSVG(getLogoSvg(item,logoStudioState.surface,logoStudioState.layout),`${safeBrand}-concept-${logoStudioState.activeIdx+1}.svg`);
+  return;
+ }else{blob=new Blob([lastText],{type:'text/plain;charset=utf-8'});if(active.id==='subtitle-generator')name='freeaiharbor-subtitles.srt'}
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
+}
 async function copyText(value,message){try{await navigator.clipboard.writeText(value);toast(message)}catch{toast('Copy is unavailable in this browser. You can select the result and copy it manually.')}}
 const examples={
- 'photo-editor':'Enhance photo with vibrant dynamic range and balanced contrast', 'logo-designer':'NovaSphere', 'prompt-generator':'A futuristic cyberpunk noodle bar in Neo Tokyo at rainy midnight, holographic lanterns reflecting on wet asphalt, 35mm photograph',
+ 'photo-editor':'Make it warm with golden hour sunset lighting, soft glow, and rich contrast', 'logo-designer':'NovaSphere', 'prompt-generator':'A futuristic cyberpunk noodle bar in Neo Tokyo at rainy midnight, holographic lanterns reflecting on wet asphalt, 35mm photograph',
  'ai-chat':'Suggest three simple ways to organize a home office.', 'writing-assistant':'Write a short welcome paragraph for a website that helps people learn photography.',paraphraser:'Our team is working hard to make the new product easier to use. We welcome your feedback.',
  'email-writer':'Write a friendly email to a client asking for feedback on the first draft of their video.', 'social-captions':'A small leather accessories brand is sharing a close-up of hand stitching. Invite people to follow for the launch.', 'product-copy':'A slim card holder, made of leather, with four card slots. Designed to fit comfortably in a pocket.', 'video-script':'A 20-second video explaining how to plan a productive morning. End with a simple call to action.', brainstorm:'Five low-budget content ideas for a new online stationery store.', 'code-helper':'Explain what Array.map does in JavaScript and show a short example.', 'task-planner':'Create a simple plan to finish a one-minute product video in two days.', summarizer:'A new community library opened on Monday in the town center. The library offers books, a quiet study room, and free computer access. It will run reading clubs for children every Saturday and workshops for adults once a month. Residents can register for a free membership by bringing proof of address. The project was funded by local donations and a council grant.',translator:'Good morning! I hope you have a wonderful day.',sentiment:'The new studio is excellent. I love the quality of the work and the friendly service.', 'ask-text':'The Free AI Harbor workshop takes place on Friday at 3 PM in the community center. Participants should bring a notebook. The session is free and lasts one hour.', 'entity-finder':'Marie Curie worked in Paris. Microsoft has its headquarters in Redmond, Washington.', 'text-to-speech':'Welcome to Free AI Harbor. Your next idea starts right here.'
 };
@@ -246,43 +530,59 @@ function clearTool(){if(running)return;if($('#text-input')){$('#text-input').val
 function showCredits(){const unique=[...Object.values(MODELS).filter(x=>x.id!=='tesseract.js'),...[...Object.values(TRANSLATIONS),...Object.values(REVERSE_TRANSLATIONS)].map(x=>({id:x.model,license:x.license}))];$('#model-credits-list').innerHTML=unique.map(m=>`<div class="model-credit"><a href="https://huggingface.co/${m.id}" target="_blank" rel="noopener noreferrer">${esc(m.id)}</a><span>${esc(m.license)} · public downloadable model</span></div>`).join('')}
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.open){openTool(b.dataset.open);return}if(b.dataset.save){toggleSaved(b.dataset.save);return}if(b.dataset.view){setView(b.dataset.view);return}if(b.dataset.category){state.category=b.dataset.category;render();return}if(b.dataset.access){state.access=b.dataset.access;render();return}if(b.dataset.search){state.query=b.dataset.search;render();scrollTo($('#directory'));return}if(b.dataset.close){$('#'+b.dataset.close).close();return}if(b.dataset.action==='about'){$('#about-dialog').showModal();return}if(b.dataset.action==='back'){back();return}if(b.dataset.action==='browse'){scrollTo($('#directory'));return}if(b.dataset.action==='reset'){state.query='';state.category='All tools';state.access='all';state.view='all';render();return}});
 $('#output-content').addEventListener('click',e=>{
- const b=e.target.closest('button');if(!b)return;
+ const b=e.target.closest('button, [data-logo-concept]');if(!b)return;
+ if(b.dataset.logoConcept!==undefined&&result&&result.kind==='logos'){
+  const idx=parseInt(b.dataset.logoConcept,10);
+  if(!isNaN(idx)){logoStudioState.activeIdx=idx;$('#output-content').innerHTML=renderLogoGallery(result)}
+  return;
+ }
+ if(b.dataset.logoSurface&&result&&result.kind==='logos'){
+  logoStudioState.surface=b.dataset.logoSurface;$('#output-content').innerHTML=renderLogoGallery(result);return;
+ }
+ if(b.dataset.logoLayout&&result&&result.kind==='logos'){
+  logoStudioState.layout=b.dataset.logoLayout;$('#output-content').innerHTML=renderLogoGallery(result);return;
+ }
+ if(b.dataset.heroLogo&&result&&result.kind==='logos'&&result.logos){
+  const item=result.logos[logoStudioState.activeIdx]||result.logos[0];
+  const safeBrand=(result.brand||'brand').toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  const svgCode=getLogoSvg(item,logoStudioState.surface,logoStudioState.layout);
+  if(b.dataset.heroLogo==='download-svg'){
+   downloadSVG(svgCode,`${safeBrand}-concept-${logoStudioState.activeIdx+1}.svg`);
+   toast(`Downloading ${safeBrand}-concept-${logoStudioState.activeIdx+1}.svg`);
+  }else if(b.dataset.heroLogo==='download-png'){
+   downloadLogoPNG(svgCode,`${safeBrand}-concept-${logoStudioState.activeIdx+1}.png`,2048,1536);
+   toast(`Rendering high-res PNG for concept ${logoStudioState.activeIdx+1}…`);
+  }else if(b.dataset.heroLogo==='copy-svg'){
+   copyText(svgCode,`Concept ${logoStudioState.activeIdx+1} SVG copied to clipboard.`);
+  }
+  return;
+ }
+ if(b.dataset.photoView&&result&&result.kind==='photo-editor'){
+  const view=b.dataset.photoView;
+  document.querySelectorAll('.photo-toggle-btn').forEach(btn=>btn.classList.toggle('active',btn===b));
+  const container=$('#photo-compare-container'),range=$('#photo-split-range');
+  if(container){
+   if(view==='after'){container.style.setProperty('--split-pct','100%');if(range)range.value=100}
+   else if(view==='before'){container.style.setProperty('--split-pct','0%');if(range)range.value=0}
+   else{container.style.setProperty('--split-pct','50%');if(range)range.value=50}
+  }
+  return;
+ }
+ if(b.dataset.photoAction&&result&&result.kind==='photo-editor'){
+  if(b.dataset.photoAction==='download-jpg')downloadPhoto(result.processedCanvas,'enhanced-photo.jpg','image/jpeg',0.95);
+  else if(b.dataset.photoAction==='download-png')downloadPhoto(result.processedCanvas,'enhanced-photo.png','image/png');
+  return;
+ }
  const copyPromptKey=b.dataset.copyPrompt;
  if(copyPromptKey&&result&&result.kind==='prompts'){
   const text=copyPromptKey==='master'?result.master:copyPromptKey==='params'?result.params:copyPromptKey==='negative'?result.negative:copyPromptKey==='alternative'?result.alternative:'';
   if(text){copyText(text,'Prompt copied to clipboard!');const orig=b.innerHTML;b.textContent='✓ Copied!';setTimeout(()=>{b.innerHTML=orig},1500)}
   return;
  }
- if(b.id==='toggle-all-logo-themes'){
-  if(!result||!result.logos)return;
-  const cards=document.querySelectorAll('.logo-svg-display');
-  const firstIsDark=cards[0]?.dataset.theme==='dark';
-  const newTheme=firstIsDark?'light':'dark';
-  cards.forEach((card,idx)=>{card.dataset.theme=newTheme;card.innerHTML=newTheme==='light'?result.logos[idx].svgLight:result.logos[idx].svgDark});
-  toast(`Switched all previews to ${newTheme} surface.`);
-  return;
- }
- const logoAction=b.dataset.logoAction;
- const idx=parseInt(b.dataset.logoIdx,10);
- if(logoAction&&!isNaN(idx)&&result&&result.logos&&result.logos[idx]){
-  const item=result.logos[idx];
-  const previewEl=$(`#logo-preview-${idx}`);
-  const currentTheme=previewEl?.dataset.theme||'dark';
-  const safeBrand=(result.brand||'brand').toLowerCase().replace(/[^a-z0-9]+/g,'-');
-  if(logoAction==='toggle-theme'){
-   const nextTheme=currentTheme==='dark'?'light':'dark';
-   if(previewEl){previewEl.dataset.theme=nextTheme;previewEl.innerHTML=nextTheme==='light'?item.svgLight:item.svgDark}
-   toast(`Switched concept ${idx+1} to ${nextTheme} surface.`);
-  }else if(logoAction==='copy-svg'){
-   copyText(previewEl?.dataset.theme==='dark'?item.svgDark:item.svgLight,`Concept ${idx+1} SVG copied to clipboard.`);
-  }else if(logoAction==='download-svg'){
-   downloadSVG(previewEl?.dataset.theme==='dark'?item.svgDark:item.svgLight,`${safeBrand}-concept-${idx+1}.svg`);
-   toast(`Downloading ${safeBrand}-concept-${idx+1}.svg`);
-  }else if(logoAction==='download-png'){
-   downloadLogoPNG(previewEl?.dataset.theme==='dark'?item.svgDark:item.svgLight,`${safeBrand}-concept-${idx+1}.png`);
-   toast(`Rendering and downloading PNG for concept ${idx+1}…`);
-  }
-  return;
+});
+$('#output-content').addEventListener('input',e=>{
+ if(e.target.id==='photo-split-range'){
+  const val=e.target.value;const container=$('#photo-compare-container');if(container)container.style.setProperty('--split-pct',val+'%');
  }
 });
 $('#hero-search').addEventListener('submit',e=>{e.preventDefault();state.query=$('#hero-query').value;render();scrollTo($('#directory'))});$('#directory-query').addEventListener('input',e=>{state.query=e.target.value;render()});$('#clear-query').addEventListener('click',()=>{state.query='';render();$('#directory-query').focus()});$('#sort').addEventListener('change',e=>{state.sort=e.target.value;render()});

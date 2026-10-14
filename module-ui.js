@@ -184,6 +184,8 @@ export function createModuleUI({tools,onEdit,onSwap,onUseOutput,onNotify,onRun,o
  }
  function result(out,{text,source,processed}={}){
   if(!tool)return;$('#dock-action-note').textContent='Your result is ready. Copy or download it from this bar.';currentResult=out;currentText=text||'';processedURL=processed||'';sourceURL=source||sourceURL;$('#module-result-tools').innerHTML='';activity('Result ready');
+  if(tool.id==='photo-editor'||out.kind==='photo-editor'||profile.family==='photo-editor'){$('#module-output-stats').textContent='High-Res Edited Photo';return}
+  if(tool.id==='logo-designer'||out.kind==='logos'){$('#module-output-stats').textContent=(out.logos?.length||4)+' concepts · Vector SVG / PNG';return}
   if(profile.family==='image'&&processedURL){imageView='result';imageStage();$('#module-output-stats').textContent=out.kind==='detection'?out.items.length+' objects · PNG':'PNG';return}
   if(out.kind==='flashcards'&&out.cards.length){deck=out.cards.map((c,id)=>({...c,id}));deckIndex=0;revealed=false;learned.clear();showDeck();return}
   if(profile.family==='planner'&&out.kind==='text'&&out.text?.trim()){tasks=planItems(out.text);board=false;showPlan();setText(planTranscript(tasks));return}
@@ -192,7 +194,6 @@ export function createModuleUI({tools,onEdit,onSwap,onUseOutput,onNotify,onRun,o
   if(out.kind==='audio'){
    duration=out.audio.length/out.rate;mediaShell('Generated voice');bindPlayer($('#output-content audio'));waveform(out.audio,duration);$('#module-output-stats').textContent=mediaTime(duration)+' · WAV';return;
   }
-  if(out.kind==='logos'){$('#module-output-stats').textContent=out.logos.length+' concepts · SVG / PNG';return}
   if(out.kind==='prompts'){$('#module-output-stats').textContent=out.target+' · Master Prompt';return}
   if(['text','answer','document'].includes(out.kind)&&out.text?.trim()){textResult(out.text,out.sourceText);return}
   if(out.kind==='scores'&&out.items.length){const best=out.items.reduce((a,b)=>a.score>b.score?a:b);$('#output-content').insertAdjacentHTML('afterbegin',`<div class="analysis-summary"><span class="section-kicker">HIGHEST MODEL SCORE</span><strong>${esc(best.label)}</strong><span>${(best.score*100).toFixed(1)}%</span></div>`);$('#module-output-stats').textContent=out.items.length+' labels';return}
