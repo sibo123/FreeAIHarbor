@@ -39,13 +39,13 @@ export function createModuleUI({tools,onEdit,onSwap,onUseOutput,onNotify,onRun,o
  }
  function setupInputs(){
   const input=$('#text-input');$('#module-paste').classList.toggle('hidden',!input);
-  if(input&&profile.family!=='compare')root.querySelector('label[for="text-input"]').textContent=tool.shape==='search'||tool.shape==='duplicates'?'Your passages · one per line':profile.input;
+  if(input&&profile.family!=='compare'){const lbl=root.querySelector('label[for="text-input"]');if(lbl)lbl.textContent=tool.shape==='search'||tool.shape==='duplicates'?'Your passages · one per line':profile.input}
   if(profile.fields){
    const fields=document.createElement('div');fields.className='module-extra-fields';fields.innerHTML=profile.fields.map(f=>`<label for="module-extra-${f.id}">${esc(f.label)}${f.choices?`<select id="module-extra-${f.id}"><option value="">Choose…</option>${f.choices.map(x=>`<option>${esc(x)}</option>`).join('')}</select>`:`<input id="module-extra-${f.id}" type="text" maxlength="${f.max}" placeholder="${esc(f.placeholder)}">`}</label>`).join('');$('#input-controls').prepend(fields);
    fields.addEventListener('input',()=>{if(!currentResult)return;if(profile.style==='seo')seoPreview(currentResult.text);if(profile.style==='email'){const recipient=$('#module-envelope-recipient'),subject=$('#module-envelope-subject');if(recipient)recipient.textContent=$('#module-extra-recipient').value||'Your recipient';if(subject)subject.textContent=$('#module-extra-subject').value||'Your email draft'}});
   }
   if(input){
-   const stats=document.createElement('span');stats.id='module-input-stats';stats.className='module-input-stats';$('#character-count').prepend(stats);
+   const stats=document.createElement('span');stats.id='module-input-stats';stats.className='module-input-stats';const cc=$('#character-count');if(cc)cc.prepend(stats);
    input.addEventListener('input',updateEditor);input.addEventListener('scroll',updateEditor);updateEditor();
   }
   if(profile.family==='compare'){

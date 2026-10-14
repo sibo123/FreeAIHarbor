@@ -38,12 +38,12 @@
 .logo-concept-tab {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
+  gap: 6px;
+  padding: 6px 12px;
   background: #f1f5eb;
   border: 1px solid #d8e2d0;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   color: #3b5035;
   cursor: pointer;
@@ -128,12 +128,13 @@
 /* BIG HERO PREVIEW CANVAS */
 .logo-hero-viewport {
   width: 100%;
-  min-height: 480px;
+  min-height: 320px;
+  max-height: 420px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 18px;
-  padding: 36px 24px;
+  padding: 24px 20px;
   position: relative;
   overflow: hidden;
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;

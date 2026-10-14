@@ -156,7 +156,7 @@ function showControls(t){
   if(t.kind==='qa')html+=`<label class="field-label" for="question-input">Your question</label><input class="tool-input" id="question-input" type="text" maxlength="250" placeholder="What do you want to find in the passage?" required>`;
   if(t.shape==='search')html+=`<label class="field-label" for="question-input">Your search query</label><input class="tool-input" id="question-input" type="text" maxlength="250" placeholder="What do you want to find?" required>`;
   if(t.id==='logo-designer'){
-   html+=`<textarea id="text-input" class="tool-textarea hidden" maxlength="${t.limit}"></textarea>`;
+   html+=`<label class="field-label hidden" for="text-input"></label><textarea id="text-input" class="tool-textarea hidden" maxlength="${t.limit}"></textarea><p id="character-count" class="character-count hidden">0 / ${t.limit.toLocaleString()} characters</p>`;
   }else{
    html+=`<label class="field-label" for="text-input">${t.kind==='qa'?'Your source passage':t.shape==='pair'?'First passage':t.shape==='search'||t.shape==='duplicates'?'Your passages · one per line':t.id==='ai-chat'?'Your message':'Your text or brief'}</label><textarea id="text-input" class="tool-textarea" maxlength="${t.limit}" placeholder="${esc(t.placeholder)}" required></textarea><p id="character-count" class="character-count">0 / ${t.limit.toLocaleString()} characters</p>`;
   }
@@ -171,7 +171,7 @@ function showControls(t){
  if(t.shape==='labels')html+=`<label class="field-label extra-field" for="labels-input">Your labels · separated by commas</label><textarea class="tool-textarea labels-textarea" id="labels-input" maxlength="650" placeholder="${esc(t.labelsExample)}" required aria-describedby="labels-hint"></textarea><p id="labels-hint" class="result-note">Choose 2–8 short ${t.kind==='image'?'image descriptions':'topic labels'} to compare.</p>`;
  if(t.note&&(['image','audio'].includes(t.kind)||t.model==='voice'))html+=`<p class="tool-input-hint">${esc(t.note)}</p>`;
  $('#input-controls').innerHTML=html;$('#use-example').classList.toggle('hidden',!['text','qa'].includes(t.kind));
- if($('#text-input')){$('#text-input').value=inputDrafts.get(t.id)||'';$('#text-input').addEventListener('input',()=>{$('#character-count').textContent=`${$('#text-input').value.length} / ${t.limit.toLocaleString()} characters`;inputDrafts.set(t.id,$('#text-input').value)});$('#text-input').dispatchEvent(new Event('input'))}
+ if($('#text-input')){$('#text-input').value=inputDrafts.get(t.id)||'';$('#text-input').addEventListener('input',()=>{const cc=$('#character-count');if(cc)cc.textContent=`${$('#text-input').value.length} / ${t.limit.toLocaleString()} characters`;inputDrafts.set(t.id,$('#text-input').value)});$('#text-input').dispatchEvent(new Event('input'))}
  if(t.id==='logo-designer'){
   const label=$('label[for="text-input"]');if(label)label.classList.add('hidden');
   const ti=$('#text-input');if(ti){ti.classList.add('hidden');ti.required=false;}
@@ -268,40 +268,20 @@ function renderLogoGallery(out){
  const surface=logoStudioState.surface||'dark';
  const layout=logoStudioState.layout||'stacked';
  const activeSvg=getLogoSvg(item,surface,layout);
+ const shortNames=['Geometric Mark','Monogram Crest','Dynamic Flow','Shield Emblem'];
  return `
 <div class="logo-hero-studio">
- <div class="logo-studio-topbar">
-  <div class="logo-concept-selector" role="tablist" aria-label="Logo Concepts">
-   ${logos.map((l,i)=>`
-    <button type="button" class="logo-concept-tab${i===currentIdx?' active':''}" data-logo-concept="${i}">
-     <span class="concept-num">${i+1}</span>
-     <span class="concept-title">${esc(l.name.replace(/Concept \d+: /,''))}</span>
-    </button>
-   `).join('')}
-  </div>
-  <div class="logo-controls-group">
-   <div class="logo-surface-selector" title="Switch Surface Mode">
-    <button type="button" class="logo-surface-btn${surface==='dark'?' active':''}" data-logo-surface="dark">🌙 Dark Slate</button>
-    <button type="button" class="logo-surface-btn${surface==='light'?' active':''}" data-logo-surface="light">☀️ Pure White</button>
-    <button type="button" class="logo-surface-btn${surface==='transparent'?' active':''}" data-logo-surface="transparent">🏁 Transparent</button>
-    <button type="button" class="logo-surface-btn${surface==='mockup'?' active':''}" data-logo-surface="mockup">🎴 Mockup</button>
-   </div>
-   <div class="logo-layout-selector" title="Switch Logo Layout">
-    <button type="button" class="logo-layout-btn${layout==='stacked'?' active':''}" data-logo-layout="stacked">Centered (Stacked)</button>
-    <button type="button" class="logo-layout-btn${layout==='horizontal'?' active':''}" data-logo-layout="horizontal">Horizontal (Banner)</button>
-   </div>
-  </div>
- </div>
-
+ <!-- 1. BIG LOGO HERO VIEWPORT FIRST (Immediately visible at eye-level) -->
  <div class="logo-hero-viewport ${surface}-surface ${surface==='mockup'?'mockup-mode':''}" id="logo-hero-viewport">
   <div class="logo-hero-canvas-inner" id="logo-hero-svg-target">
    ${activeSvg}
   </div>
  </div>
 
+ <!-- 2. DOWNLOAD & EXPORT ACTIONS DIRECTLY UNDER LOGO -->
  <div class="logo-hero-actions">
   <button type="button" class="logo-action-btn primary" data-hero-logo="download-svg">
-   ${icon('download')} Download Vector SVG (Infinite Resolution)
+   ${icon('download')} Download Vector SVG
   </button>
   <button type="button" class="logo-action-btn accent" data-hero-logo="download-png">
    ${icon('image')} Download High-Res PNG (2048 × 1536)
@@ -309,6 +289,29 @@ function renderLogoGallery(out){
   <button type="button" class="logo-action-btn secondary" data-hero-logo="copy-svg">
    ${icon('copy')} Copy SVG Code
   </button>
+ </div>
+
+ <!-- 3. COMPACT CONCEPT TABS & SURFACE TOGGLES -->
+ <div class="logo-studio-topbar">
+  <div class="logo-concept-selector" role="tablist" aria-label="Logo Concepts">
+   ${logos.map((l,i)=>`
+    <button type="button" class="logo-concept-tab${i===currentIdx?' active':''}" data-logo-concept="${i}">
+     <span class="concept-num">${i+1}</span>
+     <span class="concept-title">${esc(shortNames[i]||l.name.replace(/Concept \d+: /,''))}</span>
+    </button>
+   `).join('')}
+  </div>
+  <div class="logo-controls-group">
+   <div class="logo-surface-selector" title="Switch Surface Mode">
+    <button type="button" class="logo-surface-btn${surface==='dark'?' active':''}" data-logo-surface="dark">🌙 Dark</button>
+    <button type="button" class="logo-surface-btn${surface==='light'?' active':''}" data-logo-surface="light">☀️ Light</button>
+    <button type="button" class="logo-surface-btn${surface==='transparent'?' active':''}" data-logo-surface="transparent">🏁 Transparent</button>
+   </div>
+   <div class="logo-layout-selector" title="Switch Logo Layout">
+    <button type="button" class="logo-layout-btn${layout==='stacked'?' active':''}" data-logo-layout="stacked">Centered</button>
+    <button type="button" class="logo-layout-btn${layout==='horizontal'?' active':''}" data-logo-layout="horizontal">Banner</button>
+   </div>
+  </div>
  </div>
 
  <div class="logo-concept-strip">
