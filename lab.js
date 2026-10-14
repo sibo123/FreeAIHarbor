@@ -155,7 +155,11 @@ function showControls(t){
  }else if(['text','qa'].includes(t.kind)){
   if(t.kind==='qa')html+=`<label class="field-label" for="question-input">Your question</label><input class="tool-input" id="question-input" type="text" maxlength="250" placeholder="What do you want to find in the passage?" required>`;
   if(t.shape==='search')html+=`<label class="field-label" for="question-input">Your search query</label><input class="tool-input" id="question-input" type="text" maxlength="250" placeholder="What do you want to find?" required>`;
-  html+=`<label class="field-label" for="text-input">${t.kind==='qa'?'Your source passage':t.shape==='pair'?'First passage':t.shape==='search'||t.shape==='duplicates'?'Your passages · one per line':t.id==='ai-chat'?'Your message':'Your text or brief'}</label><textarea id="text-input" class="tool-textarea" maxlength="${t.limit}" placeholder="${esc(t.placeholder)}" required></textarea><p id="character-count" class="character-count">0 / ${t.limit.toLocaleString()} characters</p>`;
+  if(t.id==='logo-designer'){
+   html+=`<textarea id="text-input" class="tool-textarea hidden" maxlength="${t.limit}"></textarea>`;
+  }else{
+   html+=`<label class="field-label" for="text-input">${t.kind==='qa'?'Your source passage':t.shape==='pair'?'First passage':t.shape==='search'||t.shape==='duplicates'?'Your passages · one per line':t.id==='ai-chat'?'Your message':'Your text or brief'}</label><textarea id="text-input" class="tool-textarea" maxlength="${t.limit}" placeholder="${esc(t.placeholder)}" required></textarea><p id="character-count" class="character-count">0 / ${t.limit.toLocaleString()} characters</p>`;
+  }
   if(t.shape==='pair')html+=`<label class="field-label" for="secondary-input">Second passage</label><textarea id="secondary-input" class="tool-textarea secondary-textarea" maxlength="${t.secondaryLimit}" placeholder="${esc(t.secondaryPlaceholder)}" required></textarea>`;
   if(t.model==='chat'&&t.id!=='ai-chat'&&t.mode!=='flashcards')html+='<div class="options-row"><label for="tone-select">Tone<select id="tone-select"><option>Natural</option><option>Professional</option><option>Friendly</option><option>Concise</option></select></label></div>';
   if(t.model==='translation')html+=`<div class="options-row"><label for="target-language">${t.reverse?'From (to English)':'English to'}<select id="target-language">${Object.entries(t.reverse?REVERSE_TRANSLATIONS:TRANSLATIONS).map(([id,x])=>`<option value="${id}">${x.name}</option>`).join('')}</select></label></div>`;
@@ -170,8 +174,14 @@ function showControls(t){
  if($('#text-input')){$('#text-input').value=inputDrafts.get(t.id)||'';$('#text-input').addEventListener('input',()=>{$('#character-count').textContent=`${$('#text-input').value.length} / ${t.limit.toLocaleString()} characters`;inputDrafts.set(t.id,$('#text-input').value)});$('#text-input').dispatchEvent(new Event('input'))}
  if(t.id==='logo-designer'){
   const label=$('label[for="text-input"]');if(label)label.classList.add('hidden');
-  const ti=$('#text-input');if(ti)ti.classList.add('hidden');
+  const ti=$('#text-input');if(ti){ti.classList.add('hidden');ti.required=false;}
   const cc=$('#character-count');if(cc)cc.classList.add('hidden');
+  $('#input-controls').addEventListener('input',e=>{
+   if(e.target&&(e.target.id==='module-extra-brand'||e.target.closest('.module-extra-fields'))){
+    const brandVal=$('#module-extra-brand')?.value||document.querySelector('.module-extra-fields input')?.value||'';
+    const targetInput=$('#text-input');if(targetInput)targetInput.value=brandVal;
+   }
+  });
  }
  if($('#file-input')){
   $('#file-input').addEventListener('change',()=>selectFile($('#file-input').files[0]));
@@ -420,13 +430,17 @@ async function runPhotoEditor(currentJob){
 }
 async function runLogoDesigner(currentJob){
  progress('Designing vector brand concepts…');
- const brand=$('#module-extra-brand')?.value.trim()||$('#text-input')?.value.trim()||'NovaSphere';
+ const brand=$('#module-extra-brand')?.value.trim()||document.querySelector('.module-extra-fields input')?.value.trim()||$('#text-input')?.value.trim()||'NovaSphere';
  const tagline=$('#module-extra-tagline')?.value.trim()||'';
  const industry=$('#module-extra-industry')?.value||'Technology & AI';
  const style=$('#module-extra-style')?.value||'Modern Geometric Mark';
  const palette=$('#module-extra-palette')?.value||'Emerald & Electric Mint';
  const logos=generateLogos({brand,tagline,industry,style,palette});
- logoStudioState.activeIdx=0;
+ let defaultIdx=0;
+ if(style.includes('Monogram'))defaultIdx=1;
+ else if(style.includes('Abstract')||style.includes('Flow'))defaultIdx=2;
+ else if(style.includes('Shield')||style.includes('Badge'))defaultIdx=3;
+ logoStudioState.activeIdx=defaultIdx;
  const textExport=logos.map((l,i)=>`--- CONCEPT ${i+1}: ${l.name.toUpperCase()} ---\n${l.desc}\nBrand: ${brand}\nTagline: ${tagline||'None'}\nIndustry: ${industry}\nColors: ${l.palette.join(', ')}\n\nSVG CODE:\n${l.svgLight}`).join('\n\n');
  await showResult({kind:'logos',text:textExport,logos,brand,tagline,industry,palette},currentJob);
  setRunning(false);
@@ -445,9 +459,18 @@ async function runPromptGenerator(currentJob){
  setRunning(false);
 }
 async function run(event){
- event.preventDefault();if(running||!active)return;warning('');const t=active;
+ if(event)event.preventDefault();if(running||!active)return;warning('');const t=active;
  if(t.id==='photo-editor'){if(!inputFile){warning('Choose or load an image first.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runPhotoEditor(currentJob);return}
- if(t.id==='logo-designer'){const brand=$('#module-extra-brand')?.value.trim()||$('#text-input')?.value.trim();if(!brand){warning('Enter your brand name.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runLogoDesigner(currentJob);return}
+ if(t.id==='logo-designer'){
+  const brand=$('#module-extra-brand')?.value.trim()||document.querySelector('.module-extra-fields input')?.value.trim()||$('#text-input')?.value.trim();
+  if(!brand){
+   warning('Enter your brand name.');
+   const bIn=$('#module-extra-brand')||document.querySelector('.module-extra-fields input');
+   if(bIn)bIn.focus();
+   return;
+  }
+  job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runLogoDesigner(currentJob);return;
+ }
  if(t.id==='prompt-generator'){const subject=$('#text-input')?.value.trim();if(!subject){warning('Please describe your subject or prompt concept.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runPromptGenerator(currentJob);return}
  const text=$('#text-input')?.value.trim();if(['text','qa'].includes(t.kind)&&!text){warning('Add some text before running this tool.');return}if(t.kind==='qa'&&!$('#question-input').value.trim()){warning('Add your question.');return}if(['image','audio'].includes(t.kind)&&!inputFile){warning('Choose a file first.');return}
  try{if(t.shape==='labels')labelsFrom($('#labels-input').value);if(t.shape==='pair'&&!$('#secondary-input').value.trim())throw new Error('Enter the second passage.');if(t.shape==='search'&&!$('#question-input').value.trim())throw new Error('Enter your search query.');if(['search','duplicates'].includes(t.shape))passages(text);if(t.shape==='sentences')sentencesFrom(text);if(t.model==='mask'&&(text.match(/\[MASK\]/g)||[]).length!==1)throw new Error('Use exactly one [MASK] placeholder.')}catch(error){warning(error.message);return}
@@ -526,7 +549,7 @@ const examples={
  'ai-chat':'Suggest three simple ways to organize a home office.', 'writing-assistant':'Write a short welcome paragraph for a website that helps people learn photography.',paraphraser:'Our team is working hard to make the new product easier to use. We welcome your feedback.',
  'email-writer':'Write a friendly email to a client asking for feedback on the first draft of their video.', 'social-captions':'A small leather accessories brand is sharing a close-up of hand stitching. Invite people to follow for the launch.', 'product-copy':'A slim card holder, made of leather, with four card slots. Designed to fit comfortably in a pocket.', 'video-script':'A 20-second video explaining how to plan a productive morning. End with a simple call to action.', brainstorm:'Five low-budget content ideas for a new online stationery store.', 'code-helper':'Explain what Array.map does in JavaScript and show a short example.', 'task-planner':'Create a simple plan to finish a one-minute product video in two days.', summarizer:'A new community library opened on Monday in the town center. The library offers books, a quiet study room, and free computer access. It will run reading clubs for children every Saturday and workshops for adults once a month. Residents can register for a free membership by bringing proof of address. The project was funded by local donations and a council grant.',translator:'Good morning! I hope you have a wonderful day.',sentiment:'The new studio is excellent. I love the quality of the work and the friendly service.', 'ask-text':'The Free AI Harbor workshop takes place on Friday at 3 PM in the community center. Participants should bring a notebook. The session is free and lasts one hour.', 'entity-finder':'Marie Curie worked in Paris. Microsoft has its headquarters in Redmond, Washington.', 'text-to-speech':'Welcome to Free AI Harbor. Your next idea starts right here.'
 };
-function clearTool(){if(running)return;if($('#text-input')){$('#text-input').value='';$('#text-input').dispatchEvent(new Event('input'))}for(const id of ['question-input','secondary-input','labels-input','file-input'])if($('#'+id))$('#'+id).value='';document.querySelectorAll('.module-extra-fields input,.module-extra-fields select').forEach(el=>el.value='');inputFile=null;preparedImage=null;clearURLs();if($('#file-input'))$('#file-input').required=true;if($('#input-preview')){$('#input-preview').innerHTML='';$('#input-preview').classList.add('hidden');$('#file-caption').textContent=''}chatHistory=[];moduleUI?.clearFile();resetOutput();warning('')}
+function clearTool(){if(running)return;if($('#text-input')){$('#text-input').value='';$('#text-input').dispatchEvent(new Event('input'))}for(const id of ['question-input','secondary-input','labels-input','file-input'])if($('#'+id))$('#'+id).value='';document.querySelectorAll('.module-extra-fields input,.module-extra-fields select').forEach(el=>el.value='');inputFile=null;preparedImage=null;clearURLs();if($('#file-input')&&active&&active.id!=='photo-editor')$('#file-input').required=true;if($('#input-preview')){$('#input-preview').innerHTML='';$('#input-preview').classList.add('hidden');$('#file-caption').textContent=''}chatHistory=[];moduleUI?.clearFile();resetOutput();warning('')}
 function showCredits(){const unique=[...Object.values(MODELS).filter(x=>x.id!=='tesseract.js'),...[...Object.values(TRANSLATIONS),...Object.values(REVERSE_TRANSLATIONS)].map(x=>({id:x.model,license:x.license}))];$('#model-credits-list').innerHTML=unique.map(m=>`<div class="model-credit"><a href="https://huggingface.co/${m.id}" target="_blank" rel="noopener noreferrer">${esc(m.id)}</a><span>${esc(m.license)} · public downloadable model</span></div>`).join('')}
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.open){openTool(b.dataset.open);return}if(b.dataset.save){toggleSaved(b.dataset.save);return}if(b.dataset.view){setView(b.dataset.view);return}if(b.dataset.category){state.category=b.dataset.category;render();return}if(b.dataset.access){state.access=b.dataset.access;render();return}if(b.dataset.search){state.query=b.dataset.search;render();scrollTo($('#directory'));return}if(b.dataset.close){$('#'+b.dataset.close).close();return}if(b.dataset.action==='about'){$('#about-dialog').showModal();return}if(b.dataset.action==='back'){back();return}if(b.dataset.action==='browse'){scrollTo($('#directory'));return}if(b.dataset.action==='reset'){state.query='';state.category='All tools';state.access='all';state.view='all';render();return}});
 $('#output-content').addEventListener('click',e=>{
@@ -586,14 +609,15 @@ $('#output-content').addEventListener('input',e=>{
  }
 });
 $('#hero-search').addEventListener('submit',e=>{e.preventDefault();state.query=$('#hero-query').value;render();scrollTo($('#directory'))});$('#directory-query').addEventListener('input',e=>{state.query=e.target.value;render()});$('#clear-query').addEventListener('click',()=>{state.query='';render();$('#directory-query').focus()});$('#sort').addEventListener('change',e=>{state.sort=e.target.value;render()});
-$('#tool-form').addEventListener('submit',run);$('#stop-tool').addEventListener('click',cancel);$('#clear-tool').addEventListener('click',clearTool);$('#workspace-save').addEventListener('click',()=>active&&toggleSaved(active.id));$('#copy-output').addEventListener('click',()=>copyText(lastText,'Result copied.'));$('#download-output').addEventListener('click',download);$('#share-tool').addEventListener('click',()=>copyText(location.href,'Tool link copied.'));
+$('#tool-form').addEventListener('submit',run);$('#run-tool').addEventListener('click',run);$('#stop-tool').addEventListener('click',cancel);$('#clear-tool').addEventListener('click',clearTool);$('#workspace-save').addEventListener('click',()=>active&&toggleSaved(active.id));$('#copy-output').addEventListener('click',()=>copyText(lastText,'Result copied.'));$('#download-output').addEventListener('click',download);$('#share-tool').addEventListener('click',()=>copyText(location.href,'Tool link copied.'));
 $('#use-example').addEventListener('click',()=>{
  if(!active)return;
  if(active.id==='logo-designer'){
-  const brandInput=$('#module-extra-brand')||$('#text-input');
+  const brandInput=$('#module-extra-brand')||document.querySelector('.module-extra-fields input')||$('#text-input');
   if(brandInput){brandInput.value='NovaSphere';brandInput.dispatchEvent(new Event('input'))}
   const tagInput=$('#module-extra-tagline');
   if(tagInput){tagInput.value='Autonomous Intelligence';tagInput.dispatchEvent(new Event('input'))}
+  const ti=$('#text-input');if(ti)ti.value='NovaSphere';
   return;
  }
  if(active.id==='prompt-generator'){
