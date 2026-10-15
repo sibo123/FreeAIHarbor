@@ -1,6 +1,6 @@
 # Free AI Harbor
 
-Free AI Harbor offers 131 on-device tools and five guided projects. No account, API key, subscription, or paid credits are needed. Models run locally via Transformers.js and WebAssembly. Project drafts are saved in browser localStorage, with document exports and importable JSON backups.
+Free AI Harbor is a private, client-side AI workbench featuring on-device machine learning tools, browser models (via Hugging Face Transformers.js & ONNX WebAssembly), and optional connected cloud providers (BYOK).
 
 ---
 
@@ -38,17 +38,9 @@ This repository is pre-configured and structured for zero-configuration deployme
 - **On-Device Inference**:
   - Uses Hugging Face Transformers.js and ONNX runtime in Web Workers (`ai-worker.js`).
   - Single-threaded WASM execution ensures full cross-origin compatibility without restrictive COOP/COEP isolation blockers.
-- **Guided Projects**:
-  - Product Ad, Shop Launch, YouTube Video, Client Proposal, and Study Session templates share a brief between editable steps.
-  - Product Ad creates written hooks, script, shot list, caption, and CTA; it does not render video.
-  - Up to 30 recent projects are saved locally. Export a Markdown document or JSON backup; import backups to resume elsewhere.
-  - Local model downloads may be large. Cache hints distinguish partially cached files from a fully loaded model.
-  - The directory excludes all connected/provider tools. Legacy cloud modules remain unused for compatibility with repository history; no provider workflows are registered.
-
-- **Quality and privacy**:
-  - Small local models can make mistakes or invent details. Review drafts before publishing.
-  - Inputs remain in the browser; public model files are downloaded from their hosts on first use.
-  - No server-side project database or synchronization. Clearing browser storage deletes saved work.
+- **Connected Providers (BYOK)**:
+  - Supports direct browser-to-API requests for Gemini, Groq, Mistral, OpenRouter, ElevenLabs, etc.
+  - Keys remain strictly in visitor session memory and are never sent to external third parties or servers.
 
 ---
 

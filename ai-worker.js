@@ -26,7 +26,7 @@ async function getPipe(id,tool,input){
   }});
   currentKey=key;
  }
- send(id,'status',{message:'Model ready. Processing on your device…'});
+ send(id,'status',{message:'Processing on your device…'});
  return {pipe:currentPipe,lib};
 }
 function generatedText(result){const value=result[0]?.generated_text??'';return typeof value==='string'?value:(value.findLast(m=>m.role==='assistant')?.content||'')}
@@ -47,8 +47,7 @@ async function execute(id,tool,input){
    return {kind:'flashcards',cards};
   }
   let partial='';const streamer=new lib.TextStreamer(pipe.tokenizer,{skip_prompt:true,skip_special_tokens:true,callback_function:text=>{partial+=text;send(id,'partial',{text:partial})}});
-  const messages=input.project?[{role:'system',content:'Write concise, useful drafts. Use only the facts supplied by the user. Do not invent claims, prices, testimonials, or results.'},{role:'user',content:input.text}]:taskMessages(tool,input.text,input.tone,input.history);
-  const result=await pipe(messages,{max_new_tokens:input.project?180:tool.id==='ai-chat'?128:240,do_sample:!input.project,temperature:.65,top_p:.9,repetition_penalty:1.12,return_full_text:false,streamer});
+  const result=await pipe(taskMessages(tool,input.text,input.tone,input.history),{max_new_tokens:tool.id==='ai-chat'?128:240,do_sample:true,temperature:.65,top_p:.9,repetition_penalty:1.12,return_full_text:false,streamer});
   return {kind:'text',text:generatedText(result)||partial};
  }
  if(tool.model==='summary'){const out=await pipe(input.text,summaryOptions(input.text));return {kind:'text',text:out[0].summary_text}}
