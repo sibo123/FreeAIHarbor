@@ -393,6 +393,67 @@
       "note": "Uses one synthetic English voice. It does not clone voices."
     },
     {
+      "id": "photo-editor",
+      "name": "AI Photo Editor",
+      "description": "Enhance, retouch, and apply cinematic AI-style filters and lighting adjustments to photos for free in your browser.",
+      "icon": "image",
+      "category": "Images",
+      "kind": "image",
+      "model": "canvas",
+      "tags": [
+        "photo editor",
+        "filters",
+        "enhance",
+        "retouch",
+        "color grade",
+        "free",
+        "on-site"
+      ],
+      "note": "Processes 100% on your device via client-side canvas. No file size or privacy limits."
+    },
+    {
+      "id": "logo-designer",
+      "name": "AI Logo Designer",
+      "description": "Design free professional vector logos, modern brand emblems, and geometric marks with instant SVG & PNG export.",
+      "icon": "sparkles",
+      "category": "Marketing & SEO",
+      "kind": "text",
+      "model": "client",
+      "tags": [
+        "logo",
+        "branding",
+        "vector",
+        "svg",
+        "graphic design",
+        "free",
+        "on-site"
+      ],
+      "limit": 300,
+      "placeholder": "Enter your brand name (e.g. Apex AI, Lumina, Harbor)…",
+      "note": "Generates 4 distinct vector SVG concepts with dark & light mockups. Download SVG or high-res PNG for free."
+    },
+    {
+      "id": "prompt-generator",
+      "name": "AI Prompt Generator",
+      "description": "Generate masterfully engineered prompts for Midjourney, Stable Diffusion, DALL-E, ChatGPT, and Claude with customizable styles and parameters.",
+      "icon": "sparkles",
+      "category": "Chat & Writing",
+      "kind": "text",
+      "model": "client",
+      "tags": [
+        "prompt generator",
+        "midjourney",
+        "chatgpt",
+        "dall-e",
+        "flux",
+        "claude",
+        "free"
+      ],
+      "limit": 2000,
+      "placeholder": "Describe your idea or subject (e.g. a futuristic cyberpunk street market in Tokyo during rain)…",
+      "note": "Creates master prompts, parameter flags, negative prompt tokens, and creative variations with 1-click copy."
+    },
+    {
       "id": "grammar-fixer",
       "name": "Grammar Fixer",
       "category": "Chat & Writing",
@@ -2449,6 +2510,164 @@
       "model": "chat",
       "limit": 3000,
       "placeholder": "Add your source text, facts, or project brief…"
+    },
+    {
+      "id": "purchase-intent",
+      "name": "Purchase Intent Classifier",
+      "description": "Compare a customer message with buying, browsing, and after-sales intents.",
+      "labels": [
+        "ready to buy",
+        "comparing products",
+        "asking about a product",
+        "after-sales support"
+      ],
+      "symbol": [
+        "box",
+        "target"
+      ],
+      "example": "I am ready to place an order. I will buy this wallet now.",
+      "tags": [
+        "customer",
+        "purchase",
+        "intent",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "customer-emotion",
+      "name": "Customer Emotion Classifier",
+      "description": "Estimate the emotion expressed in a short customer message.",
+      "labels": [
+        "satisfied",
+        "frustrated",
+        "confused",
+        "excited"
+      ],
+      "symbol": [
+        "bubble",
+        "heart"
+      ],
+      "example": "I have tried resetting my password five times and it still fails. This is so frustrating!",
+      "tags": [
+        "customer",
+        "emotion",
+        "feedback",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "writing-tone",
+      "name": "Writing Tone Classifier",
+      "description": "Compare a passage against common writing tones before you publish it.",
+      "labels": [
+        "formal and professional",
+        "casual and friendly",
+        "enthusiastic and promotional",
+        "apologetic"
+      ],
+      "symbol": [
+        "pencil",
+        "text"
+      ],
+      "example": "Please accept our sincere apologies for the delay and the inconvenience it has caused.",
+      "tags": [
+        "writing",
+        "tone",
+        "editing",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "product-category",
+      "name": "Product Category Classifier",
+      "description": "Suggest a broad shop category from an English product description.",
+      "labels": [
+        "clothing and accessories",
+        "electronics",
+        "home and kitchen",
+        "beauty and personal care",
+        "food and drink",
+        "sports and outdoors"
+      ],
+      "symbol": [
+        "box",
+        "tag"
+      ],
+      "example": "A stainless steel saucepan with a glass lid for cooking meals on the stove.",
+      "tags": [
+        "shop",
+        "product",
+        "category",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
+    },
+    {
+      "id": "ad-message-angle",
+      "name": "Ad Message Angle Classifier",
+      "description": "Identify the main selling angle expressed in an ad, using only its wording.",
+      "labels": [
+        "saving time",
+        "saving money",
+        "ease of use",
+        "portability",
+        "appearance and style"
+      ],
+      "symbol": [
+        "target",
+        "clapper"
+      ],
+      "example": "Fits in your pocket and travels anywhere. Take it on your next trip without adding bulk.",
+      "tags": [
+        "ad",
+        "marketing",
+        "angle",
+        "classification",
+        "free",
+        "local"
+      ],
+      "category": "Research & Text",
+      "kind": "text",
+      "model": "topics",
+      "limit": 1600,
+      "placeholder": "Paste a short English message or passage…",
+      "icon": "grid",
+      "note": "Compares the listed labels using the existing local classifier. Scores are estimates. Review them before acting; this tool does not automatically route or send anything."
     },
     {
       "id": "message-intent",
