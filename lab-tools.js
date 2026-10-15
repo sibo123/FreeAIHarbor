@@ -62,8 +62,7 @@ export const LAB_TOOLS=[
  {id:'logo-designer',name:'AI Logo Designer',description:'Design free professional vector logos, modern brand emblems, and geometric marks with instant SVG & PNG export.',icon:'sparkles',category:'Marketing & SEO',kind:'text',model:'client',tags:['logo','branding','vector','svg','graphic design','free','on-site'],limit:300,placeholder:'Enter your brand name (e.g. Apex AI, Lumina, Harbor)…',note:'Generates 4 distinct vector SVG concepts with dark & light mockups. Download SVG or high-res PNG for free.'},
  {id:'prompt-generator',name:'AI Prompt Generator',description:'Generate masterfully engineered prompts for Midjourney, Stable Diffusion, DALL-E, ChatGPT, and Claude with customizable styles and parameters.',icon:'sparkles',category:'Chat & Writing',kind:'text',model:'client',tags:['prompt generator','midjourney','chatgpt','dall-e','flux','claude','free'],limit:2000,placeholder:'Describe your idea or subject (e.g. a futuristic cyberpunk street market in Tokyo during rain)…',note:'Creates master prompts, parameter flags, negative prompt tokens, and creative variations with 1-click copy.'},
  ...EXTRA_TOOLS,
- ...NEW_LOCAL_TOOLS,
- ...CLOUD_TOOLS
+ ...NEW_LOCAL_TOOLS
 ];
 export const FEATURED_LAB=['photo-editor','logo-designer','prompt-generator','ai-chat','portrait-cutout','audio-transcription'];
 export function findTools({query='',category='All tools',access='all',savedOnly=false,saved=new Set()}={}){
