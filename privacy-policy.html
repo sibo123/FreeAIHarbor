@@ -42,7 +42,7 @@
 
     <section class="legal-section">
       <h2>1. Who We Are</h2>
-      <p>Free AI Harbor (<strong>freeaiharbor.com</strong>) is a free, browser-based AI tools workspace. We provide 150+ on-device and cloud-connected AI workflows that run directly in your browser. "We", "us", and "our" refer to the operators of Free AI Harbor.</p>
+      <p>Free AI Harbor (<strong>freeaiharbor.com</strong>) is a free, browser-based AI tools workspace. We provide 131 on-device AI workflows that run directly in your browser. "We", "us", and "our" refer to the operators of Free AI Harbor.</p>
     </section>
 
     <section class="legal-section">
@@ -65,7 +65,7 @@
       <ul>
         <li>Your saved tool bookmarks</li>
         <li>AI Chat conversation history (on-device chats only)</li>
-        <li>Your tool preferences and settings</li>
+        <li>Your tool preferences and settings</li><li>Up to 30 recent project names, briefs, and edited drafts</li>
       </ul>
       <p>This data never leaves your browser and is not transmitted to our servers. You can clear it at any time via your browser settings.</p>
     </section>
@@ -108,8 +108,8 @@
         <strong>Your uploaded files are processed entirely on your device.</strong> They are never sent to Free AI Harbor's servers. All AI inference runs locally in your browser using WebAssembly and the Hugging Face Transformers.js runtime.
       </div>
       <ul>
-        <li><strong>On-device tools:</strong> Your files are read into browser memory only. They are not uploaded to any external server. Closing or reloading the tab clears all data.</li>
-        <li><strong>Cloud-connected tools (e.g. Gemini, Groq):</strong> If you use a cloud-connected tool and provide an API key, your input (which may include text or images) is sent directly from your browser to the selected third-party provider (e.g. Google, Groq). Free AI Harbor does not relay, store, or log this data. The provider's own privacy policy governs how they handle it.</li>
+        <li><strong>On-device tools:</strong> Your files are read into browser memory only. They are not uploaded to any external server. Closing or reloading the tab clears temporary uploaded media. Saved projects, chats, and bookmarks remain in browser storage until cleared.</li>
+        <li><strong>Saved projects:</strong> Project names, source briefs, and edited drafts are stored locally in your browser. We keep up to 30 recent projects in this local workspace. Exporting creates files on your device. Importing a backup reads it locally. Clearing browser storage removes saved projects.</li>
         <li><strong>Retention:</strong> We do not retain uploaded files. No file data is written to our servers at any point.</li>
       </ul>
     </section>
@@ -186,8 +186,8 @@
     </nav>
   </div>
   <div class="page-width footer-bottom">
-    <span>© 2026 Free AI Harbor. Free &amp; free-credit AI workspace.</span>
-    <span>On-device tools stay local. Connected tools use your own provider account.</span>
+    <span>© 2026 Free AI Harbor. Free on-device AI workspace.</span>
+    <span>Free on-device tools. No account, API key, or subscription.</span>
   </div>
 </footer>
 </body>
