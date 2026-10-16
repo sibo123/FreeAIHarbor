@@ -1,3 +1,4 @@
+import {renderFeaturePreview} from './feature-previews.js';
 import {icon} from './icons.js';
 import {escapeHTML as esc} from './lab-tools.js';
 
@@ -130,14 +131,4 @@ export function toolSymbol(tool){
  return `<svg class="tool-symbol" data-tool-symbol="${esc(tool.id)}" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${body}<circle cx="25" cy="24" r="6.8" fill="var(--tool-bg,#eef5e7)" stroke="none"/><g transform="translate(20 19)" stroke-width="1.45">${badge}</g>${mark}</svg>`;
 }
 export function toolBadge(tool,className=''){return `<span class="tool-identity-badge ${className}" style="${identityStyle(tool)}">${toolSymbol(tool)}</span>`}
-const scenes={
- writing:'<path d="M75 18h59v63H75zM83 32h35M83 43h27M83 54h35M83 65h18"/><path d="m137 43 8 8-23 23-12 4 4-12z"/>',
- research:'<circle cx="113" cy="44" r="28"/><circle cx="113" cy="44" r="18"/><path d="m133 65 22 22M89 78h-25M76 27h-12M100 38h24M100 46h19M100 54h13"/>',
- marketing:'<path d="m77 41 28-8 28-15v62l-28-15-28-7zm22 20 7 23H94l-6-26M142 32l13-6M144 49h15M142 66l13 6"/>',
- study:'<path d="M113 29c-15-11-30-12-42-8v57c17-4 30-2 42 7 12-9 25-11 42-7V21c-12-4-27-3-42 8zm0 0v56M81 37h21M81 49h21M125 37h19M125 49h19"/>',
- business:'<rect x="72" y="29" width="82" height="54" rx="8"/><path d="M98 29V16h31v13M72 47c24 17 58 17 82 0M107 49h12v15h-12z"/>',
- images:'<rect x="80" y="17" width="68" height="57" rx="5"/><rect x="65" y="30" width="68" height="57" rx="5" fill="var(--tool-bg)"/><circle cx="84" cy="47" r="6"/><path d="m65 76 21-17 14 11 17-20 16 22"/>',
- audio:'<path d="M70 43v16M83 31v40M96 18v66M109 26v52M122 36v32M135 20v60M148 40v24M160 47v12"/>',
- coding:'<rect x="70" y="18" width="86" height="66" rx="7"/><path d="M70 32h86M80 25h1M88 25h1M96 25h1m-1 19-13 12 13 12M131 44l13 12-13 12M120 40l-11 33"/>'
-};
-export function toolVisual(tool){const theme=toolTheme(tool);return `<button class="tool-visual" data-open="${esc(tool.id)}" type="button" tabindex="-1" aria-label="Open ${esc(tool.name)}"><span class="visual-orbit" aria-hidden="true"></span><svg class="tool-scene" viewBox="0 0 180 100" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${scenes[theme.scene]}</svg>${toolBadge(tool,'tool-visual-icon')}<span class="tool-visual-category">${esc(theme.label)}</span><span class="visual-arrow" aria-hidden="true">${icon('arrow-up-right')}</span></button>`}
+export function toolVisual(tool){return `<button class="tool-visual tool-feature-visual" data-feature="${esc(tool.id)}" data-open="${esc(tool.id)}" type="button" tabindex="-1" aria-label="Open ${esc(tool.name)}">${renderFeaturePreview(tool)}</button>`}
