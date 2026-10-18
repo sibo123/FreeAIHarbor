@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createServer,resolvePublicPath} from '../server.js';
+import {createServer,resolvePublicPath} from '../server-app.js';
 import {LAB_TOOLS,MODELS,modelInfo,toSRT} from '../lab-tools.js';
 import {workspaceProfile} from '../module-profiles.js';
 import {helpHTML} from '../tool-help.js';
@@ -37,4 +37,18 @@ test('provider errors redact the key and report quota failures without retrying'
  await assert.rejects(runCloudTool({tool,key:'test-private-key',input:{text:'Hello'},fetchImpl:async()=>{calls++;return new Response(JSON.stringify({error:{message:'test-private-key invalid'}}),{status:401})}}),e=>!e.message.includes('test-private-key')&&e.message.includes('[hidden]'));
  assert.equal(calls,1);
  await assert.rejects(runCloudTool({tool,key:'test',input:{text:'Hello'},fetchImpl:async()=>new Response('{}',{status:429})}),/usage limit/);
+});
+
+
+test('production entry starts directly and through an importing launcher',async()=>{
+ const {spawn}=await import('node:child_process');
+ for(const args of [['server.js'],['--input-type=module','-e',"await import('./server.js')"]]){
+  const child=spawn(process.execPath,args,{cwd:new URL('../',import.meta.url),env:{...process.env,PORT:'0'},stdio:['ignore','pipe','pipe']});
+  try{await new Promise((resolve,reject)=>{
+   const timer=setTimeout(()=>reject(new Error('Startup timed out')),5000);
+   child.stdout.on('data',data=>{if(data.toString().includes('server ready')){clearTimeout(timer);resolve()}});
+   child.on('error',error=>{clearTimeout(timer);reject(error)});
+   child.on('exit',code=>{clearTimeout(timer);reject(new Error('Exited before ready: '+code))});
+  })}finally{child.kill('SIGTERM');await new Promise(resolve=>child.once('close',resolve))}
+ }
 });
