@@ -36,7 +36,7 @@ export function processClientPhoto(sourceCanvas, {
   let isGoldenHour = false;
   let isNordic = false;
   let isShadowLift = false;
-  let summary = 'AI Photo Enhancement';
+  let summary = 'Photo Enhancement';
 
   // Keyword Matching in Client Instructions
   if (rawText.includes('golden') || rawText.includes('sunset') || rawText.includes('warm') || rawText.includes('amber') || rawText.includes('sun')) {
@@ -82,24 +82,24 @@ export function processClientPhoto(sourceCanvas, {
     saturation += 40;
     contrast += 14;
     appliedNotes.push('Vibrant Color Pop (+40% saturation boost)');
-    if (summary === 'AI Photo Enhancement') summary = 'Vibrant Color Pop';
+    if (summary === 'Photo Enhancement') summary = 'Vibrant Color Pop';
   }
   if (rawText.includes('bright') || rawText.includes('lift') || rawText.includes('shadow') || rawText.includes('lighten') || rawText.includes('exposure')) {
     brightness += 22;
     isShadowLift = true;
     appliedNotes.push('Shadow Recovery & Exposure Boost (+22%)');
-    if (summary === 'AI Photo Enhancement') summary = 'Brighten & Lift Shadows';
+    if (summary === 'Photo Enhancement') summary = 'Brighten & Lift Shadows';
   }
   if (rawText.includes('dark') || rawText.includes('moody') || rawText.includes('dim') || rawText.includes('night') || rawText.includes('dusk')) {
     brightness -= 18;
     contrast += 20;
     appliedNotes.push('Moody Low-Key Lighting & Deep Contrast');
-    if (summary === 'AI Photo Enhancement') summary = 'Moody Low-Key';
+    if (summary === 'Photo Enhancement') summary = 'Moody Low-Key';
   }
   if (rawText.includes('sharp') || rawText.includes('detail') || rawText.includes('crisp') || rawText.includes('clarity') || rawText.includes('focus')) {
     isSharp = true;
     appliedNotes.push('Crystal Sharpness & Edge Clarity');
-    if (summary === 'AI Photo Enhancement') summary = 'Crystal Sharp & Clarity';
+    if (summary === 'Photo Enhancement') summary = 'Crystal Sharp & Clarity';
   }
   if (rawText.includes('nordic') || rawText.includes('cool') || rawText.includes('blue') || rawText.includes('frost') || rawText.includes('winter') || rawText.includes('cold')) {
     isNordic = true;

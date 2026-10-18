@@ -20,3 +20,11 @@ Options -Indexes -MultiViews
   RewriteRule ^(.*)$ $1.html [L]
 </IfModule>
 # Configure SSL/HTTPS through Hostinger; missing assets must return 404.
+
+# Real missing-page responses, and no exposure of repository internals.
+ErrorDocument 404 /404.html
+<IfModule mod_rewrite.c>
+  RewriteRule (^|/)\. - [F,L]
+  RewriteRule ^(scripts|tests|node_modules)(/|$) - [F,L]
+  RewriteRule ^(server\.js|package(-lock)?\.json|README\.md)$ - [F,L]
+</IfModule>

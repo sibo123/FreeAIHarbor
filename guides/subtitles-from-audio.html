@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Make and review SRT subtitles from a short recording — Free AI Harbor</title><meta name="description" content="Turn a short soundtrack into editable captions, then check wording and timing before publishing."><link rel="canonical" href="https://freeaiharbor.com/guides/subtitles-from-audio.html"><link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/brand.css"><link rel="stylesheet" href="/pages.css"><link rel="stylesheet" href="/content.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a><header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Free AI Harbor home">
+      <img src="/favicon.svg" width="30" height="30" alt="">
+      <span class="brand-wordmark">free<span class="brand-ai">ai</span>harbor<span class="brand-dot">.</span></span>
+    </a>
+    <nav class="page-nav" aria-label="Site pages">
+      <a href="/" class="page-nav-link">All Tools</a>
+      <a href="/about.html" class="page-nav-link active">About</a>
+      <a href="/contact.html" class="page-nav-link">Contact</a>
+    </nav>
+  </div>
+</header><main id="main-content" class="page-width legal-page"><div class="legal-hero"><span class="section-kicker">FREE AI HARBOR · PRACTICAL HELP</span><h1>Make and review SRT subtitles from a short recording</h1><p class="legal-intro">Turn a short soundtrack into editable captions, then check wording and timing before publishing.</p></div><div class="legal-body">
+<section class="legal-section"><h2>Prepare a short soundtrack</h2><p>The local <a href="/?tool=subtitle-generator">Subtitle Generator</a> uses Whisper Tiny. Recordings must be no longer than two minutes and under 40 MB. Start with a clear WAV or MP3 file. If a video does not decode in your browser, export its audio track from your video editor and upload that instead.</p><p>The workspace converts audio to mono at 16 kHz for inference. Background music, overlapping speakers, and long stretches of silence can reduce accuracy. This tool produces an SRT text file; it does not burn captions into a video or export an edited MP4.</p></section>
+<section class="legal-section"><h2>Create and review the captions</h2><ol><li>Open the tool, upload the soundtrack, and select the spoken language where available.</li><li>Choose <strong>Create subtitles</strong>. First use downloads approximately 42 MB of model files plus runtime files.</li><li>Listen to the recording while reviewing the caption text and timings. Correct names, punctuation, and missing words.</li><li>Choose <strong>Download SRT</strong>, import the file into your video editor, and check synchronization against the original video.</li></ol></section>
+<section class="legal-section"><h2>Understand an SRT block</h2><p>This illustrative block shows the format, not a measured transcription:</p><pre class="guide-example">1
+00:00:00,500 --> 00:00:02,800
+Welcome to the workshop.</pre><p>The first line is the caption number. The next line gives start and end times in hours, minutes, seconds, and milliseconds. The text follows, with a blank line between blocks. A caption should end after it starts and should remain visible long enough to read.</p><p>When you trim or move a clip after making subtitles, its timing can shift. Import the SRT into the same sequence position as the audio you transcribed. Split a long caption into shorter phrases in your editor when it covers too much of the screen.</p></section>
+<section class="legal-section"><h2>Common failure cases</h2><p>If no timed segments are returned, the workspace cannot produce a useful SRT from plain text alone. Try a shorter, clearer speech segment. If the words are wrong, check language selection and remove loud background music. For a longer video, split it into short clips and adjust each caption file’s offset when assembling the final timeline.</p><p><a href="/?tool=subtitle-generator">Open Subtitle Generator</a> · <a href="/guides.html">All guides</a></p></section></div></main><footer class="site-footer">
+  <div class="page-width footer-top">
+    <div>
+      <a class="brand" href="/" aria-label="Free AI Harbor home">
+        <img src="/favicon.svg" width="30" height="30" alt="">
+        <span class="brand-wordmark">free<span class="brand-ai">ai</span>harbor<span class="brand-dot">.</span></span>
+      </a>
+      <p>More possibility. Right here with you.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="/" class="footer-page-link">All AI tools</a>
+      <a href="/about.html" class="footer-page-link">About Us</a>
+      <a href="/contact.html" class="footer-page-link">Contact Us</a>
+      <a href="/privacy-policy.html" class="footer-page-link">Privacy Policy</a>
+      <a href="/terms.html" class="footer-page-link">Terms of Use</a>
+      <a href="/disclaimer.html" class="footer-page-link">Disclaimer</a>
+      <a href="/guides.html" class="footer-page-link">Tool Guides</a>
+    </nav>
+  </div>
+  <div class="page-width footer-bottom">
+    <span>© 2026 Free AI Harbor. Free &amp; free-credit AI workspace.</span>
+    <span>On-device tools stay local. Connected tools use your own provider account.</span>
+  </div>
+</footer></body></html>

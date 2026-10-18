@@ -1,3 +1,4 @@
+import {helpHTML} from './tool-help.js';
 import {LAB_TOOLS,LAB_CATEGORIES,MODELS,TRANSLATIONS,REVERSE_TRANSLATIONS,FEATURED_LAB,findTools,modelInfo,escapeHTML as esc,toSRT,encodeWAV} from './lab-tools.js';
 import {applyPhotoEnhancement,processClientPhoto,generateLogos,generatePrompts} from './tool-generators.js';
 import {labelsFrom,passages,sentencesFrom} from './semantic-tools.js';
@@ -17,7 +18,7 @@ let active=null,worker=null,ocrWorker=null,running=false,job=0,result=null,lastT
 const inputDrafts=new Map();
 let chatUI=null,moduleUI=null,cloudUI=null;
 let logoStudioState={activeIdx:0,surface:'dark',layout:'stacked'};
-function card(t,featured=false){const m=modelInfo(t),p=t.provider?providerFor(t):null;return `<article class="tool-card lab-card identity-card${t.provider?' cloud-card':''}${featured?' featured-card':''}" data-card="${t.id}" style="${identityStyle(t)}">${toolVisual(t)}<div class="identity-card-body">${featured?`<div class="featured-label">${icon('sparkles')} A good place to start</div>`:''}<div class="tool-card-top"><div class="tool-title-wrap"><h3 class="tool-title"><button data-open="${t.id}">${esc(t.name)}</button></h3><span class="tool-category">${esc(t.category)}</span></div><button class="save-button${saved.has(t.id)?' is-saved':''}" data-save="${t.id}" aria-pressed="${saved.has(t.id)}" aria-label="${saved.has(t.id)?'Unsave':'Save'} ${esc(t.name)}">${icon('bookmark')}</button></div><p class="tool-description">${esc(t.description)}</p><p class="download-size">${icon(p?'shield-check':'monitor')} ${p?esc(p.allowance)+' · '+esc(p.cadence):'First download: ~'+esc(m.size)}</p>${p?`<p class="provider-caption">${esc(p.name)} · Your API key needed</p>`:''}<div class="tool-card-footer"><span class="access-badge ${p?t.access:'free'}">${esc(accessLabel(t))}</span><button class="card-details" data-open="${t.id}">Use tool ${icon('arrow-right')}</button></div></div></article>`}
+function card(t,featured=false){const m=modelInfo(t),p=t.provider?providerFor(t):null;return `<article class="tool-card lab-card identity-card${t.provider?' cloud-card':''}${featured?' featured-card':''}" data-card="${t.id}" style="${identityStyle(t)}">${toolVisual(t)}<div class="identity-card-body">${featured?`<div class="featured-label">${icon('sparkles')} A good place to start</div>`:''}<div class="tool-card-top"><div class="tool-title-wrap"><h3 class="tool-title"><a href="/?tool=${t.id}" data-open="${t.id}">${esc(t.name)}</a></h3><span class="tool-category">${esc(t.category)}</span></div><button class="save-button${saved.has(t.id)?' is-saved':''}" data-save="${t.id}" aria-pressed="${saved.has(t.id)}" aria-label="${saved.has(t.id)?'Unsave':'Save'} ${esc(t.name)}">${icon('bookmark')}</button></div><p class="tool-description">${esc(t.description)}</p><p class="download-size">${icon(p?'shield-check':'monitor')} ${p?esc(p.allowance)+' · '+esc(p.cadence):(['canvas','client'].includes(t.model)?'No model download':'First download: ~'+esc(m.size))}</p>${p?`<p class="provider-caption">${esc(p.name)} · Your API key needed</p>`:''}<div class="tool-card-footer"><span class="access-badge ${p?t.access:'free'}">${esc(accessLabel(t))}</span><a class="card-details" href="/?tool=${t.id}" data-open="${t.id}">Use tool ${icon('arrow-right')}</a></div></div></article>`}
 function render(){
  $('#saved-count').textContent=saved.size;$('#tool-total').textContent=LAB_TOOLS.length;$('#category-total').textContent=LAB_CATEGORIES.length-1;
  cloudUI?.saved();if(active&&$('#discovery').classList.contains('hidden')){$('#workspace-save').setAttribute('aria-pressed',String(saved.has(active.id)));$('#workspace-save').innerHTML=`${icon('bookmark')} ${saved.has(active.id)?'Saved':'Save tool'}`;return}
@@ -70,7 +71,7 @@ async function loadSamplePhoto(type){
  const blob=await new Promise(r=>canvas.toBlob(r,'image/jpeg',0.92));
  const file=new File([blob],`sample-${type}.jpg`,{type:'image/jpeg'});
  selectFile(file);
- toast(`Loaded sample ${type}. Now type instructions or click a preset and Run AI!`);
+ toast(`Loaded sample ${type}. Choose a preset or filter instructions, then apply edits.`);
 }
 function applyPhotoChip(chip){
  const textarea=$('#photo-instruction');
@@ -104,7 +105,7 @@ function showControls(t){
    <p id="file-caption" class="file-caption"></p>
    
    <div class="photo-samples-shelf">
-    <span class="photo-samples-label">Or try a sample photo:</span>
+    <span class="photo-samples-label">Or try a sample illustration:</span>
     <div class="photo-samples-btns">
      <button type="button" class="photo-sample-btn" data-sample="portrait">👤 Portrait Sample</button>
      <button type="button" class="photo-sample-btn" data-sample="landscape">🏔️ Sunset Landscape</button>
@@ -114,10 +115,10 @@ function showControls(t){
 
    <div class="photo-instruction-box">
     <label class="field-label" for="photo-instruction">
-     <strong>Client Edit Instructions / AI Edit Prompt</strong>
-     <span class="instruction-sub">Type how you want AI to edit this photo (lighting, mood, contrast, warmth, sharpness):</span>
+     <strong>Filter instructions</strong>
+     <span class="instruction-sub">Choose a preset or describe supported filter effects: brightness, warmth, contrast, saturation, or sharpness. This is a keyword-based filter tool.</span>
     </label>
-    <textarea id="photo-instruction" class="tool-textarea photo-prompt-textarea" rows="3" placeholder="Tell AI how to edit this photo... e.g.:
+    <textarea id="photo-instruction" class="tool-textarea photo-prompt-textarea" rows="3" placeholder="Describe filter effects... e.g.:
 • 'Make it warm with golden hour sunset lighting and soft glow'
 • 'Cinematic teal and orange with deep punchy contrast'
 • 'Dramatic high-contrast black and white noir look'
@@ -198,16 +199,16 @@ function showControls(t){
  }
 }
 function openTool(id,push=true){
- const t=byId.get(id);if(!t)return;const preferredChat=id==='ai-chat'?new URLSearchParams(location.search).get('chat'):null;if(running)cancel();moduleUI?.hide();chatUI?.hide();cloudUI?.hide();if(id==='ai-chat'){worker?.terminate();worker=null}clearURLs();inputFile=null;preparedImage=null;chatHistory=[];active=t;
+ const t=byId.get(id);if(!t){back(false);toast('That tool was not found. Choose a tool from the directory.');return;}const preferredChat=id==='ai-chat'?new URLSearchParams(location.search).get('chat'):null;if(running)cancel();moduleUI?.hide();chatUI?.hide();cloudUI?.hide();if(id==='ai-chat'){worker?.terminate();worker=null}clearURLs();inputFile=null;preparedImage=null;chatHistory=[];active=t;
  $('#discovery').classList.add('hidden');$('#workspace').classList.remove('hidden');
  $('#workspace-title').textContent=t.name;$('#workspace-title').title=t.name;$('#workspace-category').textContent=t.category;$('#workspace-description').textContent=t.description;$('#workspace-icon').innerHTML=toolSymbol(t);$('#workspace-icon').style.cssText=identityStyle(t);$('#workspace-icon').classList.add('tool-identity-badge');$('#chat-layout').style.cssText=identityStyle(t);
  if(t.provider){cloudUI.show(t);render();updateURL(id,push);document.title=t.name+' — Free AI Harbor';window.scrollTo({top:0,behavior:'instant'});return}
- showControls(t);if(id!=='ai-chat')moduleUI.open(t);resetOutput();warning('');const m=modelInfo(t);$('#model-label').textContent=`${m.label} · free local AI`;$('#model-download').textContent=`First run downloads approximately ${m.size} of model files, plus the runtime. Later runs may use cached files.`;
+ showControls(t);if(id!=='ai-chat'){moduleUI.open(t);let help=document.getElementById('tool-help');if(!help){help=document.createElement('details');help.id='tool-help';help.className='tool-help';document.querySelector('.module-body').append(help)}help.innerHTML=helpHTML(t);}resetOutput();warning('');const m=modelInfo(t);$('#model-label').textContent=`${m.label} · local processing`;$('#model-download').textContent=['canvas','client'].includes(t.model)?'Uses browser code and templates. No AI model download or API key is needed.':`First run downloads approximately ${m.size} of model files, plus the runtime. Later runs may use cached files.`;
  $('#tool-specific-note').textContent=t.note||(t.model==='chat'?'Uses a small language model. English works best; answers may be simple or incomplete. No live web search.':t.model==='summary'?'Best on short English passages. Very long inputs may be shortened to fit the model’s context.':'Use short English text for the most reliable results.');
  $('#related-tools').innerHTML=LAB_TOOLS.filter(x=>x.category===t.category&&x.id!==t.id).slice(0,4).map(x=>`<button class="related-button" data-open="${x.id}">${icon(x.icon)}${esc(x.name)} ${icon('arrow-right')}</button>`).join('');
  render();updateURL(id,push);if(id==='ai-chat'){chatUI.show(preferredChat);window.scrollTo({top:0,behavior:'instant'})}else scrollTo($('#workspace'));document.title=t.name+' — Free AI Harbor';
 }
-function back(push=true){if(running)cancel();moduleUI?.hide();chatUI?.hide();cloudUI?.hide();clearURLs();active=null;inputFile=null;preparedImage=null;$('#workspace').classList.add('hidden');$('#discovery').classList.remove('hidden');render();updateURL(null,push);document.title='150+ Free AI Tools. All in One Place. — Free AI Harbor';scrollTo($('#directory'))}
+function back(push=true){if(running)cancel();moduleUI?.hide();chatUI?.hide();cloudUI?.hide();clearURLs();active=null;inputFile=null;preparedImage=null;$('#workspace').classList.add('hidden');$('#discovery').classList.remove('hidden');render();updateURL(null,push);document.title='Free AI Tools & Browser Utilities — Free AI Harbor';scrollTo($('#directory'))}
 function setView(view){state.view=view;state.category='All tools';state.access='all';state.query='';if(active)back(false);render();updateURL(null);scrollTo($('#directory'))}
 function selectFile(file){
  if(running)return;warning('');inputFile=null;preparedImage=null;clearURLs();$('#input-preview').innerHTML='';$('#input-preview').classList.add('hidden');$('#file-caption').textContent='';$('#file-input').required=true;moduleUI?.clearFile();resetOutput();if(!file)return;
@@ -417,6 +418,7 @@ async function runPhotoEditor(currentJob){
  preparedImage=processed.canvas;
  const blob=await new Promise(r=>processed.canvas.toBlob(r,'image/jpeg',0.95));
  if(job!==currentJob)return;
+ if(!blob)throw new Error('The browser could not export this image. Try a smaller file.');
  const buffer=await blob.arrayBuffer();
  if(job!==currentJob)return;
  await showResult({
@@ -463,7 +465,7 @@ async function runPromptGenerator(currentJob){
 }
 async function run(event){
  if(event)event.preventDefault();if(running||!active)return;warning('');const t=active;
- if(t.id==='photo-editor'){if(!inputFile){warning('Choose or load an image first.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runPhotoEditor(currentJob);return}
+ if(t.id==='photo-editor'){if(!inputFile){warning('Choose or load an image first.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');try{await runPhotoEditor(currentJob)}catch(error){if(job===currentJob)failure(error.message)}return}
  if(t.id==='logo-designer'){
   const brand=$('#module-extra-brand')?.value.trim()||document.querySelector('.module-extra-fields input')?.value.trim()||$('#text-input')?.value.trim();
   if(!brand){
@@ -472,9 +474,9 @@ async function run(event){
    if(bIn)bIn.focus();
    return;
   }
-  job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runLogoDesigner(currentJob);return;
+  job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');try{await runLogoDesigner(currentJob)}catch(error){if(job===currentJob)failure(error.message)}return;
  }
- if(t.id==='prompt-generator'){const subject=$('#text-input')?.value.trim();if(!subject){warning('Please describe your subject or prompt concept.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');await runPromptGenerator(currentJob);return}
+ if(t.id==='prompt-generator'){const subject=$('#text-input')?.value.trim();if(!subject){warning('Please describe your subject or prompt concept.');return}job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');try{await runPromptGenerator(currentJob)}catch(error){if(job===currentJob)failure(error.message)}return}
  const text=$('#text-input')?.value.trim();if(['text','qa'].includes(t.kind)&&!text){warning('Add some text before running this tool.');return}if(t.kind==='qa'&&!$('#question-input').value.trim()){warning('Add your question.');return}if(['image','audio'].includes(t.kind)&&!inputFile){warning('Choose a file first.');return}
  try{if(t.shape==='labels')labelsFrom($('#labels-input').value);if(t.shape==='pair'&&!$('#secondary-input').value.trim())throw new Error('Enter the second passage.');if(t.shape==='search'&&!$('#question-input').value.trim())throw new Error('Enter your search query.');if(['search','duplicates'].includes(t.shape))passages(text);if(t.shape==='sentences')sentencesFrom(text);if(t.model==='mask'&&(text.match(/\[MASK\]/g)||[]).length!==1)throw new Error('Use exactly one [MASK] placeholder.')}catch(error){warning(error.message);return}
  job++;const currentJob=job;setRunning(true);$('#output-actions').classList.add('hidden');progress('Preparing your input…');
@@ -552,9 +554,9 @@ const examples={
  'ai-chat':'Suggest three simple ways to organize a home office.', 'writing-assistant':'Write a short welcome paragraph for a website that helps people learn photography.',paraphraser:'Our team is working hard to make the new product easier to use. We welcome your feedback.',
  'email-writer':'Write a friendly email to a client asking for feedback on the first draft of their video.', 'social-captions':'A small leather accessories brand is sharing a close-up of hand stitching. Invite people to follow for the launch.', 'product-copy':'A slim card holder, made of leather, with four card slots. Designed to fit comfortably in a pocket.', 'video-script':'A 20-second video explaining how to plan a productive morning. End with a simple call to action.', brainstorm:'Five low-budget content ideas for a new online stationery store.', 'code-helper':'Explain what Array.map does in JavaScript and show a short example.', 'task-planner':'Create a simple plan to finish a one-minute product video in two days.', summarizer:'A new community library opened on Monday in the town center. The library offers books, a quiet study room, and free computer access. It will run reading clubs for children every Saturday and workshops for adults once a month. Residents can register for a free membership by bringing proof of address. The project was funded by local donations and a council grant.',translator:'Good morning! I hope you have a wonderful day.',sentiment:'The new studio is excellent. I love the quality of the work and the friendly service.', 'ask-text':'The Free AI Harbor workshop takes place on Friday at 3 PM in the community center. Participants should bring a notebook. The session is free and lasts one hour.', 'entity-finder':'Marie Curie worked in Paris. Microsoft has its headquarters in Redmond, Washington.', 'text-to-speech':'Welcome to Free AI Harbor. Your next idea starts right here.'
 };
-function clearTool(){if(running)return;if($('#text-input')){$('#text-input').value='';$('#text-input').dispatchEvent(new Event('input'))}for(const id of ['question-input','secondary-input','labels-input','file-input'])if($('#'+id))$('#'+id).value='';document.querySelectorAll('.module-extra-fields input,.module-extra-fields select').forEach(el=>el.value='');inputFile=null;preparedImage=null;clearURLs();if($('#file-input')&&active&&active.id!=='photo-editor')$('#file-input').required=true;if($('#input-preview')){$('#input-preview').innerHTML='';$('#input-preview').classList.add('hidden');$('#file-caption').textContent=''}chatHistory=[];moduleUI?.clearFile();resetOutput();warning('')}
+function clearTool(){if(running)return;inputDrafts.delete(active?.id);if($('#photo-instruction'))$('#photo-instruction').value='';document.querySelectorAll('.photo-sliders-grid input').forEach(el=>{el.value='0';el.dispatchEvent(new Event('input'))});document.querySelectorAll('.photo-chip').forEach(el=>el.classList.remove('active'));if($('#text-input')){$('#text-input').value='';$('#text-input').dispatchEvent(new Event('input'))}for(const id of ['question-input','secondary-input','labels-input','file-input'])if($('#'+id))$('#'+id).value='';document.querySelectorAll('.module-extra-fields input,.module-extra-fields select').forEach(el=>el.value='');inputFile=null;preparedImage=null;clearURLs();if($('#file-input')&&active&&active.id!=='photo-editor')$('#file-input').required=true;if($('#input-preview')){$('#input-preview').innerHTML='';$('#input-preview').classList.add('hidden');$('#file-caption').textContent=''}chatHistory=[];moduleUI?.clearFile();resetOutput();warning('')}
 function showCredits(){const unique=[...Object.values(MODELS).filter(x=>x.id!=='tesseract.js'),...[...Object.values(TRANSLATIONS),...Object.values(REVERSE_TRANSLATIONS)].map(x=>({id:x.model,license:x.license}))];$('#model-credits-list').innerHTML=unique.map(m=>`<div class="model-credit"><a href="https://huggingface.co/${m.id}" target="_blank" rel="noopener noreferrer">${esc(m.id)}</a><span>${esc(m.license)} · public downloadable model</span></div>`).join('')}
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.open){openTool(b.dataset.open);return}if(b.dataset.save){toggleSaved(b.dataset.save);return}if(b.dataset.view){setView(b.dataset.view);return}if(b.dataset.category){state.category=b.dataset.category;render();return}if(b.dataset.access){state.access=b.dataset.access;render();return}if(b.dataset.search){state.query=b.dataset.search;render();scrollTo($('#directory'));return}if(b.dataset.close){$('#'+b.dataset.close).close();return}if(b.dataset.action==='about'){$('#about-dialog').showModal();return}if(b.dataset.action==='back'){back();return}if(b.dataset.action==='browse'){scrollTo($('#directory'));return}if(b.dataset.action==='reset'){state.query='';state.category='All tools';state.access='all';state.view='all';render();return}});
+document.addEventListener('click',e=>{const b=e.target.closest('button, a[data-open]');if(!b)return;if(b.dataset.open){if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;e.preventDefault();openTool(b.dataset.open);return}if(b.dataset.save){toggleSaved(b.dataset.save);return}if(b.dataset.view){setView(b.dataset.view);return}if(b.dataset.category){state.category=b.dataset.category;render();return}if(b.dataset.access){state.access=b.dataset.access;render();return}if(b.dataset.search){state.query=b.dataset.search;render();scrollTo($('#directory'));return}if(b.dataset.close){$('#'+b.dataset.close).close();return}if(b.dataset.action==='about'){$('#about-dialog').showModal();return}if(b.dataset.action==='back'){back();return}if(b.dataset.action==='browse'){scrollTo($('#directory'));return}if(b.dataset.action==='reset'){state.query='';state.category='All tools';state.access='all';state.view='all';render();return}});
 $('#output-content').addEventListener('click',e=>{
  const b=e.target.closest('button, [data-logo-concept]');if(!b)return;
  if(b.dataset.logoConcept!==undefined&&result&&result.kind==='logos'){

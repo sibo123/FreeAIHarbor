@@ -49,7 +49,7 @@
     <a href="#tips" class="guides-nav-link">💡 General Tips</a>
   </nav>
 
-  <div class="legal-body">
+  <div class="legal-body"><!-- practical-guides:start --><section class="legal-section"><h2>Detailed practical walkthroughs</h2><article class="guide-card"><h3><a href="/guides/portrait-background.html">Remove a portrait background and keep a usable PNG</a></h3><p>Choose a suitable portrait, understand output size, and check edges before using your cutout.</p></article><article class="guide-card"><h3><a href="/guides/ocr-clean-text.html">Extract readable text from a screenshot</a></h3><p>A practical OCR workflow for clean source images, correct language selection, and accurate copy.</p></article><article class="guide-card"><h3><a href="/guides/subtitles-from-audio.html">Make and review SRT subtitles from a short recording</a></h3><p>Turn a short soundtrack into editable captions, then check wording and timing before publishing.</p></article><article class="guide-card"><h3><a href="/guides/local-and-connected.html">Choose between local tools and connected AI</a></h3><p>Understand downloads, account requirements, input handling, and the meaning of free access.</p></article></section><!-- practical-guides:end -->
 
     <!-- Writing -->
     <section id="writing" class="legal-section guide-section">
@@ -60,14 +60,14 @@
           <div class="guide-tool-logo" style="background:#edf3e6;color:#416849;">AI</div>
           <div>
             <h3><a href="/?tool=ai-chat">AI Chat</a></h3>
-            <p class="guide-meta">On-device · Chat &amp; Writing · Uses Phi-3 Mini or similar</p>
+            <p class="guide-meta">On-device · Chat &amp; Writing · Uses SmolLM2 360M</p>
           </div>
         </div>
-        <p>AI Chat is a fully on-device conversational AI. No internet required once the model is downloaded. Ask questions, brainstorm, outline projects, or explore ideas freely.</p>
+        <p>AI Chat is a fully on-device conversational AI. Model inference happens locally. Network access is needed to load the site and download missing model or runtime files; offline page loading is not guaranteed. Ask questions, brainstorm, outline projects, or explore ideas freely.</p>
         <h4>How to use it</h4>
         <ol>
           <li>Open <strong>AI Chat</strong> from the tool directory or the homepage.</li>
-          <li>Wait for the model to download (first use only — usually 50–300 MB). A progress bar shows the download status.</li>
+          <li>Wait for the model to download (first use only — approximately 365 MB plus runtime files). A progress bar shows the download status.</li>
           <li>Type your message in the chat box and press <strong>Enter</strong> or click <strong>Send</strong>.</li>
           <li>Continue the conversation naturally. The model remembers the current conversation context.</li>
           <li>Start a new conversation with the <strong>+</strong> button, or rename/delete conversations from the sidebar.</li>
@@ -85,7 +85,7 @@
         <ul>
           <li>On-device models are smaller than cloud models (e.g. GPT-4). Complex reasoning tasks may be less reliable.</li>
           <li>No internet access — cannot look up current events, prices, or live data.</li>
-          <li>Conversation memory is limited to the current session. Clearing browser storage removes saved chat history.</li>
+          <li>Chat history is saved in this browser, but only recent messages are supplied to the model. Clearing browser storage removes saved history.</li>
         </ul>
       </div>
 
@@ -97,7 +97,7 @@
             <p class="guide-meta">On-device · Chat &amp; Writing</p>
           </div>
         </div>
-        <p>Turn a topic or brief into a first draft. Useful for blog posts, articles, product pages, reports, or any long-form writing project.</p>
+        <p>Turn a topic or brief into a first draft. Useful for blog posts, articles, product pages, reports, or the opening paragraph of a longer project.</p>
         <h4>How to use it</h4>
         <ol>
           <li>Enter your topic or brief in the input field. Be specific about the audience, purpose, and length you want.</li>
@@ -109,7 +109,7 @@
           <strong>Topic:</strong> The benefits of cold-brew coffee for busy professionals<br>
           <strong>Audience:</strong> Millennials who work from home<br>
           <strong>Tone:</strong> Friendly, practical<br>
-          <strong>Length:</strong> ~250 words
+          <strong>Length:</strong> a short paragraph
         </div>
         <div class="guide-tip">
           <strong>Tip:</strong> The more context you provide (audience, tone, purpose), the more focused the output will be.
@@ -125,26 +125,26 @@
         <div class="guide-card-header">
           <div class="guide-tool-logo" style="background:#f3eef8;color:#6b46c1;">PG</div>
           <div>
-            <h3><a href="/?tool=prompt-generator">AI Prompt Generator &amp; Architect</a></h3>
+            <h3><a href="/?tool=prompt-generator">AI Prompt Builder</a></h3>
             <p class="guide-meta">100% Free · On-device · Midjourney, FLUX, SDXL &amp; DALL-E</p>
           </div>
         </div>
-        <p>Turn simple subject concepts into production-grade image prompts formatted with professional photography gear, atmospheric lighting rigs, negative tokens, and engine flags.</p>
+        <p>Build a prompt from your subject and selected style, lighting, framing, and target format. This is a template builder; it does not generate an image or verify the current syntax of an external service.</p>
         <h4>How to use it</h4>
         <ol>
           <li>Enter your core subject, scene, or artistic idea in the concept box.</li>
           <li>Choose your target AI model (Midjourney v6, FLUX.1 [dev], Stable Diffusion XL, or DALL-E 3).</li>
           <li>Pick your preferred artistic style (e.g. Cinematic 35mm, Editorial Vogue, Hyper-Detailed Anime, Cyberpunk Octane).</li>
           <li>Select a lighting setup (Golden Hour, Dramatic Rim Lighting, Volumetric Cyberpunk, Studio Softbox) and lens focal length.</li>
-          <li>Click <strong>Generate Master Prompts</strong>. Instantly copy the master prompt, parameters, or exclusion tokens with 1 click.</li>
+          <li>Click <strong>Generate Prompts</strong>. Instantly copy the master prompt, parameters, or exclusion tokens with 1 click.</li>
         </ol>
-        <h4>Example prompt output</h4>
+        <h4>Illustrative prompt format</h4>
         <div class="guide-example">
           <strong>Master Prompt:</strong> A serene mountain cabin by a quiet lake at dawn, mist rising off the mirror-like water, Cinematic 35mm Photorealism, Volumetric Golden Hour, 85mm Portrait (f/1.4 Soft Bokeh), photorealistic texture, 8k resolution<br>
           <strong>Parameters:</strong> --ar 16:9 --v 6.0 --style raw --q 2 --chaos 10
         </div>
         <div class="guide-tip">
-          <strong>Tip:</strong> Use the dedicated "Copy Exclusions" button when working with Stable Diffusion or FLUX to prevent distorted anatomy and blurry backgrounds.
+          <strong>Tip:</strong> Use exclusions only when your target generator supports negative prompts. Exclusion text cannot guarantee correct anatomy or sharpness.
         </div>
       </div>
 
@@ -160,8 +160,8 @@
         <h4>How to use it</h4>
         <ol>
           <li>Paste or type your text (up to a few paragraphs) into the input box.</li>
-          <li>Click <strong>Fix grammar</strong>.</li>
-          <li>Review the corrected version. Changes are highlighted where possible.</li>
+          <li>Click <strong>Correct grammar</strong>.</li>
+          <li>Review the corrected version. Compare it against your original; automatic change highlighting is not guaranteed.</li>
         </ol>
         <div class="guide-tip">
           <strong>Tip:</strong> Works best with English text. For very long documents, split into sections and run each separately.
@@ -186,11 +186,11 @@
         <ol>
           <li>Paste the text you want to summarise into the input field.</li>
           <li>Click <strong>Summarise</strong>. The model condenses the main ideas.</li>
-          <li>If you want a shorter or more detailed summary, mention the desired length in a follow-up or trim/expand manually.</li>
+          <li>Compare the result with the original and edit its length manually. This summarizer does not provide a follow-up conversation.</li>
         </ol>
-        <h4>Sample result</h4>
+        <h4>Illustrative summary (not a measured tool output)</h4>
         <div class="guide-example">
-          <strong>Input (200 words):</strong> A passage about the history of the internet...<br>
+          <strong>Example topic:</strong> A passage about the history of the internet...<br>
           <strong>Output:</strong> "The internet evolved from ARPANET in the 1960s, expanded with TCP/IP in the 1980s, and became publicly accessible in the 1990s via the World Wide Web. Today it connects billions of devices globally."
         </div>
         <h4>Limitations</h4>
@@ -208,11 +208,11 @@
             <p class="guide-meta">On-device · Research &amp; Text</p>
           </div>
         </div>
-        <p>Determine whether English text sounds positive, negative, or neutral — useful for customer feedback, reviews, or social media monitoring.</p>
+        <p>Determine whether English text sounds positive or negative — useful for customer feedback, reviews, or social media monitoring.</p>
         <h4>How to use it</h4>
         <ol>
           <li>Paste your text (a sentence to a few paragraphs).</li>
-          <li>Click <strong>Analyse</strong>. The tool returns a sentiment label (Positive / Negative / Neutral) and a confidence score.</li>
+          <li>Click <strong>Analyse</strong>. The tool returns a sentiment label (Positive / Negative) and model scores; it has no separate neutral category.</li>
         </ol>
         <div class="guide-tip">
           <strong>Tip:</strong> Run multiple customer reviews through the tool in separate batches to spot patterns in feedback quickly.
@@ -261,11 +261,11 @@
             <p class="guide-meta">On-device · Images</p>
           </div>
         </div>
-        <p>Remove the background from a portrait photo to create a transparent PNG. Useful for profile pictures, team pages, product shots, and presentations.</p>
+        <p>Remove the background from a portrait photo to create a transparent PNG. Useful for profile pictures, team pages, and presentations featuring people.</p>
         <h4>How to use it</h4>
         <ol>
           <li>Upload a portrait photo where the subject is clearly separated from the background.</li>
-          <li>Click <strong>Remove background</strong>. Processing runs locally (may take 5–15 seconds).</li>
+          <li>Click <strong>Remove background</strong>. Processing runs locally; first use includes a model download, and speed depends on your device.</li>
           <li>Download the resulting transparent PNG.</li>
         </ol>
         <h4>Limitations</h4>
@@ -280,25 +280,25 @@
         <div class="guide-card-header">
           <div class="guide-tool-logo" style="background:#e8f4fd;color:#0369a1;">PE</div>
           <div>
-            <h3><a href="/?tool=photo-editor">AI Photo Editor &amp; Enhancer</a></h3>
+            <h3><a href="/?tool=photo-editor">Photo Editor &amp; Filters</a></h3>
             <p class="guide-meta">100% Free · On-device Canvas Engine · Privacy-safe</p>
           </div>
         </div>
-        <p>Enhance dynamic range, color balance, vibrance, and clarity directly in your browser. Features 9 curated aesthetic presets including Cinematic Teal &amp; Orange, Cyberpunk Neon, Vintage 35mm Film, and Soft Portrait Glow.</p>
+        <p>Enhance dynamic range, color balance, vibrance, and clarity directly in your browser. Uses local filters with presets including Cinematic Teal &amp; Orange, Cyberpunk Neon, Vintage 35mm Film, and Soft Portrait Glow.</p>
         <h4>How to use it</h4>
         <ol>
-          <li>Click <strong>Choose photo</strong> to select any image from your computer or phone.</li>
-          <li>Select an <strong>Enhancement Style Preset</strong> (e.g. Auto Enhance, Cinematic, Vibrant HDR, Crisp B&amp;W).</li>
-          <li>Optionally fine-tune lighting (Shadow Recovery, Highlight Protection) and artistic effects (Golden Hour Glow, Subtle Vignette, Background Soft Blur).</li>
-          <li>Click <strong>Enhance Photo</strong> to process the image instantaneously.</li>
-          <li>Download the clean, full-resolution PNG with no watermarks or compression.</li>
+          <li>Choose a JPG, PNG, WebP, or BMP image under 15 MB from your device.</li>
+          <li>Select a preset such as Golden Hour, Cinematic Teal &amp; Orange, or Dramatic Noir B&amp;W.</li>
+          <li>Optionally adjust brightness, contrast, saturation, warmth, sharpness, and vignette with the sliders.</li>
+          <li>Click <strong>Apply edits</strong>. Processing speed depends on image size and your device.</li>
+          <li>Download JPG or PNG. PNG avoids JPEG compression, but neither option restores detail lost during resizing.</li>
         </ol>
         <div class="guide-tip">
           <strong>Tip:</strong> The entire enhancement runs locally on your computer’s GPU/CPU. Your private photos never leave your device or touch a remote server.
         </div>
         <h4>Limitations</h4>
         <ul>
-          <li>Images over 2400px wide are dynamically downscaled to 2400px to maintain peak responsiveness on laptops and mobile devices.</li>
+          <li>Images with a longest edge over 2200px are reduced to a maximum 2200px edge. This is a filter editor, not generative retouching or object removal.</li>
           <li>RAW camera files should be exported to JPEG or PNG before editing.</li>
         </ul>
       </div>
@@ -313,13 +313,13 @@
           <div class="guide-tool-logo" style="background:#f6f0e9;color:#8a5039;">AT</div>
           <div>
             <h3><a href="/?tool=audio-transcription">Audio Transcriber</a></h3>
-            <p class="guide-meta">On-device · Audio &amp; Video · Uses Whisper (tiny/base)</p>
+            <p class="guide-meta">On-device · Audio &amp; Video · Uses Whisper Tiny</p>
           </div>
         </div>
         <p>Convert a spoken audio recording to text — meetings, voice notes, lectures, or interviews. Everything processes in your browser.</p>
         <h4>How to use it</h4>
         <ol>
-          <li>Click <strong>Upload audio</strong> and select an MP3, WAV, or OGG file (under ~5 minutes for best performance).</li>
+          <li>Click <strong>Upload audio</strong> and select an MP3, WAV, or OGG file (under 40 MB and no longer than two minutes).</li>
           <li>Click <strong>Transcribe</strong>. The Whisper model runs locally — first use downloads the model file.</li>
           <li>Review and copy the transcript from the output panel.</li>
         </ol>
@@ -327,12 +327,12 @@
         <ul>
           <li>Use clean recordings with minimal background noise.</li>
           <li>Speak clearly and at a moderate pace.</li>
-          <li>For long recordings, split them into 3–5 minute segments for faster and more accurate results.</li>
+          <li>For long recordings, split them into segments of no more than two minutes for faster and more accurate results.</li>
         </ul>
         <h4>Limitations</h4>
         <ul>
           <li>Strong accents, technical jargon, or multiple overlapping speakers reduce accuracy.</li>
-          <li>The on-device Whisper model used is the "tiny" or "base" variant — accurate for general English, but not as precise as the larger cloud versions.</li>
+          <li>Whisper Tiny is a small model; accuracy varies with language and recording quality. It can produce incorrect text, particularly during silence.</li>
           <li>Processing time depends on your device speed. Older computers may take longer.</li>
         </ul>
       </div>
@@ -372,25 +372,25 @@
         <div class="guide-card-header">
           <div class="guide-tool-logo" style="background:#f0fdf4;color:#15803d;">LD</div>
           <div>
-            <h3><a href="/?tool=logo-designer">AI Logo Designer &amp; Vector Studio</a></h3>
-            <p class="guide-meta">100% Free · Scalable Vector Graphics (SVG) + PNG · Commercial Ready</p>
+            <h3><a href="/?tool=logo-designer">Logo Designer &amp; Vector Studio</a></h3>
+            <p class="guide-meta">Browser utility · Template-based SVG + PNG concepts</p>
           </div>
         </div>
-        <p>Design modern vector logos and brand emblems for your startup, channel, or business in seconds. Generates 4 unique concepts with dark/light background previews and full color palettes.</p>
+        <p>Design modern vector logos and brand emblems for your startup, channel, or business in seconds. Generates 4 template-based concepts with dark/light background previews and full color palettes.</p>
         <h4>How to use it</h4>
         <ol>
           <li>Enter your <strong>Brand Name</strong> and optional <strong>Tagline</strong>.</li>
           <li>Select your industry (Technology, Luxury &amp; Fashion, Health &amp; Eco, Food &amp; Beverage, etc.).</li>
           <li>Choose an aesthetic style (Modern Geometric Mark, Tech Monogram Emblem, Minimalist Badge Crest, Kinetic Flow).</li>
           <li>Pick a curated color scheme (Emerald Mint, Electric Neon, Royal Amber, Sleek Monochrome, etc.).</li>
-          <li>Click <strong>Generate Vector Logos</strong>. Preview all 4 concepts on both dark and light surfaces.</li>
+          <li>Click <strong>Generate Logos</strong>. Preview all 4 concepts on both dark and light surfaces.</li>
           <li>Click <strong>Copy SVG</strong>, <strong>Download SVG (Vector)</strong>, or <strong>Download PNG</strong> for each concept.</li>
         </ol>
         <div class="guide-tip">
           <strong>Tip:</strong> SVG files are resolution-independent vector graphics that can be scaled infinitely without pixelation — ideal for websites, merchandise, signage, and business cards.
         </div>
         <h4>Commercial use</h4>
-        <p>All logos generated on Free AI Harbor are 100% free for both personal and commercial use with no attribution required.</p>
+        <p>Free AI Harbor does not charge for exporting these concepts. They use shared geometric templates, so uniqueness and trademark availability are not guaranteed. Review your brand name, font rights, and resemblance to existing marks before commercial use.</p>
       </div>
     </section>
 
@@ -446,7 +446,7 @@
           <li>Your key is stored only in this browser tab's memory and cleared on page reload.</li>
         </ol>
         <div class="guide-tip">
-          <strong>Tip:</strong> Google AI Studio's free tier provides generous daily quota limits for personal and development use. Check Google's current quota details on the AI Studio dashboard.
+          <strong>Tip:</strong> Check your project’s current allowance and billing status in AI Studio before sending requests. A provider API key does not by itself guarantee free usage.
         </div>
         <h4>Limitations</h4>
         <ul>

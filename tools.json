@@ -394,8 +394,8 @@
     },
     {
       "id": "photo-editor",
-      "name": "AI Photo Editor",
-      "description": "Enhance, retouch, and apply cinematic AI-style filters and lighting adjustments to photos for free in your browser.",
+      "name": "Photo Editor",
+      "description": "Adjust brightness, contrast, color, and sharpness with local filters and presets. This tool does not use generative AI.",
       "icon": "image",
       "category": "Images",
       "kind": "image",
@@ -409,12 +409,12 @@
         "free",
         "on-site"
       ],
-      "note": "Processes 100% on your device via client-side canvas. No file size or privacy limits."
+      "note": "Local Canvas filters, not generative AI. JPG, PNG, WebP or BMP under 15 MB; output is resized to a maximum 2200px edge. No object removal or face reconstruction."
     },
     {
       "id": "logo-designer",
-      "name": "AI Logo Designer",
-      "description": "Design free professional vector logos, modern brand emblems, and geometric marks with instant SVG & PNG export.",
+      "name": "Logo Designer",
+      "description": "Create four template-based vector logo concepts from your brand name, colors, and layout. Export SVG or PNG.",
       "icon": "sparkles",
       "category": "Marketing & SEO",
       "kind": "text",
@@ -434,8 +434,8 @@
     },
     {
       "id": "prompt-generator",
-      "name": "AI Prompt Generator",
-      "description": "Generate masterfully engineered prompts for Midjourney, Stable Diffusion, DALL-E, ChatGPT, and Claude with customizable styles and parameters.",
+      "name": "AI Prompt Builder",
+      "description": "Assemble a structured prompt from your subject, style, lighting, and format. Uses templates; it does not generate images or call an AI model.",
       "icon": "sparkles",
       "category": "Chat & Writing",
       "kind": "text",

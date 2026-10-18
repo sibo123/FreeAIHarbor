@@ -40,7 +40,7 @@ This repository is pre-configured and structured for zero-configuration deployme
   - Single-threaded WASM execution ensures full cross-origin compatibility without restrictive COOP/COEP isolation blockers.
 - **Connected Providers (BYOK)**:
   - Supports direct browser-to-API requests for Gemini, Groq, Mistral, OpenRouter, ElevenLabs, etc.
-  - Keys remain strictly in visitor session memory and are never sent to external third parties or servers.
+  - Keys remain in tab memory and are sent directly to the selected provider to authenticate API requests. They are not sent to Free AI Harbor’s server.
 
 ---
 
@@ -65,3 +65,14 @@ This repository is pre-configured and structured for zero-configuration deployme
 ├── sitemap.xml           # Search engine sitemap
 └── vendor/               # Bundled runtime libraries (Transformers.js & Tesseract OCR)
 ```
+
+## Content and reliability update — 18 October 2026
+
+- Removed ad-interaction encouragement and corrected local/cloud privacy and access descriptions.
+- Corrected documented model names, image dimensions, audio limits, exports, and template/filter capabilities.
+- Added an accessible static catalog, four practical guides, and local tool help.
+- Added true 404 responses, malformed-path handling, and private-file restrictions to the Node server; static hosting has matching error-page configuration.
+- Fixed exception recovery for the photo, logo, and prompt utilities and improved clearing of photo inputs.
+- Run `npm run build` to refresh the static catalog, guides, and sitemap; run `npm test` for runtime metadata, routes, exports, and mocked provider errors.
+
+Verification limits: tests do not exercise every model download/inference, real provider API credentials, contact-form delivery, browser layout, ad delivery, or Google account settings. This update does not claim AdSense approval. The public Hostinger deployment must be verified independently of the GitHub commit.
