@@ -1,6 +1,5 @@
 import {EXTRA_TOOLS} from './extended-tools.js';
 import {NEW_LOCAL_TOOLS} from './new-local-tools.js';
-import {CLOUD_TOOLS,providerFor} from './cloud-tools.js';
 export const MODELS={
  chat:{task:'text-generation',id:'HuggingFaceTB/SmolLM2-360M-Instruct',revision:'a10cc1512eabd3dde888204e902eca88bddb4951',dtype:'q8',size:'365 MB',label:'SmolLM2 360M',license:'Apache 2.0'},
  summary:{task:'summarization',id:'Xenova/distilbart-cnn-6-6',revision:'6b476295a3cf27d5b20e8c8b847a54ab8e5d0df9',dtype:'q8',size:'285 MB',label:'DistilBART',license:'Apache 2.0'},
@@ -62,8 +61,7 @@ export const LAB_TOOLS=[
  {id:'logo-designer',name:'Logo Designer',description:'Create four template-based vector logo concepts from your brand name, colors, and layout. Export SVG or PNG.',icon:'sparkles',category:'Marketing & SEO',kind:'text',model:'client',tags:['logo','branding','vector','svg','graphic design','free','on-site'],limit:300,placeholder:'Enter your brand name (e.g. Apex AI, Lumina, Harbor)…',note:'Generates 4 distinct vector SVG concepts with dark & light mockups. Download SVG or high-res PNG for free.'},
  {id:'prompt-generator',name:'AI Prompt Builder',description:'Assemble a structured prompt from your subject, style, lighting, and format. Uses templates; it does not generate images or call an AI model.',icon:'sparkles',category:'Chat & Writing',kind:'text',model:'client',tags:['prompt generator','midjourney','chatgpt','dall-e','flux','claude','free'],limit:2000,placeholder:'Describe your idea or subject (e.g. a futuristic cyberpunk street market in Tokyo during rain)…',note:'Creates master prompts, parameter flags, negative prompt tokens, and creative variations with 1-click copy.'},
  ...EXTRA_TOOLS,
- ...NEW_LOCAL_TOOLS,
- ...CLOUD_TOOLS
+ ...NEW_LOCAL_TOOLS
 ];
 export const FEATURED_LAB=['photo-editor','logo-designer','prompt-generator','ai-chat','portrait-cutout','audio-transcription'];
 export function findTools({query='',category='All tools',access='all',savedOnly=false,saved=new Set()}={}){
@@ -82,7 +80,7 @@ export function taskMessages(tool,text,tone='Natural',history=[]){
  const content=tool.prompt?`${tool.prompt}\nUse a ${tone.toLowerCase()} tone.\n\n${text}`:text;
  return [{role:'system',content:'You are Free AI Harbor, a concise and helpful AI assistant. Be honest about uncertainty. Never pretend to be ChatGPT, Gemini, or Claude.'},...(tool.id==='ai-chat'?history.slice(-6):[]),{role:'user',content}];
 }
-export function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+export function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&','<':'<','>':'>','"':'"',"'":'&#39;'}[c]))}
 export function formatTimestamp(seconds){const ms=Math.max(0,Math.round((seconds||0)*1000));return `${String(Math.floor(ms/3600000)).padStart(2,'0')}:${String(Math.floor(ms%3600000/60000)).padStart(2,'0')}:${String(Math.floor(ms%60000/1000)).padStart(2,'0')},${String(ms%1000).padStart(3,'0')}`}
 export function toSRT(chunks,duration){return chunks.map((c,i)=>`${i+1}\n${formatTimestamp(c.timestamp?.[0]||0)} --> ${formatTimestamp(c.timestamp?.[1]??chunks[i+1]?.timestamp?.[0]??duration)}\n${c.text.trim()}\n`).join('\n')}
 export function encodeWAV(samples,rate){const buffer=new ArrayBuffer(44+samples.length*2),v=new DataView(buffer);const s=(i,str)=>{for(let j=0;j<str.length;j++)v.setUint8(i+j,str.charCodeAt(j))};s(0,'RIFF');v.setUint32(4,36+samples.length*2,true);s(8,'WAVE');s(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);s(36,'data');v.setUint32(40,samples.length*2,true);for(let i=0;i<samples.length;i++){const x=Math.max(-1,Math.min(1,samples[i]));v.setInt16(44+i*2,x<0?x*32768:x*32767,true)}return buffer}
