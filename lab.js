@@ -208,7 +208,7 @@ function openTool(id,push=true){
  $('#related-tools').innerHTML=LAB_TOOLS.filter(x=>x.category===t.category&&x.id!==t.id).slice(0,4).map(x=>`<button class="related-button" data-open="${x.id}">${icon(x.icon)}${esc(x.name)} ${icon('arrow-right')}</button>`).join('');
  render();updateURL(id,push);if(id==='ai-chat'){chatUI.show(preferredChat);window.scrollTo({top:0,behavior:'instant'})}else scrollTo($('#workspace'));document.title=t.name+' — Free AI Harbor';
 }
-function back(push=true){if(running)cancel();moduleUI?.hide();chatUI?.hide();cloudUI?.hide();clearURLs();active=null;inputFile=null;preparedImage=null;$('#workspace').classList.add('hidden');$('#discovery').classList.remove('hidden');render();updateURL(null,push);document.title='Free AI Tools & Browser Utilities — Free AI Harbor';scrollTo($('#directory'))}
+function back(push=true){if(running)cancel();moduleUI?.hide();chatUI?.hide();cloudUI?.hide();clearURLs();active=null;inputFile=null;preparedImage=null;$('#workspace').classList.add('hidden');$('#discovery').classList.remove('hidden');render();updateURL(null,push);document.title='150+ Free AI Tools. All in One Place. — Free AI Harbor';scrollTo($('#directory'))}
 function setView(view){state.view=view;state.category='All tools';state.access='all';state.query='';if(active)back(false);render();updateURL(null);scrollTo($('#directory'))}
 function selectFile(file){
  if(running)return;warning('');inputFile=null;preparedImage=null;clearURLs();$('#input-preview').innerHTML='';$('#input-preview').classList.add('hidden');$('#file-caption').textContent='';$('#file-input').required=true;moduleUI?.clearFile();resetOutput();if(!file)return;
