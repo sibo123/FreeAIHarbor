@@ -42,5 +42,5 @@ let guides=fs.readFileSync(new URL('../guides.html',import.meta.url),'utf8');
 const block=`<!-- practical-guides:start --><section class="legal-section"><h2>Detailed practical walkthroughs</h2>${articles.map(a=>`<article class="guide-card"><h3><a href="/guides/${a.slug}.html">${esc(a.title)}</a></h3><p>${esc(a.description)}</p></article>`).join('')}</section><!-- practical-guides:end -->`;
 guides=guides.replace(/<!-- practical-guides:start -->[\s\S]*?<!-- practical-guides:end -->/,'');guides=guides.replace('<div class="legal-body">','<div class="legal-body">'+block);fs.writeFileSync(new URL('../guides.html',import.meta.url),guides);
 // Only index distinct editorial pages. Query-based workspaces share the home document.
-const urls=['','catalog.html','about.html','guides.html','contact.html','privacy-policy.html','terms.html','disclaimer.html',...articles.map(a=>'guides/'+a.slug+'.html')];
+const urls=['','catalog.html','about.html','blog.html','guides.html','contact.html','privacy-policy.html','terms.html','disclaimer.html',...articles.map(a=>'guides/'+a.slug+'.html')];
 fs.writeFileSync(new URL('../sitemap.xml',import.meta.url),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls.map(u=>`<url><loc>${origin}/${u}</loc></url>`).join('\n')+'\n</urlset>\n');
