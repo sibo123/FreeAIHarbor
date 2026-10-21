@@ -1,428 +1,55 @@
-/* tool-identity.css - Craft Design System for Free AI Harbor */
-
-/* =========================================================
-   1. GRID CONTAINER (4-Column Layout)
-   ========================================================= */
-.tools-grid,
-.featured-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+.tools-grid .identity-card,.featured-grid .identity-card{padding:0;overflow:hidden;background:linear-gradient(180deg,var(--tool-wash) 0%,#fff 78%);border-color:var(--tool-line);min-height:0}
+.identity-card:hover{border-color:var(--tool-accent);box-shadow:0 9px 25px #334f2810}
+.tool-visual{position:relative;isolation:isolate;display:block;width:100%;height:108px;flex-shrink:0;overflow:hidden;text-align:left;background:var(--tool-bg);color:var(--tool-ink);border-bottom:1px solid var(--tool-line)}
+.tool-visual:before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 20% 12%,#ffffff9c,transparent 62%),linear-gradient(120deg,transparent 45%,#ffffff30)}
+.tool-visual:after{content:'';position:absolute;width:100px;height:100px;right:-16px;top:-42px;border:1px solid var(--tool-accent);opacity:.24;border-radius:50%;pointer-events:none}
+.visual-orbit{position:absolute;left:-35px;bottom:-67px;width:155px;height:155px;border-radius:50%;border:1px solid var(--tool-accent);opacity:.25;pointer-events:none}
+.tool-scene{position:absolute;right:4px;top:5px;width:178px;height:99px;color:var(--tool-ink);opacity:.13;pointer-events:none}
+.tool-identity-badge{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--tool-bg,#eaf3e6);color:var(--tool-ink,#5c7f3a);border-radius:9px}
+.tool-identity-badge .tool-symbol{display:block;width:26px;height:26px}
+.tool-visual-icon{position:absolute;left:19px;top:19px;width:67px;height:67px;border-radius:17px;background:#ffffffb8;border:1px solid #ffffffcf;box-shadow:0 5px 10px #263a2207;color:var(--tool-ink);transform:rotate(-3deg);transition:transform .2s}
+.tool-visual-icon .tool-symbol{width:41px;height:41px}
+.tool-visual:hover .tool-visual-icon{transform:rotate(0deg) translateY(-2px)}
+.tool-visual-category{position:absolute;right:13px;bottom:12px;font-size:8px;font-weight:600;letter-spacing:.2px;color:var(--tool-ink);background:#ffffff80;border:1px solid #ffffff99;border-radius:5px;padding:5px 8px;line-height:1.3}
+.visual-arrow{position:absolute;right:15px;top:13px;display:grid;place-items:center;width:20px;height:20px;color:var(--tool-ink);opacity:.55}
+.visual-arrow svg{width:13px;height:13px}
+.identity-card-body{display:flex;flex-direction:column;flex:1;min-width:0;padding:18px 18px 17px}
+.tools-grid .identity-card .tool-card-top{gap:9px;flex-wrap:nowrap;position:static;align-items:flex-start}
+.tools-grid .identity-card .tool-title-wrap{flex:1;flex-basis:auto;min-width:0;padding:0}
+.tools-grid .identity-card .tool-title{font-size:13px;line-height:1.45}
+.identity-card .tool-title button:hover{color:var(--tool-ink)}
+.identity-card .tool-category{color:var(--tool-ink);margin-top:4px}
+.tools-grid .identity-card .save-button{position:static;margin:-3px -5px 0 0;flex:0 0 27px;width:27px;height:27px;background:transparent;color:#9da98f}
+.identity-card .save-button:hover,.identity-card .save-button.is-saved{color:var(--tool-ink);background:var(--tool-bg)}
+.identity-card .tool-description{margin:13px 0 16px;min-height:44px;flex:1}
+.identity-card .download-size{font-size:8px;margin-bottom:13px}
+.identity-card .tool-card-footer{padding-top:13px;border-color:var(--tool-line)}
+.identity-card .card-details{color:var(--tool-ink);font-weight:600}
+.identity-card .access-badge{background:var(--tool-bg);color:var(--tool-ink);border-color:var(--tool-line)}
+.featured-grid .identity-card .tool-visual{height:126px}
+.featured-grid .identity-card .tool-visual-icon{width:77px;height:77px;top:23px;left:22px;border-radius:20px}
+.featured-grid .identity-card .tool-visual-icon .tool-symbol{width:46px;height:46px}
+.featured-grid .identity-card .tool-scene{width:202px;height:115px;top:6px}
+.featured-grid .identity-card .identity-card-body{padding:17px 22px 20px}
+.identity-card .featured-label{color:var(--tool-ink);opacity:.74;font-size:8px;letter-spacing:.15px;line-height:1.5;margin:0 0 13px;padding:0}
+.identity-card .featured-label svg{width:11px;height:11px}
+.category-button .category-identity{width:25px;height:25px;border-radius:6px;display:grid;place-items:center;background:var(--tool-bg,#e8f1e1);color:var(--tool-ink,#6b8d52)}
+.category-button .category-identity svg{width:14px;height:14px}
+.category-button.active{background:var(--tool-bg,#e8f1e1);color:var(--tool-ink,#52773e)}
+.category-button.active .category-count{color:var(--tool-ink,#52773e)}
+.module-nav-item>.module-tool-icon{flex:0 0 29px;width:29px;height:29px;border-radius:7px;margin:0;border:1px solid var(--tool-line)}
+.module-nav-item>.module-tool-icon .tool-symbol{width:20px;height:20px;color:var(--tool-ink)}
+.module-nav-item{padding-top:8px;padding-bottom:8px;gap:9px}
+.module-nav-item.selected{background:var(--tool-bg,#dce7d2);color:var(--tool-ink,#436934)}
+.module-heading-icon.tool-identity-badge{background:var(--tool-bg);color:var(--tool-ink);border:1px solid var(--tool-line)}
+.module-heading-icon.tool-identity-badge .tool-symbol{width:24px;height:24px}
+.module-layout .module-body{background-color:var(--tool-wash,#f5f7f2);background-image:radial-gradient(ellipse at 100% 0,var(--tool-bg,#edf3e5),transparent 55%);background-attachment:local}
+.module-layout .module-type{background:var(--tool-bg);color:var(--tool-ink)}
+.module-layout .module-empty>.empty-tool-icon{width:64px;height:64px;border-radius:16px;background:var(--tool-bg);color:var(--tool-ink);border:1px solid var(--tool-line)}
+.module-layout .module-empty>.empty-tool-icon .tool-symbol{width:34px;height:34px}
+.chat-view .chat-main{background:radial-gradient(ellipse at 100% 0,var(--tool-bg,#edf3e5),transparent 65%),var(--tool-wash,#fbfcf9)}
+@media(max-width:640px){
+ .tool-visual{height:99px}.tool-visual-icon{width:55px;height:55px;left:13px;top:14px;border-radius:14px}.tool-visual-icon .tool-symbol{width:34px;height:34px}.tool-scene{width:139px;height:82px;right:-21px;top:5px}.tool-visual-category{right:9px;bottom:8px;font-size:7px;max-width:calc(100% - 16px);padding:4px 6px}.visual-arrow{right:10px;top:9px;width:17px;height:17px}.visual-arrow svg{width:11px;height:11px}.identity-card-body{padding:14px 12px 13px}.tools-grid .identity-card .tool-title{font-size:11px;line-height:1.5}.tools-grid .identity-card .save-button{flex-basis:23px;width:23px;height:23px;margin:-2px -4px 0 0}.tools-grid .identity-card .save-button svg{width:13px;height:13px}.identity-card .tool-category{font-size:7px;line-height:1.6}.identity-card .tool-description{font-size:9px;line-height:1.85;min-height:54px;margin:10px 0 13px}.identity-card .download-size{font-size:7px;line-height:1.6;gap:4px;align-items:flex-start}.identity-card .download-size svg{width:10px;height:10px;flex-shrink:0;margin-top:1px}.identity-card .tool-card-footer{padding-top:10px;gap:8px}.identity-card .access-badge{font-size:7px}.identity-card .card-details{font-size:8px}.featured-grid .identity-card .tool-visual{height:121px}.featured-grid .identity-card .identity-card-body{padding:16px 19px 18px}.featured-grid .identity-card .tool-title{font-size:14px}.featured-grid .identity-card .tool-description{font-size:11px;min-height:0}.featured-grid .identity-card .download-size{font-size:9px}.featured-grid .identity-card .card-details{font-size:11px}.featured-grid .identity-card .access-badge{font-size:9px}.featured-grid .identity-card .tool-visual-category{font-size:8px;right:16px;bottom:13px}.module-heading-icon.tool-identity-badge .tool-symbol{width:21px;height:21px}
 }
-
-/* =========================================================
-   2. CRAFT CARD CORE STRUCTURE
-   ========================================================= */
-.craft-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: #0d1017;
-  border: 1px solid #1a2230;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.22s ease,
-              box-shadow 0.22s ease;
-  min-height: 0;
-  color: #f1f5f9;
-}
-
-.craft-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--craft-accent, #38bdf8);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65), 0 0 0 1px var(--craft-accent, #38bdf8);
-}
-
-/* 2.1 Header: Number Badge & Uppercase Monospace Category */
-.craft-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  background: #090c12;
-  border-bottom: 1px solid #161c28;
-  gap: 10px;
-}
-
-.craft-num-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 26px;
-  height: 20px;
-  padding: 0 6px;
-  border-radius: 3px;
-  background: var(--craft-badge-bg, #38bdf8);
-  color: var(--craft-badge-ink, #000000);
-  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-  font-size: 11px;
-  font-weight: 850;
-  line-height: 1;
-  letter-spacing: -0.2px;
-  flex-shrink: 0;
-}
-
-.craft-category-label {
-  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-  font-size: 8.5px;
-  font-weight: 700;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-  color: #728096;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: right;
-  flex: 1;
-}
-
-/* 2.2 Banner: Dark Software UI Viewport Mockup */
-.craft-banner-viewport {
-  position: relative;
-  width: 100%;
-  height: 154px;
-  background: #06080d;
-  overflow: hidden;
-  border-bottom: 1px solid #161c28;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  text-align: left;
-  display: block;
-}
-
-.craft-banner-svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease, filter 0.25s ease;
-}
-
-.craft-card:hover .craft-banner-svg {
-  transform: scale(1.02);
-  filter: brightness(1.08) contrast(1.04);
-}
-
-/* 2.3 Overlapping Rounded-Square App Icon & Bookmark */
-.craft-icon-anchor {
-  position: relative;
-  height: 28px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 4;
-}
-
-.craft-app-icon {
-  margin-top: -30px;
-  width: 54px;
-  height: 54px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: var(--craft-badge-bg, #38bdf8);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.12);
-  cursor: pointer;
-  flex-shrink: 0;
-  border: none;
-  padding: 0;
-  display: block;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
-}
-
-.craft-app-icon:hover,
-.craft-card:hover .craft-app-icon {
-  transform: scale(1.06) translateY(-2px);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.8), 0 0 0 2px var(--craft-accent, #38bdf8);
-}
-
-.craft-mascot-svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.craft-save-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 7px;
-  display: grid;
-  place-items: center;
-  color: #64748b;
-  background: #121620;
-  border: 1px solid #1f2738;
-  cursor: pointer;
-  margin-top: -6px;
-  transition: all 0.2s ease;
-}
-
-.craft-save-btn:hover {
-  color: var(--craft-accent, #38bdf8);
-  border-color: var(--craft-accent, #38bdf8);
-  background: #171e2c;
-  transform: scale(1.06);
-}
-
-.craft-save-btn.is-saved {
-  color: #facc15;
-  border-color: #ca8a04;
-  background: rgba(250, 204, 21, 0.14);
-}
-
-.craft-bookmark-icon {
-  width: 16px;
-  height: 16px;
-  display: block;
-}
-
-/* 2.4 Card Body: Dual-tone Title & Description */
-.craft-card-body {
-  padding: 14px 18px 18px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.craft-title {
-  margin: 0 0 8px 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 20px;
-  font-weight: 750;
-  letter-spacing: -0.4px;
-  line-height: 1.25;
-}
-
-.craft-title a {
-  color: #ffffff;
-  text-decoration: none;
-  display: inline;
-  transition: opacity 0.15s ease;
-}
-
-.craft-title a:hover {
-  opacity: 0.92;
-}
-
-.craft-title-prefix {
-  color: #ffffff;
-  font-weight: 800;
-}
-
-.craft-title-suffix {
-  font-weight: 800;
-  color: var(--craft-accent, #38bdf8);
-}
-
-.craft-description {
-  margin: 0 0 14px 0;
-  font-size: 12px;
-  line-height: 1.58;
-  color: #8c9ba8;
-  min-height: 38px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* 2.5 Monospace Pill Badges */
-.craft-tags-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-bottom: 16px;
-}
-
-.craft-tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.craft-pill-tag {
-  display: inline-flex;
-  align-items: center;
-  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-  font-size: 8.5px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  padding: 3px 6px;
-  border-radius: 3px;
-  border: 1px solid #202737;
-  background: #090d14;
-  color: #8a99ac;
-  line-height: 1.25;
-  white-space: nowrap;
-}
-
-.craft-pill-status {
-  color: #a4b4c7;
-  border-color: #273145;
-}
-
-.craft-pill-format {
-  color: #64748b;
-  border-color: #1a2230;
-  font-size: 8px;
-}
-
-/* 2.6 Explore Action Footer */
-.craft-card-footer {
-  margin-top: auto;
-  padding-top: 13px;
-  border-top: 1px solid #161c28;
-  display: flex;
-  align-items: center;
-}
-
-.craft-explore-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-  font-size: 9.5px;
-  font-weight: 750;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: #8c9ba8;
-  text-decoration: none;
-  transition: color 0.18s ease;
-}
-
-.craft-card:hover .craft-explore-link,
-.craft-explore-link:hover {
-  color: var(--craft-accent, #38bdf8);
-}
-
-.craft-explore-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.craft-explore-arrow {
-  font-size: 13px;
-  font-weight: 800;
-  margin-left: 8px;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  flex-shrink: 0;
-}
-
-.craft-card:hover .craft-explore-arrow,
-.craft-explore-link:hover .craft-explore-arrow {
-  transform: translate(3px, -3px);
-}
-
-/* =========================================================
-   3. WORKSPACE & DIALOG RETENTION
-   ========================================================= */
-.module-nav-item>.module-tool-icon {
-  flex: 0 0 29px;
-  width: 29px;
-  height: 29px;
-  border-radius: 7px;
-  margin: 0;
-  border: 1px solid var(--tool-line, #e2e8f0);
-}
-.module-nav-item>.module-tool-icon .tool-symbol {
-  width: 20px;
-  height: 20px;
-  color: var(--tool-ink, #334155);
-}
-.module-nav-item {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  gap: 9px;
-}
-.module-nav-item.selected {
-  background: var(--tool-bg, #dce7d2);
-  color: var(--tool-ink, #436934);
-}
-.module-heading-icon.tool-identity-badge {
-  background: var(--tool-bg, #eaf3e6);
-  color: var(--tool-ink, #5c7f3a);
-  border: 1px solid var(--tool-line, #dce4d5);
-}
-.module-heading-icon.tool-identity-badge .tool-symbol {
-  width: 24px;
-  height: 24px;
-}
-.module-layout .module-body {
-  background-color: var(--tool-wash, #f5f7f2);
-  background-image: radial-gradient(ellipse at 100% 0, var(--tool-bg, #edf3e5), transparent 55%);
-  background-attachment: local;
-}
-.module-layout .module-type {
-  background: var(--tool-bg, #eaf3e6);
-  color: var(--tool-ink, #5c7f3a);
-}
-.module-layout .module-empty>.empty-tool-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  background: var(--tool-bg, #eaf3e6);
-  color: var(--tool-ink, #5c7f3a);
-  border: 1px solid var(--tool-line, #dce4d5);
-}
-.module-layout .module-empty>.empty-tool-icon .tool-symbol {
-  width: 34px;
-  height: 34px;
-}
-.chat-view .chat-main {
-  background: radial-gradient(ellipse at 100% 0, var(--tool-bg, #edf3e5), transparent 65%), var(--tool-wash, #fbfcf9);
-}
-
-/* =========================================================
-   4. RESPONSIVE BREAKPOINTS
-   ========================================================= */
-@media (max-width: 1200px) {
-  .tools-grid,
-  .featured-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 860px) {
-  .tools-grid,
-  .featured-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-}
-
-@media (max-width: 540px) {
-  .tools-grid,
-  .featured-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .craft-banner-viewport {
-    height: 140px;
-  }
-  .craft-title {
-    font-size: 18px;
-  }
-  .craft-app-icon {
-    width: 48px;
-    height: 48px;
-    margin-top: -26px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .craft-card,
-  .craft-app-icon,
-  .craft-banner-svg,
-  .craft-explore-arrow {
-    transition: none !important;
-    transform: none !important;
-  }
-}
+@media(max-width:380px){.tools-grid .identity-card .tool-title{font-size:10px}.identity-card-body{padding:13px 10px}.tools-grid .identity-card .tool-card-footer{flex-direction:column;align-items:flex-start}.tool-visual-category{font-size:6.5px}.tool-visual-icon{left:11px}}
+@media(prefers-reduced-motion:reduce){.tool-visual-icon{transition:none}.tool-visual:hover .tool-visual-icon{transform:rotate(-3deg)}}

@@ -10,7 +10,6 @@ import {providerFor,accessLabel} from './cloud-tools.js';
 import {createCloudUI} from './cloud-ui.js';
 import {initWorkspaceSizing} from './workspace-fit.js';
 import {readStoredValue} from './browser-storage.js';
-import {craftCardHTML} from './craft-graphics.js';
 const $=s=>document.querySelector(s);
 const byId=new Map(LAB_TOOLS.map(t=>[t.id,t]));
 let saved=new Set();try{saved=new Set(JSON.parse(readStoredValue(localStorage,'freeaiharbor-lab-saved-v1','openshelf-lab-saved-v1')||'[]').filter(id=>byId.has(id)))}catch{}
@@ -19,7 +18,7 @@ let active=null,worker=null,ocrWorker=null,running=false,job=0,result=null,lastT
 const inputDrafts=new Map();
 let chatUI=null,moduleUI=null,cloudUI=null;
 let logoStudioState={activeIdx:0,surface:'dark',layout:'stacked'};
-function card(t,featured=false,idx=0){return craftCardHTML(t,featured,idx,saved.has(t.id));}
+function card(t,featured=false){const m=modelInfo(t),p=t.provider?providerFor(t):null;return `<article class="tool-card lab-card identity-card${t.provider?' cloud-card':''}${featured?' featured-card':''}" data-card="${t.id}" style="${identityStyle(t)}">${toolVisual(t)}<div class="identity-card-body">${featured?`<div class="featured-label">${icon('sparkles')} A good place to start</div>`:''}<div class="tool-card-top"><div class="tool-title-wrap"><h3 class="tool-title"><a href="/?tool=${t.id}" data-open="${t.id}">${esc(t.name)}</a></h3><span class="tool-category">${esc(t.category)}</span></div><button class="save-button${saved.has(t.id)?' is-saved':''}" data-save="${t.id}" aria-pressed="${saved.has(t.id)}" aria-label="${saved.has(t.id)?'Unsave':'Save'} ${esc(t.name)}">${icon('bookmark')}</button></div><p class="tool-description">${esc(t.description)}</p><p class="download-size">${icon(p?'shield-check':'monitor')} ${p?esc(p.allowance)+' · '+esc(p.cadence):(['canvas','client'].includes(t.model)?'No model download':'First download: ~'+esc(m.size))}</p>${p?`<p class="provider-caption">${esc(p.name)} · Your API key needed</p>`:''}<div class="tool-card-footer"><span class="access-badge ${p?t.access:'free'}">${esc(accessLabel(t))}</span><a class="card-details" href="/?tool=${t.id}" data-open="${t.id}">Use tool ${icon('arrow-right')}</a></div></div></article>`}
 function render(){
  $('#saved-count').textContent=saved.size;$('#tool-total').textContent=LAB_TOOLS.length;$('#category-total').textContent=LAB_CATEGORIES.length-1;
  cloudUI?.saved();if(active&&$('#discovery').classList.contains('hidden')){$('#workspace-save').setAttribute('aria-pressed',String(saved.has(active.id)));$('#workspace-save').innerHTML=`${icon('bookmark')} ${saved.has(active.id)?'Saved':'Save tool'}`;return}
@@ -30,7 +29,7 @@ function render(){
  $('#categories').innerHTML=LAB_CATEGORIES.map(c=>`<button class="category-button${state.category===c.name?' active':''}" data-category="${esc(c.name)}" aria-pressed="${state.category===c.name}"${c.name==='All tools'?'':` style="${identityStyle({category:c.name})}"`}><span class="category-identity">${icon(c.icon)}</span>${esc(c.name)}<span class="category-count">${c.name==='All tools'?base.length:base.filter(t=>t.category===c.name).length}</span></button>`).join('');
  $('#access-filters').innerHTML=[['all','All access'],['local-free','On-device free'],['free-api','Free API'],['free-credits','Free credits']].map(([value,label])=>`<button type="button" data-access="${value}" aria-pressed="${state.access===value}">${label}<span>${base.filter(t=>value==='all'||(value==='local-free'?!t.provider:t.access===value)).length}</span></button>`).join('');
  const found=findTools({...state,savedOnly:state.view==='saved',saved});if(state.sort==='az')found.sort((a,b)=>a.name.localeCompare(b.name));
- $('#tools-grid').innerHTML=found.map((t,idx)=>card(t,false,idx)).join('');$('#featured-grid').innerHTML=FEATURED_LAB.map((id,idx)=>card(byId.get(id),true,idx)).join('');
+ $('#tools-grid').innerHTML=found.map(t=>card(t)).join('');$('#featured-grid').innerHTML=FEATURED_LAB.map(id=>card(byId.get(id),true)).join('');
  $('#result-count').textContent=`${found.length} ${found.length===1?'tool':'tools'}${state.query?' matching “'+state.query+'”':''}`;
  $('#directory-query').value=state.query;$('#hero-query').value=state.query;$('#clear-query').classList.toggle('hidden',!state.query);$('#sort').value=state.sort;
  $('#reset-filters').classList.toggle('hidden',!state.query&&state.category==='All tools'&&state.access==='all'&&state.view==='all');
