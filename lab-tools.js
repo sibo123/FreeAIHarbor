@@ -1,5 +1,6 @@
 import {EXTRA_TOOLS} from './extended-tools.js';
 import {NEW_LOCAL_TOOLS} from './new-local-tools.js';
+import {CLOUD_TOOLS,providerFor} from './cloud-tools.js';
 export const MODELS={
  chat:{task:'text-generation',id:'HuggingFaceTB/SmolLM2-360M-Instruct',revision:'a10cc1512eabd3dde888204e902eca88bddb4951',dtype:'q8',size:'365 MB',label:'SmolLM2 360M',license:'Apache 2.0'},
  summary:{task:'summarization',id:'Xenova/distilbart-cnn-6-6',revision:'6b476295a3cf27d5b20e8c8b847a54ab8e5d0df9',dtype:'q8',size:'285 MB',label:'DistilBART',license:'Apache 2.0'},
@@ -61,7 +62,8 @@ export const LAB_TOOLS=[
  {id:'logo-designer',name:'Logo Designer',description:'Create four template-based vector logo concepts from your brand name, colors, and layout. Export SVG or PNG.',icon:'sparkles',category:'Marketing & SEO',kind:'text',model:'client',tags:['logo','branding','vector','svg','graphic design','free','on-site'],limit:300,placeholder:'Enter your brand name (e.g. Apex AI, Lumina, Harbor)…',note:'Generates 4 distinct vector SVG concepts with dark & light mockups. Download SVG or high-res PNG for free.'},
  {id:'prompt-generator',name:'AI Prompt Builder',description:'Assemble a structured prompt from your subject, style, lighting, and format. Uses templates; it does not generate images or call an AI model.',icon:'sparkles',category:'Chat & Writing',kind:'text',model:'client',tags:['prompt generator','midjourney','chatgpt','dall-e','flux','claude','free'],limit:2000,placeholder:'Describe your idea or subject (e.g. a futuristic cyberpunk street market in Tokyo during rain)…',note:'Creates master prompts, parameter flags, negative prompt tokens, and creative variations with 1-click copy.'},
  ...EXTRA_TOOLS,
- ...NEW_LOCAL_TOOLS
+ ...NEW_LOCAL_TOOLS,
+ ...CLOUD_TOOLS
 ];
 export const FEATURED_LAB=['photo-editor','logo-designer','prompt-generator','ai-chat','portrait-cutout','audio-transcription'];
 export function findTools({query='',category='All tools',access='all',savedOnly=false,saved=new Set()}={}){
