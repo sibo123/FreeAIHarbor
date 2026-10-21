@@ -10,103 +10,6 @@
   gap: 16px;
 }
 
-/* Dark Theme Dashboard for Directory & Starter Sections */
-.starter-section,
-.directory-section {
-  background: #080a0f;
-  border-radius: 16px;
-  padding: 36px 32px 48px;
-  margin-top: 24px;
-  margin-bottom: 32px;
-  border: 1px solid #161c28;
-  color: #f1f5f9;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-.starter-section .section-heading h2,
-.directory-section .section-heading h2 {
-  color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.8px;
-}
-
-.starter-section .section-kicker,
-.directory-section .section-kicker {
-  color: #38bdf8;
-  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-  letter-spacing: 1.5px;
-}
-
-.directory-section .section-heading p {
-  color: #94a3b8;
-}
-
-.directory-heading {
-  border-top: none;
-  padding-top: 0;
-}
-
-/* Sidebar & Search in Dark Mode */
-.directory-search {
-  background: #0f131c !important;
-  border: 1px solid #202738 !important;
-  color: #ffffff !important;
-}
-
-.directory-search input {
-  color: #ffffff !important;
-}
-
-.directory-search input::placeholder {
-  color: #64748b !important;
-}
-
-.sort-wrap select {
-  background: #0f131c !important;
-  border: 1px solid #202738 !important;
-  color: #cbd5e1 !important;
-}
-
-.access-tabs button {
-  background: #0f131c;
-  border: 1px solid #202738;
-  color: #94a3b8;
-}
-
-.access-tabs button.active {
-  background: #2563eb;
-  border-color: #3b82f6;
-  color: #ffffff;
-}
-
-.category-button {
-  background: #0d111a;
-  border: 1px solid #1c2434;
-  color: #94a3b8;
-}
-
-.category-button:hover {
-  background: #151b28;
-  color: #ffffff;
-}
-
-.category-button.active {
-  background: #182236;
-  border-color: #38bdf8;
-  color: #38bdf8;
-}
-
-.sidebar-note {
-  background: #0f1420;
-  border: 1px solid #1e283a;
-  color: #94a3b8;
-}
-
-.sidebar-note strong {
-  color: #ffffff;
-}
-
 /* =========================================================
    2. CRAFT CARD CORE STRUCTURE
    ========================================================= */
@@ -492,10 +395,6 @@
   .featured-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
-  }
-  .starter-section,
-  .directory-section {
-    padding: 24px 16px 36px;
   }
 }
 
